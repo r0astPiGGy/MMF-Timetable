@@ -28,21 +28,37 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
+    // The primary color is the color displayed most frequently across your app’s screens
+    // and components.
     primary = DarkBlue,
+    // onPrimary,
+    // primaryContainer, The preferred tonal color of containers.
+    // onPrimaryContainer,
+    // inversePrimary,
     secondary = LightBlue,
+    // onSecondary,
+    // secondaryContainer,
+    // onSecondaryContainer,
     tertiary = LightBlueVariant,
+    // onTertiary,
+    // tertiaryContainer,
+    // onTertiaryContainer,
+    background = Color.White,
+    // onBackground,
+    surface = Color.White,
+    // onSurface,
+    // surfaceVariant,
+    // onSurfaceVariant,
+    surfaceTint = Color.White,
+    // inverseSurface,
+    // inverseOnSurface,
+    // error,
+    // onError,
+    // errorContainer,
+    // onErrorContainer,
     outline = outlineColor,
     outlineVariant = outlineColor,
-    surfaceTint = Color.White
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    // scrim,
 )
 
 @Composable
@@ -57,7 +73,7 @@ fun MMF_TimetableTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.background.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
