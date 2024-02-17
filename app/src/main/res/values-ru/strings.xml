@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timetable">Расписание</string>
+    <string name="courses">Курсы</string>
+    <string name="group_list">Группы</string>
+    <string name="weekday_monday">Понедельник</string>
+    <string name="weekday_tuesday">Вторник</string>
+    <string name="weekday_wednesday">Среда</string>
+    <string name="weekday_thursday">Четверг</string>
+    <string name="weekday_friday">Пятница</string>
+    <string name="weekday_saturday">Суббота</string>
+    <string name="weekday_sunday">Воскресенье</string>
+    <string name="timetable_drawer_item">Расписание</string>
+    <string name="teachers_drawer_item">Преподаватели</string>
+    <string name="classrooms_drawer_item">Кабинеты</string>
+    <string name="add_widget_drawer_item">Добавить виджет</string>
+    <string name="github_drawer_item">GitHub</string>
+    <string name="settings_drawer_item">Настройки</string>
+</resources>

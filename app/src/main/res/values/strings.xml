@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" translatable="false">MMF Timetable</string>
+    <string name="timetable">Timetable</string>
+    <string name="courses">Courses</string>
+    <string name="group_list">Group list</string>
+    <string name="weekday_monday">Monday</string>
+    <string name="weekday_tuesday">Tuesday</string>
+    <string name="weekday_wednesday">Wednesday</string>
+    <string name="weekday_thursday">Thursday</string>
+    <string name="weekday_friday">Friday</string>
+    <string name="weekday_saturday">Saturday</string>
+    <string name="weekday_sunday">Sunday</string>
+    <string name="timetable_drawer_item">Timetable</string>
+    <string name="teachers_drawer_item">Teachers</string>
+    <string name="classrooms_drawer_item">Classrooms</string>
+    <string name="add_widget_drawer_item">Add widget</string>
+    <string name="github_drawer_item">GitHub</string>
+    <string name="settings_drawer_item">Settings</string>
+</resources>
