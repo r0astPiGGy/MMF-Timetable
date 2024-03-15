@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -130,8 +132,10 @@ fun DrawerContent(
 
         Row(
             modifier = Modifier
+                .clickable { onCourseEditDialogOpen() }
                 .padding(horizontal = 16.dp, vertical = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -149,9 +153,7 @@ fun DrawerContent(
                     Text(text = "${userInfo.course.course} курс, ${userInfo.group.name}${subGroup}")
                 }
             }
-            IconButton(onClick = onCourseEditDialogOpen) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = null)
-            }
+            Icon(imageVector = Icons.Default.Edit, contentDescription = null)
         }
 
         Spacer(modifier = Modifier.size(8.dp))
@@ -203,23 +205,6 @@ fun DrawerContent(
             onClick = onGotoSettings
         )
     }
-//    Column(
-//        modifier = modifier.padding(10.dp)
-//    ) {
-//            if (userInfo == null) {
-//                Text(text = "Курс и группа не выбрана")
-//            } else {
-//                val subGroup = userInfo.subGroup?.let { "($it)" } ?: ""
-//
-//                Text(text = "${userInfo.course.course} курс, ${userInfo.group.name} $subGroup")
-//            }
-//
-//            IconButton(
-//                onClick = onCourseEditDialogOpen
-//            ) {
-//                Icon(imageVector = Icons.Default.Edit, contentDescription = null)
-//            }
-//    }
 }
 
 private suspend fun requestAddWidget(context: Context) {
