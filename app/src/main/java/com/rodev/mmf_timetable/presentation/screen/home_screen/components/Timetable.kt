@@ -37,7 +37,6 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalDensity
@@ -50,7 +49,6 @@ import androidx.compose.ui.unit.sp
 import com.rodev.mmf_timetable.presentation.components.HorizontalPagerAdapter
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenState
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.provideWeekdays
-import com.rodev.mmf_timetable.presentation.theme.AppColors
 import com.rodev.mmf_timetable.utils.DateUtils
 import kotlinx.coroutines.launch
 
@@ -100,7 +98,7 @@ fun Timetable(
             tabs = {
                 weekdays.forEachIndexed { index, weekday ->
                     Tab(
-                        unselectedContentColor = AppColors.DisabledDarkBlue,
+//                        unselectedContentColor = AppColors.DisabledDarkBlue,
                         selected = selectedTabIndex == index,
                         onClick = {
                             coroutineScope.launch {

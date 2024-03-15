@@ -1,13 +1,16 @@
 package com.rodev.mmf_timetable.presentation.screen.home_screen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,12 +61,8 @@ fun HomeScreen(
     onEvent: (HomeScreenEvent) -> Unit,
     onGotoSettings: () -> Unit,
 ) {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scaffoldState = rememberScaffoldState(
-        drawerState = drawerState,
-        snackbarHostState = snackbarHostState
-    )
+    val drawerState = androidx.compose.material3.rememberDrawerState(initialValue = androidx.compose.material3.DrawerValue.Closed)
+    val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
@@ -91,21 +90,10 @@ fun HomeScreen(
         }
     )
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TimetableTopAppBar(
-                title = stringResource(R.string.timetable),
-                onMenuButtonClick = {
-                    coroutineScope.launch {
-                        drawerState.open()
-                    }
-                }
-            )
-        },
+    ModalNavigationDrawer(
+        drawerState = drawerState,
         drawerContent = {
             DrawerContent(
-                modifier = Modifier.fillMaxWidth(),
                 userInfo = state.userInfo,
                 onCourseEditDialogOpen = {
                     onEvent(HomeScreenEvent.OpenCourseEditDialog)
@@ -113,10 +101,24 @@ fun HomeScreen(
                 onGotoSettings = onGotoSettings
             )
         }
-    ) { paddings ->
-        Timetable(
-            modifier = Modifier.padding(paddings),
-            state = state
-        )
+    ) {
+        androidx.compose.material3.Scaffold(
+            snackbarHost = { androidx.compose.material3.SnackbarHost(snackbarHostState) },
+            topBar = {
+                TimetableTopAppBar(
+                    title = stringResource(R.string.timetable),
+                    onMenuButtonClick = {
+                        coroutineScope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+        ) { paddings ->
+            Timetable(
+                modifier = Modifier.padding(paddings),
+                state = state
+            )
+        }
     }
 }

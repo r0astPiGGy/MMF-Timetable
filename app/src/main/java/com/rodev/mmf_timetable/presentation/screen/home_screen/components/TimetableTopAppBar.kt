@@ -12,6 +12,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
@@ -33,38 +35,28 @@ private fun TopBarPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimetableTopAppBar(
     title: String,
     onMenuButtonClick: () -> Unit
 ) {
-    Surface(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(
-                onClick = onMenuButtonClick,
-                modifier = Modifier.size(24.dp)
-            ) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = null)
-            }
+    CenterAlignedTopAppBar(
+        title = {
             Text(
                 text = title,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleSmall,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium
             )
+        },
+        navigationIcon = {
             IconButton(
-                modifier = Modifier.size(24.dp),
-                onClick = { /*TODO*/ },
-                enabled = false
-            ) {}
+                onClick = onMenuButtonClick,
+            ) {
+                Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+            }
         }
-    }
+    )
 }

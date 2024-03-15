@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.DrawerValue
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.DismissibleDrawerSheet
@@ -36,9 +41,7 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.rodev.mmf_timetable.K
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.domain.model.UserInfo
-import com.rodev.mmf_timetable.presentation.theme.AppColors
 import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
-import com.rodev.mmf_timetable.presentation.widget.TimetableWidget
 import com.rodev.mmf_timetable.presentation.widget.TimetableWidgetReceiver
 import kotlinx.coroutines.launch
 
@@ -81,8 +84,8 @@ private fun NavItem(
     NavigationDrawerItem(
         modifier = modifier,
         colors = NavigationDrawerItemDefaults.colors(
-            unselectedTextColor = AppColors.Neutral,
-            unselectedIconColor = AppColors.Neutral
+//            unselectedTextColor = AppColors.Neutral,
+//            unselectedIconColor = AppColors.Neutral
         ),
         label = {
             Text(
@@ -124,14 +127,43 @@ fun DrawerContent(
                 contentDescription = "logo"
             )
         }
+
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "Курс, группа",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 0.sp
+                )
+                if (userInfo == null) {
+                    Text(text = "Курс и группа не выбраны")
+                } else {
+                    val subGroup = userInfo.subGroup?.let { " ($it)" } ?: ""
+                    Text(text = "${userInfo.course.course} курс, ${userInfo.group.name}${subGroup}")
+                }
+            }
+            IconButton(onClick = onCourseEditDialogOpen) {
+                Icon(imageVector = Icons.Default.Edit, contentDescription = null)
+            }
+        }
+
+        Spacer(modifier = Modifier.size(8.dp))
+
         Divider()
 
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(8.dp))
 
         // TODO action list
         NavItem(
             text = stringResource(R.string.timetable_drawer_item),
-            icon = R.drawable.calendar
+            icon = R.drawable.calendar,
         ) {}
         NavItem(
             text = stringResource(R.string.teachers_drawer_item),
