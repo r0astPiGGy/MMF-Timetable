@@ -1,6 +1,7 @@
 package com.rodev.mmf_timetable.presentation.screen.home_screen.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +32,7 @@ import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
 @Composable
 private fun TopBarPreview() {
     MMF_TimetableTheme {
-        TimetableTopAppBar(title = "Расписание") {}
+        TimetableTopAppBar(title = "Расписание", subTitle = "Неделя 2") {}
     }
 }
 
@@ -39,17 +40,31 @@ private fun TopBarPreview() {
 @Composable
 fun TimetableTopAppBar(
     title: String,
+    subTitle: String? = null,
     onMenuButtonClick: () -> Unit
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text = title,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleSmall,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Medium
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium
+                )
+                if (subTitle != null) {
+                    Text(
+                        text = subTitle,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+            }
         },
         navigationIcon = {
             IconButton(

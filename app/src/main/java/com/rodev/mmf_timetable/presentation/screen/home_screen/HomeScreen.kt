@@ -1,16 +1,12 @@
 package com.rodev.mmf_timetable.presentation.screen.home_screen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.DrawerValue
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.rememberDrawerState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,7 +15,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.presentation.screen.home_screen.components.CourseEditDialog
@@ -61,8 +56,8 @@ fun HomeScreen(
     onEvent: (HomeScreenEvent) -> Unit,
     onGotoSettings: () -> Unit,
 ) {
-    val drawerState = androidx.compose.material3.rememberDrawerState(initialValue = androidx.compose.material3.DrawerValue.Closed)
-    val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
@@ -102,11 +97,12 @@ fun HomeScreen(
             )
         }
     ) {
-        androidx.compose.material3.Scaffold(
-            snackbarHost = { androidx.compose.material3.SnackbarHost(snackbarHostState) },
+        Scaffold(
+            snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TimetableTopAppBar(
                     title = stringResource(R.string.timetable),
+                    subTitle = state.currentWeek?.let { stringResource(R.string.current_week, it) },
                     onMenuButtonClick = {
                         coroutineScope.launch {
                             drawerState.open()

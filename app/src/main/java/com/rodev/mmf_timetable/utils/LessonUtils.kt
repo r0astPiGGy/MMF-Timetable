@@ -6,6 +6,7 @@ fun Int.toDisplayableTime(): String {
     val hours = this / 60
     val minutes = this % 60
 
+    // TODO String.format %00 ??
     fun timeToString(time: Int): String {
         return if (time < 10) {
             "0$time"

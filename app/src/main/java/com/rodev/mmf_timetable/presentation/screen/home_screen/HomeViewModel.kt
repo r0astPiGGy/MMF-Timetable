@@ -12,6 +12,7 @@ import com.rodev.mmf_timetable.domain.model.Timetable
 import com.rodev.mmf_timetable.domain.model.UserInfo
 import com.rodev.mmf_timetable.domain.service.ApiResult
 import com.rodev.mmf_timetable.domain.use_case.GetCoursesUseCase
+import com.rodev.mmf_timetable.domain.use_case.GetCurrentWeekUseCase
 import com.rodev.mmf_timetable.domain.use_case.GetTimetableUseCase
 import com.rodev.mmf_timetable.domain.use_case.IsLessonAvailableUseCase
 import com.rodev.mmf_timetable.domain.use_case.LoadUserInfoUseCase
@@ -22,6 +23,7 @@ import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenR
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -35,7 +37,8 @@ class HomeViewModel @Inject constructor(
     private val getTimetable: GetTimetableUseCase,
     private val saveUserInfo: SaveUserInfoUseCase,
     private val getUserInfo: LoadUserInfoUseCase,
-    private val isLessonAvailable: IsLessonAvailableUseCase
+    private val isLessonAvailable: IsLessonAvailableUseCase,
+    private val getCurrentWeek: GetCurrentWeekUseCase
 ) : ViewModel() {
 
 
@@ -47,6 +50,8 @@ class HomeViewModel @Inject constructor(
     )
 
     val state = _state.asStateFlow()
+
+    private var fetchJob: Job? = null
 
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
@@ -64,7 +69,8 @@ class HomeViewModel @Inject constructor(
                     )
                 }
 
-                viewModelScope.launch(Dispatchers.IO) {
+                fetchJob?.cancel()
+                fetchJob = viewModelScope.launch(Dispatchers.IO) {
                     try {
                         onFetchTimetable(course.course, group.id)
                     } catch (e: Throwable) {
@@ -127,7 +133,8 @@ class HomeViewModel @Inject constructor(
                                 wrappedLesson = lesson,
                                 available = isLessonAvailable(lesson)
                             )
-                        }
+                        },
+                        currentWeek = getCurrentWeek()
                     )
                 }
             }
@@ -150,7 +157,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateState(updater: (HomeScreenState) -> HomeScreenState) {
+    private inline fun updateState(updater: (HomeScreenState) -> HomeScreenState) {
         _state.update(updater)
     }
 

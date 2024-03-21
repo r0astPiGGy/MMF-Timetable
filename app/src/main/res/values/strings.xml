@@ -16,4 +16,5 @@
     <string name="add_widget_drawer_item">Add widget</string>
     <string name="github_drawer_item">GitHub</string>
     <string name="settings_drawer_item">Settings</string>
+    <string name="current_week">Week %d</string>
 </resources>

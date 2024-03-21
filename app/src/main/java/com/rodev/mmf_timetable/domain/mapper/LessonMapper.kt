@@ -18,10 +18,11 @@ object LessonMapper {
 
     private val mappedLessonTypeEntry = mapOf(
         "п" to Lesson.Type.PRACTICE,
-        "л" to Lesson.Type.LECTURE
+        "л" to Lesson.Type.LECTURE,
+        "лаб" to Lesson.Type.PRACTICE
     )
 
-    fun <T> mapLessonsByWeekday(data: List<Lesson>, transformFunction: (Lesson) -> T): Map<Weekday, List<T>> {
+    inline fun <T> mapLessonsByWeekday(data: List<Lesson>, transformFunction: (Lesson) -> T): Map<Weekday, List<T>> {
         val mappedLesson = hashMapOf<Weekday, MutableList<T>>()
 
         for (lesson in data) {

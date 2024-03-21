@@ -7,11 +7,11 @@ class GetTodayLessonsUseCase(
     private val isLessonAvailable: IsLessonAvailableUseCase
 ) {
 
-    private fun Lesson.isAvailable(): Boolean {
+    private suspend fun Lesson.isAvailable(): Boolean {
         return isLessonAvailable(this)
     }
 
-    operator fun invoke(lessons: List<Lesson>): List<Lesson> {
+    suspend operator fun invoke(lessons: List<Lesson>): List<Lesson> {
         val weekday = DateUtils.getCurrentWeekday()
 
         return lessons.filter { it.weekday == weekday && it.isAvailable() }

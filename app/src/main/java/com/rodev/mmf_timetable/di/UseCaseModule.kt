@@ -3,8 +3,10 @@ package com.rodev.mmf_timetable.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
+import com.rodev.mmf_timetable.domain.service.StudyPlanService
 import com.rodev.mmf_timetable.domain.service.TimetableService
 import com.rodev.mmf_timetable.domain.use_case.GetCoursesUseCase
+import com.rodev.mmf_timetable.domain.use_case.GetCurrentWeekUseCase
 import com.rodev.mmf_timetable.domain.use_case.GetTodayLessonsUseCase
 import com.rodev.mmf_timetable.domain.use_case.GetLastFetchedTimetableUseCase
 import com.rodev.mmf_timetable.domain.use_case.GetTimetableUseCase
@@ -45,10 +47,19 @@ object UseCaseModule {
     }
 
     @Provides
-    fun provideIsLessonAvailableUseCase(
+    fun provideGetCurrentWeekUseCase(
+        studyPlanService: StudyPlanService,
         loadUserInfoUseCase: LoadUserInfoUseCase
+    ): GetCurrentWeekUseCase {
+        return GetCurrentWeekUseCase(studyPlanService, loadUserInfoUseCase)
+    }
+
+    @Provides
+    fun provideIsLessonAvailableUseCase(
+        loadUserInfoUseCase: LoadUserInfoUseCase,
+        currentWeekUseCase: GetCurrentWeekUseCase
     ): IsLessonAvailableUseCase {
-        return IsLessonAvailableUseCase(loadUserInfoUseCase)
+        return IsLessonAvailableUseCase(loadUserInfoUseCase, currentWeekUseCase)
     }
 
     @Provides

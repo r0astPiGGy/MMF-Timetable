@@ -3,10 +3,12 @@ package com.rodev.mmf_timetable.di
 import android.content.Context
 import androidx.room.Room
 import com.rodev.mmf_timetable.data.repository.TimetableRepositoryImpl
+import com.rodev.mmf_timetable.data.service.StudyPlanServiceImpl
 import com.rodev.mmf_timetable.data.service.TimetableServiceImpl
 import com.rodev.mmf_timetable.data.source.TimetableDao
 import com.rodev.mmf_timetable.data.source.TimetableDatabase
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
+import com.rodev.mmf_timetable.domain.service.StudyPlanService
 import com.rodev.mmf_timetable.domain.service.TimetableService
 import dagger.Module
 import dagger.Provides
@@ -29,6 +31,12 @@ object AppModule {
     @Singleton
     fun provideTimetableRepository(timetableDao: TimetableDao): TimetableRepository {
         return TimetableRepositoryImpl(timetableDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStudyPlanService(): StudyPlanService {
+        return StudyPlanServiceImpl()
     }
 
     @Provides

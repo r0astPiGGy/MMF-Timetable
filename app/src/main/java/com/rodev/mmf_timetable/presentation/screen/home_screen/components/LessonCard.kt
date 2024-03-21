@@ -91,7 +91,7 @@ fun LessonCard(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "${lesson.classroom} ${lesson.type.translated()} ${lesson.remarksOrEmpty()}",
+                    text = "${lesson.classroom}${lesson.type?.let { " " + it.translated() } ?: ""} ${lesson.remarksOrEmpty()}",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -165,10 +165,9 @@ private fun Lesson.remarksOrEmpty(): String {
     return remarks ?: ""
 }
 
-private fun Lesson.Type?.translated(): String {
+private fun Lesson.Type.translated(): String {
     return when (this) {
         Lesson.Type.LECTURE -> "л"
         Lesson.Type.PRACTICE -> "п"
-        null -> ""
     }
 }

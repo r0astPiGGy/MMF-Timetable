@@ -25,6 +25,7 @@ fun <T> HorizontalPagerAdapter(
 
     HorizontalPager(
         modifier = modifier,
+        beyondBoundsPageCount = 1,
         state = state
     ) {
         content(pagerValues[it])

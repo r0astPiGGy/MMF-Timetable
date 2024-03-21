@@ -7,6 +7,7 @@ import com.rodev.mmf_timetable.domain.service.Course
 
 data class HomeScreenState(
     val userInfo: UserInfo? = null,
+    val currentWeek: Long? = null,
     val courseList: List<Course> = emptyList(),
     val timetable: Map<Weekday, List<AvailableLesson>>? = emptyMap(),
     val result: HomeScreenResult = HomeScreenResult.Idle,

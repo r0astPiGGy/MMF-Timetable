@@ -4,11 +4,22 @@ import com.rodev.mmf_timetable.domain.model.Lesson
 import com.rodev.mmf_timetable.utils.available
 
 class IsLessonAvailableUseCase(
-    private val loadUserInfo: LoadUserInfoUseCase
+    private val loadUserInfo: LoadUserInfoUseCase,
+    private val getCurrentWeek: GetCurrentWeekUseCase
 ) {
 
-    operator fun invoke(lesson: Lesson): Boolean {
-        if (!lesson.available) return false
+    private fun isWeekMatches(weekType: Lesson.WeekType?, week: Long): Boolean {
+        return when (weekType) {
+            Lesson.WeekType.ODD -> week % 2 == 1L
+            Lesson.WeekType.EVEN -> week % 2 == 0L
+            null -> true
+        }
+    }
+
+    suspend operator fun invoke(lesson: Lesson): Boolean {
+        val week = getCurrentWeek()
+
+        if (week != null && !isWeekMatches(lesson.week, week)) return false
 
         val remarks = lesson.remarks ?: return true
 
