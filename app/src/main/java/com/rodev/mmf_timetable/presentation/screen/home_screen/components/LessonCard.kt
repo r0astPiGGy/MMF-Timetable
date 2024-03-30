@@ -39,13 +39,13 @@ import kotlin.random.Random
 @Composable
 fun LessonCard(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+//    onClick: () -> Unit,
     enabled: Boolean = true,
     lesson: Lesson
 ) {
     OutlinedCard(
         modifier = modifier,
-        onClick = onClick,
+        onClick = {},
         enabled = enabled,
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -114,7 +114,7 @@ fun LessonCardPreview() {
                 repeat(5) {
                     LessonCard(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = {},
+//                        onClick = {},
                         lesson = dummyLessonRandomTime().wrappedLesson,
                         enabled = true
                     )

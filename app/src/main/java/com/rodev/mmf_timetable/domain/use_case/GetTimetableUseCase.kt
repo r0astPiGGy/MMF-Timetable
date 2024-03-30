@@ -1,15 +1,11 @@
 package com.rodev.mmf_timetable.domain.use_case
 
 import com.rodev.mmf_timetable.K
-import com.rodev.mmf_timetable.domain.mapper.LessonMapper
 import com.rodev.mmf_timetable.domain.model.Timetable
-import com.rodev.mmf_timetable.domain.model.WeekTimetable
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
 import com.rodev.mmf_timetable.domain.service.ApiResult
 import com.rodev.mmf_timetable.domain.service.TimetableService
 import com.rodev.mmf_timetable.domain.service.transform
-import com.rodev.mmf_timetable.presentation.screen.home_screen.state.AvailableLesson
-import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenResult
 
 class GetTimetableUseCase(
     private val repository: TimetableRepository,

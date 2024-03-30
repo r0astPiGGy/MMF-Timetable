@@ -1,14 +1,9 @@
 package com.rodev.mmf_timetable.presentation.screen.home_screen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rodev.mmf_timetable.K
 import com.rodev.mmf_timetable.domain.mapper.LessonMapper
-import com.rodev.mmf_timetable.domain.model.Timetable
 import com.rodev.mmf_timetable.domain.model.UserInfo
 import com.rodev.mmf_timetable.domain.service.ApiResult
 import com.rodev.mmf_timetable.domain.use_case.GetCoursesUseCase
@@ -21,6 +16,7 @@ import com.rodev.mmf_timetable.presentation.screen.home_screen.state.AvailableLe
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenEvent
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenResult
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenState
+import com.rodev.mmf_timetable.presentation.screen.home_screen.state.provideWeekdays
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,7 +24,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -112,6 +107,7 @@ class HomeViewModel @Inject constructor(
                         )
                     )
                 }
+                onEvent(HomeScreenEvent.FetchTimetable)
             }
         }
     }
@@ -119,22 +115,24 @@ class HomeViewModel @Inject constructor(
     private suspend fun onFetchTimetable(course: Int, group: String) {
         when (val result = getTimetable(course, group)) {
             is ApiResult.Exception -> {
-                emitError(result.exception.message.toString())
+                throw result.exception
             }
             is ApiResult.Failure -> {
-                emitError(result.error)
+                throw Exception(result.error)
             }
             is ApiResult.Success -> {
                 updateState {
+                    val timetable = LessonMapper.mapLessonsByWeekday(result.data.allLessons) { lesson ->
+                        AvailableLesson(
+                            wrappedLesson = lesson,
+                            available = isLessonAvailable(lesson)
+                        )
+                    }
                     it.copy(
                         result = HomeScreenResult.Idle,
-                        timetable = LessonMapper.mapLessonsByWeekday(result.data.allLessons) { lesson ->
-                            AvailableLesson(
-                                wrappedLesson = lesson,
-                                available = isLessonAvailable(lesson)
-                            )
-                        },
-                        currentWeek = getCurrentWeek()
+                        timetable = timetable,
+                        currentStudyWeek = getCurrentWeek(),
+                        weekdays = timetable.provideWeekdays()
                     )
                 }
             }

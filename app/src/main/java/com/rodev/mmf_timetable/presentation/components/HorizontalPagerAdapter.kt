@@ -6,28 +6,27 @@ import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+
+@Immutable
+data class PagerValuesState<T>(
+    val values: List<T>
+)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> HorizontalPagerAdapter(
     modifier: Modifier = Modifier,
-    pagerValues: List<T>,
-    onPageChange: ((T) -> Unit)? = null,
-    state: PagerState = rememberPagerState { pagerValues.size },
+    valuesState: PagerValuesState<T>,
+    state: PagerState = rememberPagerState { valuesState.values.size },
     content: @Composable PagerScope.(T) -> Unit
 ) {
-//    if (onPageChange != null) {
-//        LaunchedEffect(state.currentPage) {
-//            onPageChange(pagerValues[state.currentPage])
-//        }
-//    }
-
     HorizontalPager(
         modifier = modifier,
-        beyondBoundsPageCount = 1,
+        beyondBoundsPageCount = 2,
         state = state
     ) {
-        content(pagerValues[it])
+        content(valuesState.values[it])
     }
 }

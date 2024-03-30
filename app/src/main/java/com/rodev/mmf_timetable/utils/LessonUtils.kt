@@ -18,19 +18,6 @@ fun Int.toDisplayableTime(): String {
     return timeToString(hours) + ":" + timeToString(minutes)
 }
 
-private fun isLessonAvailable(lesson: Lesson): Boolean {
-    val weekOfYear = DateUtils.getWeekOfYear()
-
-    return when (lesson.week) {
-        Lesson.WeekType.ODD -> weekOfYear % 2 != 0
-        Lesson.WeekType.EVEN -> weekOfYear % 2 == 0
-        null -> true
-    }
-}
-
-val Lesson.available: Boolean
-    get() = isLessonAvailable(this)
-
 val Lesson.displayableTimeStart
     get() = timeStartMinutes.toDisplayableTime()
 

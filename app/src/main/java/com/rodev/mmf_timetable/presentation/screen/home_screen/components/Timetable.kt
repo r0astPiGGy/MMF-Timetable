@@ -20,12 +20,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabPosition
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -43,14 +43,101 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rodev.mmf_timetable.domain.model.Lesson
+import com.rodev.mmf_timetable.domain.model.Weekday
 import com.rodev.mmf_timetable.presentation.components.HorizontalPagerAdapter
+import com.rodev.mmf_timetable.presentation.components.PagerValuesState
+import com.rodev.mmf_timetable.presentation.screen.home_screen.state.AvailableLesson
 import com.rodev.mmf_timetable.presentation.screen.home_screen.state.HomeScreenState
-import com.rodev.mmf_timetable.presentation.screen.home_screen.state.provideWeekdays
+import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
 import com.rodev.mmf_timetable.utils.DateUtils
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+
+
+@Composable
+fun LoadingTimetable(
+    modifier: Modifier = Modifier,
+) {
+
+}
+
+private fun randomLesson(): AvailableLesson {
+    return lessonOf(
+        Lesson(
+            Weekday.MONDAY,
+            type = Lesson.Type.PRACTICE,
+            classroom = "606",
+            subject = "Matan",
+            timeStartMinutes = 100,
+            timeEndMinutes = 1000,
+            teacher = "Bruh",
+            remarks = null,
+            week = null
+        )
+    )
+}
+
+private fun lessonOf(lesson: Lesson): AvailableLesson {
+    return AvailableLesson(
+        wrappedLesson = lesson,
+        available = true
+    )
+}
+
+@Composable
+private fun LoadingTimetablePreview() {
+    MMF_TimetableTheme {
+        Surface {
+            LoadingTimetable(
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun TimetablePreview() {
+    MMF_TimetableTheme(darkTheme = true) {
+        Surface {
+            Timetable(
+                modifier = Modifier.fillMaxSize(),
+                state = HomeScreenState(
+                    timetable = mapOf(
+                        Weekday.MONDAY to listOf(
+                            randomLesson(),
+                            randomLesson(),
+                            randomLesson(),
+                            randomLesson(),
+                            randomLesson(),
+                            randomLesson(),
+                            randomLesson()
+                        ),
+                        Weekday.SATURDAY to listOf(
+                            randomLesson(),
+                            randomLesson()
+                        ),
+                        Weekday.TUESDAY to listOf(
+                            randomLesson(),
+                            randomLesson()
+                        ),
+                        Weekday.THURSDAY to listOf(
+                            randomLesson(),
+                            randomLesson()
+                        )
+                    ),
+                )
+            )
+        }
+    }
+}
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -58,11 +145,84 @@ fun Timetable(
     modifier: Modifier = Modifier,
     state: HomeScreenState
 ) {
-    val weekdays = remember(state) { state.provideWeekdays() }
+    if (state.weekdays.isEmpty()) return
 
-    if (weekdays.isEmpty()) return
+    val pagerState = rememberPagerState { state.weekdays.size }
 
-    val density = LocalDensity.current
+    LaunchedEffect(state.weekdays) {
+        val index = state.weekdays.indexOf(state.todayWeekday)
+
+        if (index >= 0) {
+            pagerState.scrollToPage(index)
+        }
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+    val pagerValues = remember { PagerValuesState(state.weekdays) }
+    val mappedLessons = remember(state) {
+        state.timetable?.mapValues { it.value.toImmutableList() } ?: emptyMap()
+    }
+
+    Column(
+        modifier = modifier
+    ) {
+        WeekdayTabRow(
+            currentPage = pagerState.currentPage,
+            onPageClick = { index ->
+                coroutineScope.launch {
+                    pagerState.scrollToPage(index)
+                }
+            },
+            weekdays = state.weekdays
+        )
+
+        HorizontalPagerAdapter(
+            modifier = Modifier.fillMaxSize(),
+            state = pagerState,
+            valuesState = pagerValues,
+        ) { weekday ->
+            LessonsPage(
+                lessons = mappedLessons[weekday]!!
+            )
+        }
+    }
+}
+
+@Composable
+fun LessonsPage(
+    modifier: Modifier = Modifier,
+    lessons: ImmutableList<AvailableLesson>
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        items(lessons, { it.id }) {
+            LessonCard(
+                modifier = Modifier.fillMaxWidth(),
+                lesson = it.wrappedLesson,
+//                        onClick = {},
+                enabled = it.available
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+fun WeekdayTabRow(
+    modifier: Modifier = Modifier,
+    currentPage: Int,
+    onPageClick: (index: Int) -> Unit,
+    weekdays: List<Weekday>
+) {
     val tabWidths = remember(weekdays) {
         val tabWidthStateList = mutableStateListOf<Dp>()
         repeat(weekdays.size) {
@@ -71,87 +231,57 @@ fun Timetable(
         tabWidthStateList
     }
 
-    val pagerState = rememberPagerState { weekdays.size }
-    val selectedTabIndex by remember { derivedStateOf { pagerState.currentPage } }
-    val coroutineScope = rememberCoroutineScope()
-
-    LaunchedEffect(weekdays) {
-        val index = weekdays.indexOf(DateUtils.getCurrentWeekday())
-
-        if (index >= 0) {
-            pagerState.scrollToPage(index)
-        }
-    }
-
-    Column(
-        modifier = modifier
-    ) {
-        ScrollableTabRow(
-            indicator = { tabPositions ->
-                CustomIndicator(
-                    modifier = Modifier.customTabIndicatorOffset(
-                        currentTabPosition = tabPositions[selectedTabIndex],
-                        tabWidth = tabWidths[selectedTabIndex]
-                    )
+    ScrollableTabRow(
+        modifier = modifier,
+        indicator = { tabPositions ->
+            CustomIndicator(
+                modifier = Modifier.customTabIndicatorOffset(
+                    currentTabPosition = tabPositions[currentPage],
+                    tabWidth = tabWidths[currentPage]
                 )
-            },
-            tabs = {
-                weekdays.forEachIndexed { index, weekday ->
-                    Tab(
-//                        unselectedContentColor = AppColors.DisabledDarkBlue,
-                        selected = selectedTabIndex == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                        text = {
-                            Text(
-                                text = stringResource(id = weekday.resId),
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 16.sp,
-                                onTextLayout = { result ->
-                                    tabWidths[index] =
-                                        with(density) { result.size.width.toDp() }
-                                }
-                            )
-                        }
-                    )
-                }
-            },
-            selectedTabIndex = selectedTabIndex,
-            edgePadding = 0.dp
-        )
-        HorizontalPagerAdapter(
-            modifier = Modifier.fillMaxSize(),
-            state = pagerState,
-            pagerValues = weekdays,
-        ) { weekday ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                item {
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                items(state.timetable?.get(weekday)!!) {
-                    LessonCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        lesson = it.wrappedLesson,
-                        onClick = {},
-                        enabled = it.available
-                    )
-                }
-                item {
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-        }
-    }
-
+            )
+        },
+        tabs = {
+            WeekdayTabList(
+                currentPage = currentPage,
+                weekdays = weekdays,
+                onClick = onPageClick,
+                onTextLayout = tabWidths::set
+            )
+        },
+        selectedTabIndex = currentPage,
+        edgePadding = 0.dp
+    )
 }
+
+@Composable
+fun WeekdayTabList(
+    currentPage: Int,
+    weekdays: List<Weekday>,
+    onClick: (index: Int) -> Unit,
+    onTextLayout: (index: Int, dp: Dp) -> Unit
+) {
+    val density = LocalDensity.current
+
+    weekdays.forEachIndexed { index, weekday ->
+        Tab(
+//      unselectedContentColor = AppColors.DisabledDarkBlue,
+            selected = currentPage == index,
+            onClick = { onClick(index) },
+            text = {
+                Text(
+                    text = stringResource(id = weekday.resId),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    onTextLayout = { result ->
+                        onTextLayout(index, with(density) { result.size.width.toDp() })
+                    }
+                )
+            }
+        )
+    }
+}
+
 
 @Composable
 private fun CustomIndicator(

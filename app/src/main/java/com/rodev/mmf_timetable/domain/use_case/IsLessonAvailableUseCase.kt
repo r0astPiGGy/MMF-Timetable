@@ -1,7 +1,6 @@
 package com.rodev.mmf_timetable.domain.use_case
 
 import com.rodev.mmf_timetable.domain.model.Lesson
-import com.rodev.mmf_timetable.utils.available
 
 class IsLessonAvailableUseCase(
     private val loadUserInfo: LoadUserInfoUseCase,

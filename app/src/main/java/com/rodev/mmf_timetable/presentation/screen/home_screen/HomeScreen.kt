@@ -81,7 +81,6 @@ fun HomeScreen(
         },
         onCourseAndGroupSelected = { course, group, subGroup ->
             onEvent(HomeScreenEvent.CourseAndGroupSelected(course, group, subGroup))
-            onEvent(HomeScreenEvent.FetchTimetable)
         }
     )
 
@@ -102,7 +101,7 @@ fun HomeScreen(
             topBar = {
                 TimetableTopAppBar(
                     title = stringResource(R.string.timetable),
-                    subTitle = state.currentWeek?.let { stringResource(R.string.current_week, it) },
+                    subTitle = state.currentStudyWeek?.let { stringResource(R.string.current_week, it) },
                     onMenuButtonClick = {
                         coroutineScope.launch {
                             drawerState.open()

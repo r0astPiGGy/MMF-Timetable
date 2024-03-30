@@ -1,21 +1,28 @@
 package com.rodev.mmf_timetable.presentation.screen.home_screen.state
 
+import androidx.compose.runtime.Stable
 import com.rodev.mmf_timetable.domain.model.Lesson
 import com.rodev.mmf_timetable.domain.model.UserInfo
 import com.rodev.mmf_timetable.domain.model.Weekday
 import com.rodev.mmf_timetable.domain.service.Course
+import com.rodev.mmf_timetable.utils.DateUtils
 
+typealias MappedTimetable = Map<Weekday, List<AvailableLesson>>
+
+@Stable
 data class HomeScreenState(
     val userInfo: UserInfo? = null,
-    val currentWeek: Long? = null,
+    val currentStudyWeek: Long? = null,
     val courseList: List<Course> = emptyList(),
-    val timetable: Map<Weekday, List<AvailableLesson>>? = emptyMap(),
+    val timetable: MappedTimetable? = emptyMap(),
     val result: HomeScreenResult = HomeScreenResult.Idle,
     val currentLesson: Lesson? = null,
-    val courseEditDialogOpened: Boolean = false
+    val courseEditDialogOpened: Boolean = false,
+    val weekdays: List<Weekday> = timetable.provideWeekdays(),
+    val todayWeekday: Weekday = DateUtils.getCurrentWeekday()
 )
 
-private val weekdays = arrayOf(
+private val allWeekdays = arrayOf(
     Weekday.MONDAY,
     Weekday.TUESDAY,
     Weekday.WEDNESDAY,
@@ -24,10 +31,10 @@ private val weekdays = arrayOf(
     Weekday.SATURDAY
 )
 
-fun HomeScreenState.provideWeekdays(): List<Weekday> {
-    if (timetable == null) return emptyList()
+fun MappedTimetable?.provideWeekdays(): List<Weekday> {
+    if (this == null) return emptyList()
 
-    return weekdays.filter { timetable.containsKey(it) }
+    return allWeekdays.filter { containsKey(it) }
 }
 
 sealed class HomeScreenResult {
