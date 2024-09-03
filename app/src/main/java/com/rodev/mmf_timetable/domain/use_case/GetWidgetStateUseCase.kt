@@ -2,13 +2,17 @@ package com.rodev.mmf_timetable.domain.use_case
 
 import com.rodev.mmf_timetable.domain.model.Lesson
 import com.rodev.mmf_timetable.domain.model.WidgetState
+import com.rodev.mmf_timetable.utils.DateUtils
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
 import java.util.Calendar
+import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
-class GetWidgetStateUseCase(
-    private val getLastFetchedTimetable: GetLastFetchedTimetableUseCase,
-    private val getCurrentTimetable: GetTodayLessonsUseCase
+class GetWidgetStateUseCase @Inject constructor(
+    private val getUserSelectedTimetable: GetUserSelectedTimetableUseCase
 ) {
 
     private fun Lesson.timeSpanIncludes(totalTime: Int): Boolean {
@@ -88,13 +92,20 @@ class GetWidgetStateUseCase(
         )
     }
 
-    suspend operator fun invoke(): WidgetState? {
-        val lastFetchedTimetable = getLastFetchedTimetable() ?: return null
-        val currentTimetable = getCurrentTimetable(lastFetchedTimetable.allLessons)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    operator fun invoke(): Flow<WidgetState?> =
+        getUserSelectedTimetable()
+            .mapLatest {
+                if (it == null) {
+                    null
+                } else {
+                    val currentTimetable = it.lessons[DateUtils.getCurrentWeekday()]
 
-        if (currentTimetable.isEmpty()) return null
-
-        return getWidgetState(currentTimetable)
-    }
-
+                    if (currentTimetable.isNullOrEmpty()) {
+                        null
+                    } else {
+                        getWidgetState(currentTimetable)
+                    }
+                }
+            }
 }

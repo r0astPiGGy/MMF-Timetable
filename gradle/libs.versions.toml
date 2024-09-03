@@ -1,0 +1,15 @@
+[versions]
+androidGradlePlugin="8.3.0"
+daggerHiltPlugin="2.44"
+kotlinPlugin="1.8.10"
+material="1.6.0-alpha05"
+protobuf="0.9.4"
+
+[libraries]
+material = { module = "androidx.compose.material:material", version.ref = "material" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref="daggerHiltPlugin" }
+android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref="kotlinPlugin" }
+google-protobuf = { id = "com.google.protobuf", version.ref="protobuf" }

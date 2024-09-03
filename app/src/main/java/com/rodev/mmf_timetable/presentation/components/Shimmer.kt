@@ -155,6 +155,12 @@ fun Shimmer(
     }
 }
 
+@Composable
+fun IndeterminateShimmer(
+    modifier: Modifier = Modifier
+) {
+    ShimmerCanvas(modifier)
+}
 
 @Composable
 private fun ShimmerCanvas(

@@ -1,10 +1,10 @@
 package com.rodev.mmf_timetable
 
-import com.rodev.mmf_timetable.data.service.TimetableServiceImpl
+import com.rodev.mmf_timetable.data.source.network.TimetableNetworkImpl
 import com.rodev.mmf_timetable.domain.model.Lesson
 import com.rodev.mmf_timetable.domain.model.Weekday
-import com.rodev.mmf_timetable.domain.service.ApiResult
-import com.rodev.mmf_timetable.domain.service.TimetableService
+import com.rodev.mmf_timetable.domain.resource.Resource
+import com.rodev.mmf_timetable.domain.service.TimetableNetworkDataSource
 import com.rodev.mmf_timetable.utils.toDisplayableTime
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -13,10 +13,8 @@ import java.util.UUID
 
 class Test {
 
-    private suspend fun getTimetable(): ApiResult<List<Lesson>> {
-        val timetableService: TimetableService = TimetableServiceImpl()
-        return timetableService.getCourse(1).getGroup("9-gruppa").getTimetable()
-    }
+    private suspend fun getTimetable(): List<Lesson> =
+        TimetableNetworkImpl().getTimetable(1, "9-gruppa")
 
     @Test
     fun displayTest() {
@@ -41,26 +39,12 @@ class Test {
 
     @Test
     fun test() = runBlocking {
-        when (val result = getTimetable()) {
-            is ApiResult.Exception -> {
-                throw result.exception
-            }
-            is ApiResult.Failure -> {
-                throw Exception(result.error)
-            }
-            is ApiResult.Success -> {
-                val mappedLesson = hashMapOf<Weekday, MutableList<Lesson>>()
+        val result = getTimetable().groupBy { it.weekday }
 
-                for (timetable in result.data) {
-                    mappedLesson.computeIfAbsent(timetable.weekday) { mutableListOf() }.add(timetable)
-                }
-
-                Weekday.values().forEach {
-                    println("Неделя ${it.name}:")
-                    mappedLesson[it]?.forEach { lesson ->
-                        println(" $lesson")
-                    }
-                }
+        Weekday.values().forEach {
+            println("Неделя ${it.name}:")
+            result[it]?.forEach { lesson ->
+                println(" $lesson")
             }
         }
     }

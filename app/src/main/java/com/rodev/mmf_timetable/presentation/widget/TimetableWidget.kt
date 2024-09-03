@@ -4,6 +4,8 @@ import android.content.Context
 import android.widget.RemoteViews
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -36,6 +38,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.domain.model.WidgetState
 import com.rodev.mmf_timetable.domain.use_case.GetWidgetStateUseCase
@@ -62,10 +65,10 @@ class TimetableWidget : GlanceAppWidget() {
             .get(context, WidgetDependencyProvider::class.java)
             .provideGetWrappedTimetableUseCase()
 
-        // TODO observe as flow
-        val timetable = getWrappedTimetable()
-
         provideContent {
+            // TODO observe as flow
+            val timetable by getWrappedTimetable().collectAsState(initial = null)
+
             GlanceTheme {
                 Content(timetable)
             }

@@ -1,8 +1,5 @@
 package com.rodev.mmf_timetable.domain.model
 
-import androidx.room.Entity
-
-@Entity
 data class Lesson(
     val weekday: Weekday,
     val type: Type?,
@@ -12,9 +9,8 @@ data class Lesson(
     val timeEndMinutes: Int,
     val teacher: String,
     val remarks: String?,
-    val week: WeekType?
+    val weekType: WeekType?
 ) {
-
     enum class Type {
         LECTURE,
         PRACTICE
@@ -24,13 +20,6 @@ data class Lesson(
         ODD,
         EVEN
     }
-
-    companion object {
-
-        val subGroups = listOf("а", "б")
-
-    }
-
 }
 
 

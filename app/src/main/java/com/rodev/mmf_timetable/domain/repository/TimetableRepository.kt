@@ -1,15 +1,17 @@
 package com.rodev.mmf_timetable.domain.repository
 
-import com.rodev.mmf_timetable.domain.model.Timetable
+import com.rodev.mmf_timetable.domain.model.Group
+import com.rodev.mmf_timetable.domain.model.TimetableData
+import kotlinx.coroutines.flow.Flow
 
 interface TimetableRepository {
 
-    suspend fun get(course: Int, group: String): Timetable?
+    val allCourses: Flow<List<Int>>
 
-    suspend fun get(id: String): Timetable?
+    val allGroups: Flow<List<Group>>
 
-    suspend fun insert(timetable: Timetable)
+    fun getTimetableStream(course: Int, groupId: String): Flow<TimetableData?>
 
-    suspend fun delete(course: Int, group: String)
+    suspend fun refresh(course: Int, groupId: String)
 
 }
