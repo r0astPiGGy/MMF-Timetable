@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
-    id("com.google.protobuf")
+    alias(libs.plugins.android.application) 
+    alias(libs.plugins.dagger.hilt) 
+    alias(libs.plugins.android.kotlin) 
+    alias(libs.plugins.google.protobuf) 
+    alias(libs.plugins.ksp) 
 }
 
 android {
@@ -53,10 +53,6 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes = true
-}
-
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.25.2"
@@ -77,60 +73,58 @@ protobuf {
 }
 
 dependencies {
+    implementation(libs.kotlinx.collections.immutable)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+    implementation(libs.android.core)
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation(libs.android.lifecycle.runtime.ktx)
+    implementation(libs.android.lifecycle.runtime.compose)
 
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation(libs.android.activity.compose)
 
-    implementation("androidx.activity:activity-compose:1.8.2")
-
-    implementation(platform("androidx.compose:compose-bom:2023.05.01"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(platform(libs.android.compose.bom))
+    implementation(libs.android.compose.ui)
+    implementation(libs.android.compose.ui.graphics)
+    implementation(libs.android.compose.ui.tooling.preview)
     implementation(libs.material)
-    implementation("androidx.compose.material3:material3")
+    implementation(libs.android.compose.material3)
 
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("com.google.protobuf:protobuf-kotlin-lite:3.25.2")
+    implementation(libs.android.datastore.datastore)
+    implementation(libs.kotlin.protobuf)
 
     // Testing
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.test.android.junit)
+    androidTestImplementation(libs.test.espresso.core)
+    androidTestImplementation(libs.test.android.compose.junit)
+    androidTestImplementation(platform(libs.android.compose.bom))
+    debugImplementation(libs.android.compose.ui.tooling.preview)
+    debugImplementation(libs.test.android.compose.manifest)
 
     // Jsoup
     implementation("org.jsoup:jsoup:1.16.1")
 
     // Prefs
-    implementation("com.github.JamalMulla:ComposePrefs3:1.0.4")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.github.compose.prefs)
+    implementation(libs.android.datastore.preferences)
 
     // Dagger Hilt
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation(libs.android.hilt.navigation.compose)
+    implementation(libs.android.hilt.dagger)
+    ksp(libs.android.hilt.compiler)
 
     // ViewModel One-time events
-    implementation("com.github.leonard-palm:compose-state-events:2.0.3")
+    implementation(libs.github.compose.state.events)
 
     // Glance widget's
-    implementation("androidx.glance:glance-appwidget:1.0.0")
-    implementation("androidx.glance:glance-material3:1.0.0")
-    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation(libs.android.glance.appwidget)
+    implementation(libs.android.glance.material3)
+    implementation(libs.google.gson)
 
     // Room
-    val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
 }
