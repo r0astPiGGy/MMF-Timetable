@@ -1,6 +1,6 @@
 package com.rodev.mmf_timetable.domain.use_case
 
-import com.rodev.mmf_timetable.domain.model.Lesson
+import com.rodev.mmf_timetable.core.model.data.Lesson
 import com.rodev.mmf_timetable.domain.model.WidgetState
 import com.rodev.mmf_timetable.utils.DateUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,17 +15,17 @@ class GetWidgetStateUseCase @Inject constructor(
     private val getUserSelectedTimetable: GetUserSelectedTimetableUseCase
 ) {
 
-    private fun Lesson.timeSpanIncludes(totalTime: Int): Boolean {
+    private fun com.rodev.mmf_timetable.core.model.data.Lesson.timeSpanIncludes(totalTime: Int): Boolean {
         return totalTime in timeStartMinutes..timeEndMinutes
     }
 
-    private fun List<Lesson>.findCurrentLessons(time: Int): List<Lesson> {
+    private fun List<com.rodev.mmf_timetable.core.model.data.Lesson>.findCurrentLessons(time: Int): List<com.rodev.mmf_timetable.core.model.data.Lesson> {
         return filter { it.timeSpanIncludes(time) }
     }
 
-    private fun findClosestLessons(totalTime: Int, lessons: List<Lesson>): List<Lesson> {
+    private fun findClosestLessons(totalTime: Int, lessons: List<com.rodev.mmf_timetable.core.model.data.Lesson>): List<com.rodev.mmf_timetable.core.model.data.Lesson> {
         var lastMax = Int.MAX_VALUE
-        val closestLessons = mutableListOf<Lesson>()
+        val closestLessons = mutableListOf<com.rodev.mmf_timetable.core.model.data.Lesson>()
 
         for (lesson in lessons) {
             // skip if lesson already ended
@@ -51,7 +51,7 @@ class GetWidgetStateUseCase @Inject constructor(
         return closestLessons
     }
 
-    private fun getWidgetState(lessons: List<Lesson>): WidgetState {
+    private fun getWidgetState(lessons: List<com.rodev.mmf_timetable.core.model.data.Lesson>): WidgetState {
         val calendar = Calendar.getInstance()
 
         val hour = calendar[Calendar.HOUR_OF_DAY]

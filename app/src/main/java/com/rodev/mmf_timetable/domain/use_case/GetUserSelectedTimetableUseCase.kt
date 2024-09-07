@@ -1,6 +1,6 @@
 package com.rodev.mmf_timetable.domain.use_case
 
-import com.rodev.mmf_timetable.domain.model.TimetableData
+import com.rodev.mmf_timetable.core.model.data.TimetableData
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
 import com.rodev.mmf_timetable.domain.repository.UserDataRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,7 +14,7 @@ class GetUserSelectedTimetableUseCase @Inject constructor(
     private val repository: TimetableRepository
 ) {
     @OptIn(ExperimentalCoroutinesApi::class)
-    operator fun invoke(): Flow<TimetableData?> {
+    operator fun invoke(): Flow<com.rodev.mmf_timetable.core.model.data.TimetableData?> {
         return userDataRepository.userData.flatMapLatest {
             if (it != null) {
                 repository.getTimetableStream(it.course, it.groupId)

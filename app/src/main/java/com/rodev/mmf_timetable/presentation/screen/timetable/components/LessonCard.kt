@@ -24,8 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rodev.mmf_timetable.domain.model.Lesson
-import com.rodev.mmf_timetable.domain.model.Weekday
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.LessonUiState
 import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
 import com.rodev.mmf_timetable.utils.displayableTimeEnd
@@ -38,7 +38,7 @@ fun LessonCard(
     modifier: Modifier = Modifier,
 //    onClick: () -> Unit,
     enabled: Boolean = true,
-    lesson: Lesson
+    lesson: com.rodev.mmf_timetable.core.model.data.Lesson
 ) {
     OutlinedCard(
         modifier = modifier,
@@ -126,16 +126,16 @@ private fun dummyLessonRandomTime(): LessonUiState {
     val duration = 90
 
     return LessonUiState(
-        wrappedLesson = Lesson(
-            Weekday.MONDAY,
-            Lesson.Type.LECTURE,
+        wrappedLesson = com.rodev.mmf_timetable.core.model.data.Lesson(
+            com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
+            com.rodev.mmf_timetable.core.model.data.Lesson.Type.LECTURE,
             classroom = "606",
             subject = "Математический анализ",
             timeStartMinutes = start,
             timeEndMinutes = start + duration,
             teacher = "Васильев И.Л",
             remarks = "2н",
-            weekType = Lesson.WeekType.EVEN
+            weekType = com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.EVEN
         ),
         available = true
     )
@@ -143,28 +143,28 @@ private fun dummyLessonRandomTime(): LessonUiState {
 
 private fun dummyLesson(): LessonUiState {
     return LessonUiState(
-        wrappedLesson = Lesson(
-            Weekday.MONDAY,
-            Lesson.Type.LECTURE,
+        wrappedLesson = com.rodev.mmf_timetable.core.model.data.Lesson(
+            com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
+            com.rodev.mmf_timetable.core.model.data.Lesson.Type.LECTURE,
             classroom = "606",
             subject = "Математический анализ",
             timeStartMinutes = 615,
             timeEndMinutes = 665,
             teacher = "Васильев И.Л",
             remarks = "2н",
-            weekType = Lesson.WeekType.EVEN
+            weekType = com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.EVEN
         ),
         available = true
     )
 }
 
-private fun Lesson.remarksOrEmpty(): String {
+private fun com.rodev.mmf_timetable.core.model.data.Lesson.remarksOrEmpty(): String {
     return remarks ?: ""
 }
 
-private fun Lesson.Type.translated(): String {
+private fun com.rodev.mmf_timetable.core.model.data.Lesson.Type.translated(): String {
     return when (this) {
-        Lesson.Type.LECTURE -> "л"
-        Lesson.Type.PRACTICE -> "п"
+        com.rodev.mmf_timetable.core.model.data.Lesson.Type.LECTURE -> "л"
+        com.rodev.mmf_timetable.core.model.data.Lesson.Type.PRACTICE -> "п"
     }
 }

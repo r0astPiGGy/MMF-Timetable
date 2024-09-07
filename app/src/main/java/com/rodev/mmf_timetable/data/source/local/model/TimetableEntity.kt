@@ -2,7 +2,6 @@ package com.rodev.mmf_timetable.data.source.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.rodev.mmf_timetable.domain.model.Lesson
 
 @Entity
 data class TimetableEntity(

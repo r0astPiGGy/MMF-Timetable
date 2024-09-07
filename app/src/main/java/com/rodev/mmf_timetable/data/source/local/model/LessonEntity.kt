@@ -1,13 +1,12 @@
 package com.rodev.mmf_timetable.data.source.local.model
 
 import androidx.room.Entity
-import com.rodev.mmf_timetable.domain.model.Lesson
-import com.rodev.mmf_timetable.domain.model.Weekday
-import com.rodev.mmf_timetable.domain.model.WidgetState.NoLesson.lesson
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.model.data.Weekday
 
 @Entity
 data class LessonEntity(
-    val weekday: Weekday,
+    val weekday: com.rodev.mmf_timetable.core.model.data.Weekday,
     val type: Type?,
     val classroom: String,
     val subject: String,
@@ -28,10 +27,14 @@ data class LessonEntity(
         EVEN
     }
 
-    fun asExternalModel(): Lesson {
-        return Lesson(
-            type = type?.let { Lesson.Type.valueOf(it.name) },
-            weekType = week?.let { Lesson.WeekType.valueOf(it.name) },
+    fun asExternalModel(): com.rodev.mmf_timetable.core.model.data.Lesson {
+        return com.rodev.mmf_timetable.core.model.data.Lesson(
+            type = type?.let { com.rodev.mmf_timetable.core.model.data.Lesson.Type.valueOf(it.name) },
+            weekType = week?.let {
+                com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.valueOf(
+                    it.name
+                )
+            },
             weekday = weekday,
             classroom = classroom,
             subject = subject,
@@ -44,7 +47,7 @@ data class LessonEntity(
 
     companion object {
 
-        fun fromExternalModel(model: Lesson): LessonEntity {
+        fun fromExternalModel(model: com.rodev.mmf_timetable.core.model.data.Lesson): LessonEntity {
             with(model) {
                 return LessonEntity(
                     week = weekType?.let { LessonEntity.WeekType.valueOf(it.name) },

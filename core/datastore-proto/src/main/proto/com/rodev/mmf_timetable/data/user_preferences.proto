@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "com.rodev.mmf_timetable.data";
+option java_package = "com.rodev.mmf_timetable.core.datastore";
 option java_multiple_files = true;
 
 message UserPreferences {

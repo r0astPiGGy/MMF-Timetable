@@ -1,10 +1,8 @@
 package com.rodev.mmf_timetable
 
 import com.rodev.mmf_timetable.data.source.network.TimetableNetworkImpl
-import com.rodev.mmf_timetable.domain.model.Lesson
-import com.rodev.mmf_timetable.domain.model.Weekday
-import com.rodev.mmf_timetable.domain.resource.Resource
-import com.rodev.mmf_timetable.domain.service.TimetableNetworkDataSource
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.utils.toDisplayableTime
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -13,7 +11,7 @@ import java.util.UUID
 
 class Test {
 
-    private suspend fun getTimetable(): List<Lesson> =
+    private suspend fun getTimetable(): List<com.rodev.mmf_timetable.core.model.data.Lesson> =
         TimetableNetworkImpl().getTimetable(1, "9-gruppa")
 
     @Test
@@ -41,7 +39,7 @@ class Test {
     fun test() = runBlocking {
         val result = getTimetable().groupBy { it.weekday }
 
-        Weekday.values().forEach {
+        com.rodev.mmf_timetable.core.model.data.Weekday.values().forEach {
             println("Неделя ${it.name}:")
             result[it]?.forEach { lesson ->
                 println(" $lesson")

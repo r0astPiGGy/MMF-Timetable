@@ -1,11 +1,11 @@
 package com.rodev.mmf_timetable.domain.repository
 
-import com.rodev.mmf_timetable.domain.model.UserData
+import com.rodev.mmf_timetable.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 
 interface UserDataRepository {
 
-    val userData: Flow<UserData?>
+    val userData: Flow<com.rodev.mmf_timetable.core.model.data.UserData?>
 
     suspend fun setSelectedCourse(course: Int)
 

@@ -1,7 +1,7 @@
 package com.rodev.mmf_timetable.data.source.network.model
 
-import com.rodev.mmf_timetable.domain.model.Lesson
-import com.rodev.mmf_timetable.domain.model.Weekday
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.model.data.Weekday
 
 data class NetworkLesson(
     val weekday: String,
@@ -11,25 +11,25 @@ data class NetworkLesson(
     val lecturePractice: String,
     val room: String
 ) {
-    fun asExternalModel(): Lesson {
+    fun asExternalModel(): com.rodev.mmf_timetable.core.model.data.Lesson {
         return toLesson(this)
     }
 }
 
 private val mappedWeekdays = mapOf(
-    "Понедельник" to Weekday.MONDAY,
-    "Вторник" to Weekday.TUESDAY,
-    "Среда" to Weekday.WEDNESDAY,
-    "Четверг" to Weekday.THURSDAY,
-    "Пятница" to Weekday.FRIDAY,
-    "Суббота" to Weekday.SATURDAY,
-    "Воскресенье" to Weekday.SUNDAY,
+    "Понедельник" to com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
+    "Вторник" to com.rodev.mmf_timetable.core.model.data.Weekday.TUESDAY,
+    "Среда" to com.rodev.mmf_timetable.core.model.data.Weekday.WEDNESDAY,
+    "Четверг" to com.rodev.mmf_timetable.core.model.data.Weekday.THURSDAY,
+    "Пятница" to com.rodev.mmf_timetable.core.model.data.Weekday.FRIDAY,
+    "Суббота" to com.rodev.mmf_timetable.core.model.data.Weekday.SATURDAY,
+    "Воскресенье" to com.rodev.mmf_timetable.core.model.data.Weekday.SUNDAY,
 )
 
 private val mappedLessonTypeEntry = mapOf(
-    "п" to Lesson.Type.PRACTICE,
-    "л" to Lesson.Type.LECTURE,
-    "лаб" to Lesson.Type.PRACTICE
+    "п" to com.rodev.mmf_timetable.core.model.data.Lesson.Type.PRACTICE,
+    "л" to com.rodev.mmf_timetable.core.model.data.Lesson.Type.LECTURE,
+    "лаб" to com.rodev.mmf_timetable.core.model.data.Lesson.Type.PRACTICE
 )
 
 private fun parseTotalMinutes(timestamp: String): Int {
@@ -40,7 +40,7 @@ private fun parseTotalMinutes(timestamp: String): Int {
     return (hours * 60) + minutes
 }
 
-private fun toLesson(networkLesson: NetworkLesson): Lesson {
+private fun toLesson(networkLesson: NetworkLesson): com.rodev.mmf_timetable.core.model.data.Lesson {
     val split = networkLesson.subjectTeachers.split("\n")
 
     val subject = split[0]
@@ -53,7 +53,7 @@ private fun toLesson(networkLesson: NetworkLesson): Lesson {
     val timeStart = timeSplit[0]
     val timeEnd = timeSplit.getOrNull(1) ?: ""
 
-    return Lesson(
+    return com.rodev.mmf_timetable.core.model.data.Lesson(
         weekday = weekday,
         type = type,
         classroom = networkLesson.room,
@@ -63,8 +63,8 @@ private fun toLesson(networkLesson: NetworkLesson): Lesson {
         timeEndMinutes = parseTotalMinutes(timeEnd),
         remarks = networkLesson.remarks,
         weekType = when {
-            networkLesson.remarks.contains("1н") -> Lesson.WeekType.ODD
-            networkLesson.remarks.contains("2н") -> Lesson.WeekType.EVEN
+            networkLesson.remarks.contains("1н") -> com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.ODD
+            networkLesson.remarks.contains("2н") -> com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.EVEN
             else -> null
         }
     )

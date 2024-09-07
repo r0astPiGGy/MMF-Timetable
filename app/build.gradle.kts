@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application) 
     alias(libs.plugins.dagger.hilt) 
-    alias(libs.plugins.android.kotlin) 
-    alias(libs.plugins.google.protobuf) 
+    alias(libs.plugins.android.kotlin)
     alias(libs.plugins.ksp) 
 }
 
@@ -53,25 +52,6 @@ android {
     }
 }
 
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.25.2"
-    }
-
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                register("java") {
-                    option("lite")
-                }
-                register("kotlin") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
-
 dependencies {
     implementation(libs.kotlinx.collections.immutable)
 
@@ -90,7 +70,8 @@ dependencies {
     implementation(libs.android.compose.material3)
 
     implementation(libs.android.datastore.datastore)
-    implementation(libs.kotlin.protobuf)
+
+    api(projects.core.datastore)
 
     // Testing
     testImplementation(libs.test.junit)

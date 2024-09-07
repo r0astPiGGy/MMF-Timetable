@@ -1,7 +1,7 @@
 package com.rodev.mmf_timetable.data.source.network.dsl
 
 import com.rodev.mmf_timetable.data.source.network.model.Course
-import com.rodev.mmf_timetable.domain.model.Group
+import com.rodev.mmf_timetable.core.model.data.Group
 
 fun courses(scope: CoursesBuilderScope.() -> Unit): List<Course> {
     return with(CoursesBuilderImpl()) {
@@ -28,10 +28,10 @@ private class CourseScopeImpl(
     val course: Int
 ) : CourseScope {
 
-    private val groupList = mutableListOf<Group>()
+    private val groupList = mutableListOf<com.rodev.mmf_timetable.core.model.data.Group>()
 
     override fun group(id: String, name: String) {
-        groupList += Group(
+        groupList += com.rodev.mmf_timetable.core.model.data.Group(
             course = course,
             id = id,
             name = name

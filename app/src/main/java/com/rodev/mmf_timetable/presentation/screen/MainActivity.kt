@@ -18,16 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.rodev.mmf_timetable.domain.model.Group
-import com.rodev.mmf_timetable.domain.model.UserData
 import com.rodev.mmf_timetable.presentation.screen.timetable.TimetableScreen
 import com.rodev.mmf_timetable.presentation.screen.timetable.TimetableViewModel
 import com.rodev.mmf_timetable.presentation.screen.timetable.components.CourseEditDialog
 import com.rodev.mmf_timetable.presentation.screen.timetable.components.DrawerContent
-import com.rodev.mmf_timetable.presentation.screen.timetable.components.OnCourseSelected
 import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

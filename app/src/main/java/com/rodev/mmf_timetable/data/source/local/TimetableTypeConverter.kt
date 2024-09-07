@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.rodev.mmf_timetable.data.source.local.model.LessonEntity
-import com.rodev.mmf_timetable.domain.model.Lesson
 
 object TimetableTypeConverter {
 

@@ -1,7 +1,7 @@
-package com.rodev.mmf_timetable.data
+package com.rodev.mmf_timetable.core.datastore
 
 import androidx.datastore.core.DataStore
-import com.rodev.mmf_timetable.domain.model.UserData
+import com.rodev.mmf_timetable.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

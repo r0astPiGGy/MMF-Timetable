@@ -1,10 +1,10 @@
 package com.rodev.mmf_timetable.presentation.screen.timetable.state
 
 import androidx.compose.runtime.Immutable
-import com.rodev.mmf_timetable.domain.model.Weekday
+import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.utils.DateUtils
 
-typealias MappedTimetable = Map<Weekday, List<LessonUiState>>
+typealias MappedTimetable = Map<com.rodev.mmf_timetable.core.model.data.Weekday, List<LessonUiState>>
 
 sealed interface TimetableUiState {
 
@@ -12,8 +12,8 @@ sealed interface TimetableUiState {
     data class Success(
         val currentStudyWeek: Long? = null,
         val timetable: MappedTimetable = emptyMap(),
-        val weekdays: List<Weekday> = timetable.provideWeekdays(),
-        val todayWeekday: Weekday = DateUtils.getCurrentWeekday()
+        val weekdays: List<com.rodev.mmf_timetable.core.model.data.Weekday> = timetable.provideWeekdays(),
+        val todayWeekday: com.rodev.mmf_timetable.core.model.data.Weekday = DateUtils.getCurrentWeekday()
     ) : TimetableUiState
 
     object Loading : TimetableUiState
@@ -25,15 +25,15 @@ sealed interface TimetableUiState {
 }
 
 private val allWeekdays = arrayOf(
-    Weekday.MONDAY,
-    Weekday.TUESDAY,
-    Weekday.WEDNESDAY,
-    Weekday.THURSDAY,
-    Weekday.FRIDAY,
-    Weekday.SATURDAY
+    com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
+    com.rodev.mmf_timetable.core.model.data.Weekday.TUESDAY,
+    com.rodev.mmf_timetable.core.model.data.Weekday.WEDNESDAY,
+    com.rodev.mmf_timetable.core.model.data.Weekday.THURSDAY,
+    com.rodev.mmf_timetable.core.model.data.Weekday.FRIDAY,
+    com.rodev.mmf_timetable.core.model.data.Weekday.SATURDAY
 )
 
-fun MappedTimetable?.provideWeekdays(): List<Weekday> {
+fun MappedTimetable?.provideWeekdays(): List<com.rodev.mmf_timetable.core.model.data.Weekday> {
     if (this == null) return emptyList()
 
     return allWeekdays.filter { containsKey(it) }

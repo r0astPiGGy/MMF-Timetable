@@ -1,10 +1,9 @@
 package com.rodev.mmf_timetable.presentation.screen
 
-import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rodev.mmf_timetable.domain.model.Group
+import com.rodev.mmf_timetable.core.model.data.Group
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
 import com.rodev.mmf_timetable.domain.repository.UserDataRepository
 import com.rodev.mmf_timetable.domain.resource.Resource
@@ -30,7 +29,7 @@ sealed interface UserDataUiState {
         val course: Int?,
         val group: String?,
         val subGroup: String? = null,
-        val groupsByCourse: ImmutableMap<Int, List<Group>>,
+        val groupsByCourse: ImmutableMap<Int, List<com.rodev.mmf_timetable.core.model.data.Group>>,
         val courses: ImmutableList<Int>
     ) : UserDataUiState
 

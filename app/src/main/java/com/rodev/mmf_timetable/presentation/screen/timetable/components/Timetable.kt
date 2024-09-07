@@ -5,8 +5,6 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,13 +53,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rodev.mmf_timetable.R
-import com.rodev.mmf_timetable.domain.model.Lesson
-import com.rodev.mmf_timetable.domain.model.Weekday
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.presentation.components.HorizontalPagerAdapter
-import com.rodev.mmf_timetable.presentation.components.IndeterminateShimmer
 import com.rodev.mmf_timetable.presentation.components.PagerValuesState
 import com.rodev.mmf_timetable.presentation.components.ShimmerWrapper
-import com.rodev.mmf_timetable.presentation.components.StaticShimmerWrapper
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.LessonUiState
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.TimetableUiState
 import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
@@ -71,9 +67,9 @@ import kotlinx.coroutines.launch
 
 private fun randomLesson(): LessonUiState {
     return lessonOf(
-        Lesson(
-            Weekday.MONDAY,
-            type = Lesson.Type.PRACTICE,
+        com.rodev.mmf_timetable.core.model.data.Lesson(
+            com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
+            type = com.rodev.mmf_timetable.core.model.data.Lesson.Type.PRACTICE,
             classroom = "606",
             subject = "Matan",
             timeStartMinutes = 100,
@@ -85,7 +81,7 @@ private fun randomLesson(): LessonUiState {
     )
 }
 
-private fun lessonOf(lesson: Lesson): LessonUiState {
+private fun lessonOf(lesson: com.rodev.mmf_timetable.core.model.data.Lesson): LessonUiState {
     return LessonUiState(
         wrappedLesson = lesson,
         available = true
@@ -265,7 +261,7 @@ fun WeekdayTabRow(
     modifier: Modifier = Modifier,
     currentPage: Int,
     onPageClick: (index: Int) -> Unit,
-    weekdays: List<Weekday>
+    weekdays: List<com.rodev.mmf_timetable.core.model.data.Weekday>
 ) {
     val tabWidths = remember(weekdays) {
         val tabWidthStateList = mutableStateListOf<Dp>()
@@ -301,7 +297,7 @@ fun WeekdayTabRow(
 @Composable
 fun WeekdayTabList(
     currentPage: Int,
-    weekdays: List<Weekday>,
+    weekdays: List<com.rodev.mmf_timetable.core.model.data.Weekday>,
     onClick: (index: Int) -> Unit,
     onTextLayout: (index: Int, dp: Dp) -> Unit
 ) {
@@ -326,15 +322,15 @@ fun WeekdayTabList(
     }
 }
 
-private fun Weekday.stringResource(): Int {
+private fun com.rodev.mmf_timetable.core.model.data.Weekday.stringResource(): Int {
     return when (this) {
-        Weekday.SUNDAY -> R.string.weekday_sunday
-        Weekday.MONDAY -> R.string.weekday_monday
-        Weekday.TUESDAY -> R.string.weekday_tuesday
-        Weekday.WEDNESDAY -> R.string.weekday_wednesday
-        Weekday.THURSDAY -> R.string.weekday_thursday
-        Weekday.FRIDAY -> R.string.weekday_friday
-        Weekday.SATURDAY -> R.string.weekday_saturday
+        com.rodev.mmf_timetable.core.model.data.Weekday.SUNDAY -> R.string.weekday_sunday
+        com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY -> R.string.weekday_monday
+        com.rodev.mmf_timetable.core.model.data.Weekday.TUESDAY -> R.string.weekday_tuesday
+        com.rodev.mmf_timetable.core.model.data.Weekday.WEDNESDAY -> R.string.weekday_wednesday
+        com.rodev.mmf_timetable.core.model.data.Weekday.THURSDAY -> R.string.weekday_thursday
+        com.rodev.mmf_timetable.core.model.data.Weekday.FRIDAY -> R.string.weekday_friday
+        com.rodev.mmf_timetable.core.model.data.Weekday.SATURDAY -> R.string.weekday_saturday
     }
 }
 

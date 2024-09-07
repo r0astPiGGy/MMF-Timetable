@@ -15,5 +15,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "MMF_Timetable"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
- 
+include(":core:datastore")
+include(":core:model")
+include(":core:datastore-proto")

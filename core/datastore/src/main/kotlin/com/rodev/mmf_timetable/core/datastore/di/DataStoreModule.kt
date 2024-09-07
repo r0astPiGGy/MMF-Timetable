@@ -1,11 +1,11 @@
-package com.rodev.mmf_timetable.di
+package com.rodev.mmf_timetable.core.datastore.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.rodev.mmf_timetable.data.UserPreferences
-import com.rodev.mmf_timetable.data.UserPreferencesSerializer
+import com.rodev.mmf_timetable.core.datastore.UserPreferences
+import com.rodev.mmf_timetable.core.datastore.UserPreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

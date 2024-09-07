@@ -21,7 +21,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,13 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.rodev.mmf_timetable.domain.model.Group
+import com.rodev.mmf_timetable.core.model.data.Group
 import com.rodev.mmf_timetable.presentation.screen.UserDataUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
-typealias OnCourseSelected = (course: Int, group: Group, subGroup: String?) -> Unit
+typealias OnCourseSelected = (course: Int, group: com.rodev.mmf_timetable.core.model.data.Group, subGroup: String?) -> Unit
 
 @Composable
 fun CourseEditDialog(
@@ -63,9 +62,9 @@ private fun CourseEditDialogContent(
     onCourseAndGroupSelected: OnCourseSelected
 ) {
     var selectedCourse: Int? by remember { mutableStateOf(null) }
-    var selectedGroup: Group? by remember { mutableStateOf(null) }
+    var selectedGroup: com.rodev.mmf_timetable.core.model.data.Group? by remember { mutableStateOf(null) }
     var selectedSubGroup: String? by remember { mutableStateOf(null) }
-    var groups: ImmutableList<Group> by remember { mutableStateOf(persistentListOf()) }
+    var groups: ImmutableList<com.rodev.mmf_timetable.core.model.data.Group> by remember { mutableStateOf(persistentListOf()) }
 
     Card(
         modifier = modifier
@@ -115,10 +114,10 @@ private fun CourseEditDialogContent(
 private fun DialogDropDowns(
     selectedCourse: Int?,
     onSetSelectedCourse: (Int) -> Unit,
-    groups: ImmutableList<Group>,
+    groups: ImmutableList<com.rodev.mmf_timetable.core.model.data.Group>,
     courseList: ImmutableList<Int>,
-    selectedGroup: Group?,
-    onSetSelectedGroup: (Group) -> Unit,
+    selectedGroup: com.rodev.mmf_timetable.core.model.data.Group?,
+    onSetSelectedGroup: (com.rodev.mmf_timetable.core.model.data.Group) -> Unit,
     selectedSubGroup: String?,
     onSetSelectedSubGroup: (String) -> Unit
 ) {

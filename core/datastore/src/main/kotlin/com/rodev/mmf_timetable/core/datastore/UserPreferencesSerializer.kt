@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.data
+package com.rodev.mmf_timetable.core.datastore
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer

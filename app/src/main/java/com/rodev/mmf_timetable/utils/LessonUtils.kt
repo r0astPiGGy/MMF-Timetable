@@ -1,6 +1,6 @@
 package com.rodev.mmf_timetable.utils
 
-import com.rodev.mmf_timetable.domain.model.Lesson
+import com.rodev.mmf_timetable.core.model.data.Lesson
 
 fun Int.toDisplayableTime(): String {
     val hours = this / 60
@@ -18,8 +18,8 @@ fun Int.toDisplayableTime(): String {
     return timeToString(hours) + ":" + timeToString(minutes)
 }
 
-val Lesson.displayableTimeStart
+val com.rodev.mmf_timetable.core.model.data.Lesson.displayableTimeStart
     get() = timeStartMinutes.toDisplayableTime()
 
-val Lesson.displayableTimeEnd
+val com.rodev.mmf_timetable.core.model.data.Lesson.displayableTimeEnd
     get() = timeEndMinutes.toDisplayableTime()

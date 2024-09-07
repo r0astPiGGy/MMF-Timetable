@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.domain.model
+package com.rodev.mmf_timetable.core.model.data
 
 data class Lesson(
     val weekday: Weekday,

@@ -41,6 +41,7 @@ android-datastore-datastore = { module="androidx.datastore:datastore", version.r
 android-datastore-preferences = { module="androidx.datastore:datastore-preferences", version.ref="androidDatastore" }
 kotlinx-collections-immutable = { module="org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref="ktxCollectionsImmutable" }
 kotlin-protobuf = { module="com.google.protobuf:protobuf-kotlin-lite", version.ref="googleProtobuf" }
+protobuf-protoc = { module="com.google.protobuf:protoc", version.ref="googleProtobuf" }
 test-junit = { module="junit:junit", version.ref="junit" }
 test-android-junit = { module="androidx.test.ext:junit", version.ref="androidJunit" }
 test-espresso-core = { module="androidx.test.espresso:espresso-core", version.ref="androidEspresso" }
@@ -57,7 +58,9 @@ google-gson = { module="com.google.code.gson:gson", version.ref="googleGson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref="daggerHiltPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref="ksp" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref="kotlinPlugin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
 google-protobuf = { id = "com.google.protobuf", version.ref="protobuf" }
