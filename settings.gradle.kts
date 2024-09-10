@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -17,6 +18,17 @@ dependencyResolutionManagement {
 rootProject.name = "MMF_Timetable"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+
 include(":core:datastore")
 include(":core:model")
+include(":core:common")
+include(":core:data")
 include(":core:datastore-proto")
+include(":core:database")
+include(":core:domain")
+include(":core:network")
+include(":core:ui")
+
+include(":feature:classrooms")
+include(":feature:teachers")
+include(":feature:timetable")

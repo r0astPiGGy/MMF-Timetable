@@ -1,18 +1,12 @@
 plugins {
-    alias(libs.plugins.android.application) 
-    alias(libs.plugins.dagger.hilt) 
-    alias(libs.plugins.android.kotlin)
-    alias(libs.plugins.ksp) 
+    alias(libs.plugins.mmf.timetable.android.application)
+    alias(libs.plugins.mmf.timetable.android.hilt)
+    alias(libs.plugins.mmf.timetable.android.applicationCompose)
 }
 
 android {
-    namespace = "com.rodev.mmf_timetable"
-    compileSdk = 34
-
     defaultConfig {
         applicationId = "com.rodev.mmf_timetable"
-        minSdk = 28
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -32,24 +26,13 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    namespace = "com.rodev.mmf_timetable"
 }
 
 dependencies {
@@ -62,10 +45,8 @@ dependencies {
 
     implementation(libs.android.activity.compose)
 
-    implementation(platform(libs.android.compose.bom))
     implementation(libs.android.compose.ui)
     implementation(libs.android.compose.ui.graphics)
-    implementation(libs.android.compose.ui.tooling.preview)
     implementation(libs.material)
     implementation(libs.android.compose.material3)
 
@@ -78,7 +59,6 @@ dependencies {
     androidTestImplementation(libs.test.android.junit)
     androidTestImplementation(libs.test.espresso.core)
     androidTestImplementation(libs.test.android.compose.junit)
-    androidTestImplementation(platform(libs.android.compose.bom))
     debugImplementation(libs.android.compose.ui.tooling.preview)
     debugImplementation(libs.test.android.compose.manifest)
 
@@ -88,11 +68,6 @@ dependencies {
     // Prefs
     implementation(libs.github.compose.prefs)
     implementation(libs.android.datastore.preferences)
-
-    // Dagger Hilt
-    implementation(libs.android.hilt.navigation.compose)
-    implementation(libs.android.hilt.dagger)
-    ksp(libs.android.hilt.compiler)
 
     // ViewModel One-time events
     implementation(libs.github.compose.state.events)

@@ -1,12 +1,11 @@
 package com.rodev.mmf_timetable.presentation.screen.timetable
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
 import com.rodev.mmf_timetable.domain.repository.UserDataRepository
-import com.rodev.mmf_timetable.domain.resource.Resource
-import com.rodev.mmf_timetable.domain.resource.asResource
+import com.rodev.mmf_timetable.core.result.Resource
+import com.rodev.mmf_timetable.core.result.asResource
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.LessonUiState
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.TimetableUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -71,9 +70,9 @@ private fun timetableUiState(
             .asResource()
             .map { resource ->
                 when (resource) {
-                    Resource.Loading -> TimetableUiState.Loading
-                    is Resource.Exception -> TimetableUiState.Error(resource.exception)
-                    is Resource.Success -> {
+                    com.rodev.mmf_timetable.core.result.Resource.Loading -> TimetableUiState.Loading
+                    is com.rodev.mmf_timetable.core.result.Resource.Exception -> TimetableUiState.Error(resource.exception)
+                    is com.rodev.mmf_timetable.core.result.Resource.Success -> {
                         val data = resource.data
 
                         if (data !== null) {
