@@ -24,10 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rodev.mmf_timetable.core.model.data.Lesson
-import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.LessonUiState
-import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
+import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
 import com.rodev.mmf_timetable.utils.displayableTimeEnd
 import com.rodev.mmf_timetable.utils.displayableTimeStart
 import kotlin.random.Random
@@ -100,7 +98,7 @@ fun LessonCard(
 @Composable
 @Preview
 fun LessonCardPreview() {
-    MMF_TimetableTheme(darkTheme = false) {
+    com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme(darkTheme = false) {
         Surface {
             Column(
                 modifier = Modifier

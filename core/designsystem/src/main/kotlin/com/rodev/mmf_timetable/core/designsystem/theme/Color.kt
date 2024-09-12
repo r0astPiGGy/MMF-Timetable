@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.presentation.theme
+package com.rodev.mmf_timetable.core.designsystem.theme
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF006B5A)

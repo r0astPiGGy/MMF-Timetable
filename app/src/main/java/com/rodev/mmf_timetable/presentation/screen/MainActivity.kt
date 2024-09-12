@@ -22,7 +22,7 @@ import com.rodev.mmf_timetable.presentation.screen.timetable.TimetableScreen
 import com.rodev.mmf_timetable.presentation.screen.timetable.TimetableViewModel
 import com.rodev.mmf_timetable.presentation.screen.timetable.components.CourseEditDialog
 import com.rodev.mmf_timetable.presentation.screen.timetable.components.DrawerContent
-import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
+import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MMF_TimetableTheme {
+            com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {

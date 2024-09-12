@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.presentation.theme
+package com.rodev.mmf_timetable.core.designsystem.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme

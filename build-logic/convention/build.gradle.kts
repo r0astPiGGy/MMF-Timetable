@@ -41,6 +41,10 @@ gradlePlugin {
             id = "mmf_timetable.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+        register("androidLibraryCompose") {
+            id = "mmf_timetable.android.libraryCompose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
         register("androidLibrary") {
             id = "mmf_timetable.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"

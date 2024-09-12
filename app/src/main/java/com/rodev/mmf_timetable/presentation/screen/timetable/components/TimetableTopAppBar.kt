@@ -14,12 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
+import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
 
 @Preview
 @Composable
 private fun TopBarPreview() {
-    MMF_TimetableTheme {
+    com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme {
         TimetableTopAppBar(title = "Расписание", subTitle = "Неделя 2") {}
     }
 }

@@ -39,10 +39,8 @@ dependencies {
     implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.android.core)
-
     implementation(libs.android.lifecycle.runtime.ktx)
     implementation(libs.android.lifecycle.runtime.compose)
-
     implementation(libs.android.activity.compose)
 
     implementation(libs.android.compose.ui)
@@ -50,9 +48,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.android.compose.material3)
 
-    implementation(libs.android.datastore.datastore)
-
-    api(projects.core.datastore)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.core.ui)
 
     // Testing
     testImplementation(libs.test.junit)

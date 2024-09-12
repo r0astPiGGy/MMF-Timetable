@@ -53,14 +53,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rodev.mmf_timetable.R
-import com.rodev.mmf_timetable.core.model.data.Lesson
-import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.presentation.components.HorizontalPagerAdapter
 import com.rodev.mmf_timetable.presentation.components.PagerValuesState
 import com.rodev.mmf_timetable.presentation.components.ShimmerWrapper
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.LessonUiState
 import com.rodev.mmf_timetable.presentation.screen.timetable.state.TimetableUiState
-import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
+import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -91,7 +89,7 @@ private fun lessonOf(lesson: com.rodev.mmf_timetable.core.model.data.Lesson): Le
 @Composable
 @Preview
 private fun LoadingTimetablePreview() {
-    MMF_TimetableTheme(darkTheme = true) {
+    com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme(darkTheme = true) {
         Surface {
             ShimmerTimetable(
                 modifier = Modifier.fillMaxSize()
@@ -102,7 +100,7 @@ private fun LoadingTimetablePreview() {
 
 @Composable
 private fun TimetablePreview() {
-    MMF_TimetableTheme(darkTheme = true) {
+    com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme(darkTheme = true) {
 //        Surface {
 //            Timetable(
 //                modifier = Modifier.fillMaxSize(),

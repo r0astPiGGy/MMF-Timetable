@@ -42,7 +42,7 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.rodev.mmf_timetable.K
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.presentation.screen.UserDataUiState
-import com.rodev.mmf_timetable.presentation.theme.MMF_TimetableTheme
+import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
 import com.rodev.mmf_timetable.presentation.widget.TimetableWidgetReceiver
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
@@ -51,7 +51,7 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 private fun DrawerPreview() {
-    MMF_TimetableTheme(darkTheme = false) {
+    com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme(darkTheme = false) {
         Surface(
             modifier = Modifier
         ) {

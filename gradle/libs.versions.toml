@@ -89,4 +89,5 @@ mmf_timetable-android-applicationCompose = { id = "mmf_timetable.android.applica
 mmf_timetable-android-hilt = { id = "mmf_timetable.android.hilt", version="unspecified" }
 mmf_timetable-android-library = { id = "mmf_timetable.android.library", version="unspecified" }
 mmf_timetable-android-feature = { id = "mmf_timetable.android.feature", version="unspecified" }
+mmf_timetable-android-libraryCompose = { id = "mmf_timetable.android.libraryCompose", version="unspecified" }
 mmf_timetable-jvm-library = { id = "mmf_timetable.jvm.library", version="unspecified" }
