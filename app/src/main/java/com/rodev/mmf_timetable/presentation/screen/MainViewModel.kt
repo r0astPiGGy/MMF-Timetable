@@ -3,10 +3,10 @@ package com.rodev.mmf_timetable.presentation.screen
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rodev.mmf_timetable.core.result.Result
+import com.rodev.mmf_timetable.core.result.asResult
 import com.rodev.mmf_timetable.domain.repository.TimetableRepository
 import com.rodev.mmf_timetable.domain.repository.UserDataRepository
-import com.rodev.mmf_timetable.core.result.Resource
-import com.rodev.mmf_timetable.core.result.asResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -49,12 +49,12 @@ class MainViewModel @Inject constructor(
     val state: StateFlow<UserDataUiState> = userDataRepository
         .userData
         .combine(timetableRepository.allGroups, ::Pair)
-        .asResource()
+        .asResult()
         .mapLatest { userDataToGroups ->
             when (userDataToGroups) {
-                is com.rodev.mmf_timetable.core.result.Resource.Exception -> UserDataUiState.Error
-                com.rodev.mmf_timetable.core.result.Resource.Loading -> UserDataUiState.Loading
-                is com.rodev.mmf_timetable.core.result.Resource.Success -> {
+                is Result.Exception -> UserDataUiState.Error
+                Result.Loading -> UserDataUiState.Loading
+                is Result.Success -> {
                     val (data, groups) = userDataToGroups.data
 
                     UserDataUiState.Success(

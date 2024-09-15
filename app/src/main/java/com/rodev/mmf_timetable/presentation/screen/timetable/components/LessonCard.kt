@@ -24,8 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rodev.mmf_timetable.presentation.screen.timetable.state.LessonUiState
-import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
+import com.rodev.mmf_timetable.feature.timetable.LessonUiState
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.utils.displayableTimeEnd
 import com.rodev.mmf_timetable.utils.displayableTimeStart
 import kotlin.random.Random
@@ -119,38 +120,38 @@ fun LessonCardPreview() {
     }
 }
 
-private fun dummyLessonRandomTime(): LessonUiState {
+private fun dummyLessonRandomTime(): com.rodev.mmf_timetable.feature.timetable.LessonUiState {
     val start = Random.nextInt(200, 1320)
     val duration = 90
 
-    return LessonUiState(
-        wrappedLesson = com.rodev.mmf_timetable.core.model.data.Lesson(
-            com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
-            com.rodev.mmf_timetable.core.model.data.Lesson.Type.LECTURE,
+    return com.rodev.mmf_timetable.feature.timetable.LessonUiState(
+        wrappedLesson = Lesson(
+            Weekday.MONDAY,
+            Lesson.Type.LECTURE,
             classroom = "606",
             subject = "Математический анализ",
             timeStartMinutes = start,
             timeEndMinutes = start + duration,
             teacher = "Васильев И.Л",
             remarks = "2н",
-            weekType = com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.EVEN
+            weekType = Lesson.WeekType.EVEN
         ),
         available = true
     )
 }
 
-private fun dummyLesson(): LessonUiState {
-    return LessonUiState(
-        wrappedLesson = com.rodev.mmf_timetable.core.model.data.Lesson(
-            com.rodev.mmf_timetable.core.model.data.Weekday.MONDAY,
-            com.rodev.mmf_timetable.core.model.data.Lesson.Type.LECTURE,
+private fun dummyLesson(): com.rodev.mmf_timetable.feature.timetable.LessonUiState {
+    return com.rodev.mmf_timetable.feature.timetable.LessonUiState(
+        wrappedLesson = Lesson(
+            Weekday.MONDAY,
+            Lesson.Type.LECTURE,
             classroom = "606",
             subject = "Математический анализ",
             timeStartMinutes = 615,
             timeEndMinutes = 665,
             teacher = "Васильев И.Л",
             remarks = "2н",
-            weekType = com.rodev.mmf_timetable.core.model.data.Lesson.WeekType.EVEN
+            weekType = Lesson.WeekType.EVEN
         ),
         available = true
     )

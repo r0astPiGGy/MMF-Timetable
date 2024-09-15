@@ -8,8 +8,8 @@ interface TimetableNetworkDataSource {
 
     val allCourses: Flow<List<Int>>
 
-    val allGroups: Flow<List<com.rodev.mmf_timetable.core.model.data.Group>>
+    val allGroups: Flow<List<Group>>
 
-    suspend fun getTimetable(course: Int, groupId: String): List<com.rodev.mmf_timetable.core.model.data.Lesson>
+    suspend fun getTimetable(course: Int, groupId: String): List<Lesson>
 
 }

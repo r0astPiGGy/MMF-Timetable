@@ -18,8 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.rodev.mmf_timetable.presentation.screen.timetable.TimetableScreen
-import com.rodev.mmf_timetable.presentation.screen.timetable.TimetableViewModel
+import com.rodev.mmf_timetable.feature.timetable.TimetableScreen
+import com.rodev.mmf_timetable.feature.timetable.TimetableViewModel
 import com.rodev.mmf_timetable.presentation.screen.timetable.components.CourseEditDialog
 import com.rodev.mmf_timetable.presentation.screen.timetable.components.DrawerContent
 import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme {
+            MMF_TimetableTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {

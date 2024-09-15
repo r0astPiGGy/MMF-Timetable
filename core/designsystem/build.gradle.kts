@@ -8,9 +8,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.android.activity.compose)
-    implementation(libs.android.compose.ui)
-    implementation(libs.android.compose.ui.graphics)
-    implementation(libs.material)
-    implementation(libs.android.compose.material3)
+    api(libs.android.activity.compose)
+    api(libs.android.compose.ui)
+    api(libs.android.compose.ui.graphics)
+    api(libs.material)
+    api(libs.android.compose.material3)
 }

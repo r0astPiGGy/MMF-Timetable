@@ -15,16 +15,15 @@ import javax.inject.Inject
 
 class OfflineFirstTimetableRepository @Inject constructor(
     private val api: TimetableNetworkDataSource,
-    private val dao: TimetableDao,
-//    private val studyPlanService: StudyPlanService
+    private val dao: TimetableDao
 ) : TimetableRepository {
     override val allCourses: Flow<List<Int>>
         get() = api.allCourses
 
-    override val allGroups: Flow<List<com.rodev.mmf_timetable.core.model.data.Group>>
+    override val allGroups: Flow<List<Group>>
         get() = api.allGroups
 
-    override fun getTimetableStream(course: Int, groupId: String): Flow<com.rodev.mmf_timetable.core.model.data.TimetableData?> {
+    override fun getTimetableStream(course: Int, groupId: String): Flow<TimetableData?> {
         return dao.get(TimetableEntity.createId(course, groupId))
             .map { it?.let(::mapToTimetableData) }
     }
@@ -42,10 +41,10 @@ class OfflineFirstTimetableRepository @Inject constructor(
     private fun timetableDataOf(
         course: Int,
         groupId: String,
-        lessons: List<com.rodev.mmf_timetable.core.model.data.Lesson>,
+        lessons: List<Lesson>,
         dirty: Boolean = false
-    ): com.rodev.mmf_timetable.core.model.data.TimetableData {
-        return com.rodev.mmf_timetable.core.model.data.TimetableData(
+    ): TimetableData {
+        return TimetableData(
             week = 1, // TODO
             course = course,
             group = groupId,
@@ -54,7 +53,7 @@ class OfflineFirstTimetableRepository @Inject constructor(
         )
     }
 
-    private fun mapToTimetableData(entity: TimetableEntity): com.rodev.mmf_timetable.core.model.data.TimetableData {
+    private fun mapToTimetableData(entity: TimetableEntity): TimetableData {
         return timetableDataOf(
             course = entity.course,
             groupId = entity.group,
@@ -63,7 +62,7 @@ class OfflineFirstTimetableRepository @Inject constructor(
         )
     }
 
-    private fun mapToEntity(timetableData: com.rodev.mmf_timetable.core.model.data.TimetableData): TimetableEntity {
+    private fun mapToEntity(timetableData: TimetableData): TimetableEntity {
         return TimetableEntity(
             allLessons = timetableData.lessons
                 .values

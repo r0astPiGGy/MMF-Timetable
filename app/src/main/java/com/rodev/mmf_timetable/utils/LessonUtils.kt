@@ -18,8 +18,8 @@ fun Int.toDisplayableTime(): String {
     return timeToString(hours) + ":" + timeToString(minutes)
 }
 
-val com.rodev.mmf_timetable.core.model.data.Lesson.displayableTimeStart
+val Lesson.displayableTimeStart
     get() = timeStartMinutes.toDisplayableTime()
 
-val com.rodev.mmf_timetable.core.model.data.Lesson.displayableTimeEnd
+val Lesson.displayableTimeEnd
     get() = timeEndMinutes.toDisplayableTime()

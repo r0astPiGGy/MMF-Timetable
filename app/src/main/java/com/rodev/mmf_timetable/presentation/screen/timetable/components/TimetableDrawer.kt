@@ -42,8 +42,7 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.rodev.mmf_timetable.K
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.presentation.screen.UserDataUiState
-import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
-import com.rodev.mmf_timetable.presentation.widget.TimetableWidgetReceiver
+import com.rodev.mmf_timetable.widget.TimetableWidgetReceiver
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.launch
@@ -228,7 +227,7 @@ private suspend fun requestAddWidget(context: Context) {
     try {
         GlanceAppWidgetManager(context)
             .requestPinGlanceAppWidget(
-                TimetableWidgetReceiver::class.java,
+                com.rodev.mmf_timetable.widget.TimetableWidgetReceiver::class.java,
                 null,
             )
     } catch (e: Exception) {

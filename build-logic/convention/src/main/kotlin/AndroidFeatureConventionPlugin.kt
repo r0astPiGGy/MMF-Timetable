@@ -13,12 +13,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-//                add("implementation", project(":core:ui"))
-//                add("implementation", project(":core:designsystem"))
+                add("implementation", project(":core:ui"))
+                add("implementation", project(":core:designsystem"))
 
                 add("implementation", libs.findLibrary("android.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("android.lifecycle.runtime.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+                add("implementation", libs.findLibrary("android.lifecycle.viewModelCompose").get())
             }
         }
     }

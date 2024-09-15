@@ -33,3 +33,5 @@ include(":core:ui")
 include(":feature:classrooms")
 include(":feature:teachers")
 include(":feature:timetable")
+
+include(":widget")

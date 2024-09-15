@@ -36,6 +36,16 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.timetable)
+
+    implementation(projects.widget)
+
+    implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.core.ui)
+
     implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.android.core)
@@ -48,12 +58,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.android.compose.material3)
 
-    implementation(projects.core.designsystem)
-    implementation(projects.core.model)
-    implementation(projects.core.common)
-    implementation(projects.core.data)
-    implementation(projects.core.ui)
-
     // Testing
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.test.android.junit)
@@ -62,20 +66,12 @@ dependencies {
     debugImplementation(libs.android.compose.ui.tooling.preview)
     debugImplementation(libs.test.android.compose.manifest)
 
-    // Jsoup
-    implementation("org.jsoup:jsoup:1.16.1")
-
     // Prefs
     implementation(libs.github.compose.prefs)
     implementation(libs.android.datastore.preferences)
 
     // ViewModel One-time events
     implementation(libs.github.compose.state.events)
-
-    // Glance widget's
-    implementation(libs.android.glance.appwidget)
-    implementation(libs.android.glance.material3)
-    implementation(libs.google.gson)
 
     // Room
     implementation(libs.androidx.room.runtime)

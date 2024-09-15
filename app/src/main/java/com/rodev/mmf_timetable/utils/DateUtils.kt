@@ -5,11 +5,11 @@ import java.util.Calendar
 
 object DateUtils {
 
-    fun getCurrentWeekday(): com.rodev.mmf_timetable.core.model.data.Weekday {
+    fun getCurrentWeekday(): Weekday {
         val calendar = Calendar.getInstance()
         val week = calendar[Calendar.DAY_OF_WEEK]
 
-        return com.rodev.mmf_timetable.core.model.data.Weekday.values()[week - 1]
+        return Weekday.values()[week - 1]
     }
 
     fun getWeekOfYear(): Int {
