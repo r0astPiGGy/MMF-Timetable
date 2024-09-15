@@ -14,7 +14,8 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.designsystem) // ?
 
-    implementation(libs.android.glance.appwidget)
     implementation(libs.android.glance.material3)
     implementation(libs.google.gson)
+
+    api(libs.android.glance.appwidget)
 }

@@ -2,11 +2,10 @@ package com.rodev.mmf_timetable.feature.timetable
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rodev.mmf_timetable.domain.repository.TimetableRepository
-import com.rodev.mmf_timetable.domain.repository.UserDataRepository
-import com.rodev.mmf_timetable.core.result.Resource
-import com.rodev.mmf_timetable.core.result.asResource
-import com.rodev.mmf_timetable.feature.timetable.state.LessonUiState
+import com.rodev.mmf_timetable.core.data.TimetableRepository
+import com.rodev.mmf_timetable.core.data.UserDataRepository
+import com.rodev.mmf_timetable.core.result.Result
+import com.rodev.mmf_timetable.core.result.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -66,12 +65,12 @@ private fun timetableUiState(
                     else -> it
                 }
             }
-            .asResource()
+            .asResult()
             .map { resource ->
                 when (resource) {
-                    com.rodev.mmf_timetable.core.result.Resource.Loading -> TimetableUiState.Loading
-                    is com.rodev.mmf_timetable.core.result.Resource.Exception -> TimetableUiState.Error(resource.exception)
-                    is com.rodev.mmf_timetable.core.result.Resource.Success -> {
+                    Result.Loading -> TimetableUiState.Loading
+                    is Result.Exception -> TimetableUiState.Error(resource.exception)
+                    is Result.Success -> {
                         val data = resource.data
 
                         if (data !== null) {

@@ -1,8 +1,8 @@
 package com.rodev.mmf_timetable.core.domain
 
+import com.rodev.mmf_timetable.core.data.TimetableRepository
+import com.rodev.mmf_timetable.core.data.UserDataRepository
 import com.rodev.mmf_timetable.core.model.data.TimetableData
-import com.rodev.mmf_timetable.domain.repository.TimetableRepository
-import com.rodev.mmf_timetable.domain.repository.UserDataRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest

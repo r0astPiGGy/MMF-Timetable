@@ -1,16 +1,16 @@
 package com.rodev.mmf_timetable.feature.timetable
 
-import android.text.format.DateUtils
 import androidx.compose.runtime.Immutable
+import com.rodev.mmf_timetable.core.model.data.Weekday
 
 sealed interface TimetableUiState {
 
     @Immutable
     data class Timetable(
         val currentStudyWeek: Long? = null,
-        val timetable: MappedTimetable = emptyMap(),
-        val weekdays: List<com.rodev.mmf_timetable.core.model.data.Weekday> = timetable.provideWeekdays(),
-        val todayWeekday: com.rodev.mmf_timetable.core.model.data.Weekday = DateUtils.getCurrentWeekday()
+        val timetable: Map<Weekday, Timetable> = emptyMap(),
+        val weekdays: List<Weekday> = emptyList(), // TODO
+        val todayWeekday: Weekday = Weekday.FRIDAY // TODO
     ) : TimetableUiState
 
     object Loading : TimetableUiState

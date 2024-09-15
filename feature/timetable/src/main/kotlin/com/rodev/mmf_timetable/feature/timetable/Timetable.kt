@@ -106,7 +106,7 @@ fun ShimmerTimetable(
 @Composable
 fun Timetable(
     modifier: Modifier = Modifier,
-    state: TimetableUiState.Success
+    state: TimetableUiState.Timetable
 ) {
     val pagerState = rememberPagerState { state.weekdays.size }
 
