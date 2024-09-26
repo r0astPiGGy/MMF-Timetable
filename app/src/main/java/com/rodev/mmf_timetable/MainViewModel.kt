@@ -27,9 +27,7 @@ sealed interface UserDataUiState {
     data class Success(
         val course: Int?,
         val group: String?,
-        val subGroup: String? = null,
-        val groupsByCourse: ImmutableMap<Int, List<com.rodev.mmf_timetable.core.model.data.Group>>,
-        val courses: ImmutableList<Int>
+        val subGroup: String? = null
     ) : UserDataUiState
 
     object Loading : UserDataUiState
@@ -45,38 +43,31 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val state: StateFlow<UserDataUiState> = userDataRepository
-        .userData
-        .combine(timetableRepository.allGroups, ::Pair)
-        .asResult()
-        .mapLatest { userDataToGroups ->
-            when (userDataToGroups) {
-                is Result.Exception -> UserDataUiState.Error
-                Result.Loading -> UserDataUiState.Loading
-                is Result.Success -> {
-                    val (data, groups) = userDataToGroups.data
-
-                    UserDataUiState.Success(
-                        course = data?.course,
-                        group = data?.let { groups.first { it.id == data.groupId }.name },
-                        subGroup = null,
-                        groupsByCourse = groups
-                            .groupBy { it.course }
-                            .toImmutableMap(),
-                        courses = groups.map { it.course }
-                            .distinct()
-                            .sorted()
-                            .toImmutableList()
-                    )
-                }
-            }
-        }
-        .stateIn(
-            viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UserDataUiState.Loading
-        )
+//    @OptIn(ExperimentalCoroutinesApi::class)
+//    val state: StateFlow<UserDataUiState> = userDataRepository
+//        .userData
+//        .combine(timetableRepository.allCourses, ::Pair)
+//        .asResult()
+//        .mapLatest { userDataToGroups ->
+//            when (userDataToGroups) {
+//                is Result.Exception -> UserDataUiState.Error
+//                Result.Loading -> UserDataUiState.Loading
+//                is Result.Success -> {
+//                    val (data, groups) = userDataToGroups.data
+//
+//                    UserDataUiState.Success(
+//                        course = data?.course,
+//                        group = TODO(),
+//                        subGroup = null,
+//                    )
+//                }
+//            }
+//        }
+//        .stateIn(
+//            viewModelScope,
+//            started = SharingStarted.WhileSubscribed(5000),
+//            initialValue = UserDataUiState.Loading
+//        )
 
     fun updateUserData(course: Int, groupId: String, subGroup: String? = null) {
         viewModelScope.launch {

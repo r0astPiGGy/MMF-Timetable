@@ -21,6 +21,7 @@ androidEspresso="3.5.1"
 githubComposePrefs="1.0.4"
 githubComposeStateEvents="2.0.3"
 hiltNavigationCompose="1.1.0"
+androidxNavigation = "2.7.4"
 androidDaggerHilt="2.48"
 androidGlance="1.0.0"
 kotlinDatetime = "0.5.0"
@@ -57,6 +58,7 @@ test-android-compose-manifest = { group="androidx.compose.ui", name="ui-test-man
 github-compose-prefs = { module="com.github.JamalMulla:ComposePrefs3", version.ref="githubComposePrefs" }
 github-compose-state-events = { module="com.github.leonard-palm:compose-state-events", version.ref="githubComposeStateEvents" }
 android-hilt-navigation-compose = { module="androidx.hilt:hilt-navigation-compose", version.ref="hiltNavigationCompose" }
+android-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 android-hilt-dagger = { module="com.google.dagger:hilt-android", version.ref="androidDaggerHilt" }
 android-hilt-compiler = { module="com.google.dagger:hilt-android-compiler", version.ref="androidDaggerHilt" }
 android-glance-appwidget = { module="androidx.glance:glance-appwidget", version.ref="androidGlance" }

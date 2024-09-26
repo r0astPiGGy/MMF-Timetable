@@ -24,8 +24,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,14 +36,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.rodev.mmf_timetable.K
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.UserDataUiState
+import com.rodev.mmf_timetable.core.designsystem.component.DrawerNavItem
 import com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme
 import com.rodev.mmf_timetable.widget.TimetableWidgetReceiver
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentMapOf
+import com.rodev.mmf_timetable.widget.requestPinGlanceWidget
 import kotlinx.coroutines.launch
 
 @Preview
@@ -68,8 +65,6 @@ private fun DrawerPreview() {
                             course = 1,
                             group = "Группа 9",
                             subGroup = null,
-                            groupsByCourse = persistentMapOf(),
-                            courses = persistentListOf()
                         ),
                         onCourseEditDialogOpen = {},
                         onGotoSettings = {}
@@ -80,40 +75,6 @@ private fun DrawerPreview() {
             }
         }
     }
-}
-
-@Composable
-private fun NavItem(
-    modifier: Modifier = Modifier,
-    text: String,
-    icon: Int,
-    selected: Boolean = false,
-    onClick: () -> Unit
-) {
-    NavigationDrawerItem(
-        modifier = modifier,
-        colors = NavigationDrawerItemDefaults.colors(
-//            unselectedTextColor = AppColors.Neutral,
-//            unselectedIconColor = AppColors.Neutral
-        ),
-        label = {
-            Text(
-                text = text,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                letterSpacing = 0.sp
-            )
-        },
-        selected = selected,
-        icon = {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-        },
-        onClick = onClick
-    )
 }
 
 @Composable
@@ -180,15 +141,15 @@ fun DrawerContent(
         Spacer(modifier = Modifier.size(8.dp))
 
         // TODO action list
-        NavItem(
+        DrawerNavItem(
             text = stringResource(R.string.timetable_drawer_item),
             icon = R.drawable.calendar,
         ) {}
-        NavItem(
+        DrawerNavItem(
             text = stringResource(R.string.teachers_drawer_item),
             icon = R.drawable.user
         ) {}
-        NavItem(
+        DrawerNavItem(
             text = stringResource(R.string.classrooms_drawer_item),
             icon = R.drawable.door
         ) {}
@@ -198,7 +159,7 @@ fun DrawerContent(
         val context = LocalContext.current
         val coroutineScope = rememberCoroutineScope()
 
-        NavItem(
+        DrawerNavItem(
             text = stringResource(R.string.add_widget_drawer_item),
             icon = R.drawable.plus_square
         ) {
@@ -207,7 +168,7 @@ fun DrawerContent(
             }
         }
 
-        NavItem(
+        DrawerNavItem(
             text = stringResource(R.string.github_drawer_item),
             icon = R.drawable.github
         ) {
@@ -216,7 +177,7 @@ fun DrawerContent(
 
         Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-        NavItem(
+        DrawerNavItem(
             text = stringResource(R.string.settings_drawer_item),
             icon = R.drawable.settings,
             onClick = onGotoSettings
@@ -226,11 +187,7 @@ fun DrawerContent(
 
 private suspend fun requestAddWidget(context: Context) {
     try {
-        GlanceAppWidgetManager(context)
-            .requestPinGlanceAppWidget(
-                TimetableWidgetReceiver::class.java,
-                null,
-            )
+        TimetableWidgetReceiver.requestPinGlanceWidget(context)
     } catch (e: Exception) {
         e.printStackTrace()
     }

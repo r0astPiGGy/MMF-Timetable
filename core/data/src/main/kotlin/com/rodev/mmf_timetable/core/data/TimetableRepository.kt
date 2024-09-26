@@ -1,12 +1,14 @@
 package com.rodev.mmf_timetable.core.data
 
+import com.rodev.mmf_timetable.core.model.data.Course
 import com.rodev.mmf_timetable.core.model.data.TimetableData
 import com.rodev.mmf_timetable.core.network.model.NetworkCourse
 import kotlinx.coroutines.flow.Flow
 
 interface TimetableRepository {
 
-    val allCourses: Flow<List<NetworkCourse>>
+    @Deprecated(message = "Use CourseRepository")
+    val allCourses: Flow<List<Course>>
 
     fun getTimetableStream(course: Int, groupId: String): Flow<TimetableData?>
 

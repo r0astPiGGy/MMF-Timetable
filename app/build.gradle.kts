@@ -53,18 +53,11 @@ dependencies {
     implementation(libs.android.lifecycle.runtime.compose)
     implementation(libs.android.activity.compose)
 
+    implementation(libs.android.hilt.navigation.compose)
     implementation(libs.android.compose.ui)
     implementation(libs.android.compose.ui.graphics)
     implementation(libs.material)
     implementation(libs.android.compose.material3)
-
-    // Testing
-    testImplementation(libs.test.junit)
-    androidTestImplementation(libs.test.android.junit)
-    androidTestImplementation(libs.test.espresso.core)
-    androidTestImplementation(libs.test.android.compose.junit)
-    debugImplementation(libs.android.compose.ui.tooling.preview)
-    debugImplementation(libs.test.android.compose.manifest)
 
     // Prefs
     implementation(libs.github.compose.prefs)
@@ -73,10 +66,13 @@ dependencies {
     // ViewModel One-time events
     implementation(libs.github.compose.state.events)
 
-    // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    annotationProcessor(libs.androidx.room.compiler)
-    ksp(libs.androidx.room.compiler)
+    ksp(libs.android.hilt.compiler)
 
+    // Testing
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.test.android.junit)
+    androidTestImplementation(libs.test.espresso.core)
+    androidTestImplementation(libs.test.android.compose.junit)
+    debugImplementation(libs.android.compose.ui.tooling.preview)
+    debugImplementation(libs.test.android.compose.manifest)
 }
