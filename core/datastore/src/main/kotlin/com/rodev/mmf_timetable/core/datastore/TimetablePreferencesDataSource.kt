@@ -22,6 +22,20 @@ class TimetablePreferencesDataSource @Inject constructor(
             )
         }
 
+    suspend fun updateUserData(userData: UserData) {
+        dataStore.updateData {
+            it.copy {
+                selectedCourse = userData.course
+                selectedGroup = userData.groupId
+                if (userData.subGroup == null) {
+                    clearSelectedSubGroup()
+                } else {
+                    selectedSubGroup = userData.subGroup!!
+                }
+            }
+        }
+    }
+
     suspend fun setSelectedCourse(course: Int) {
         dataStore.updateData {
             it.copy {

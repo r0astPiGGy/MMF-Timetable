@@ -2,8 +2,8 @@ package com.rodev.mmf_timetable.feature.timetable
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rodev.mmf_timetable.core.data.TimetableRepository
-import com.rodev.mmf_timetable.core.data.UserDataRepository
+import com.rodev.mmf_timetable.core.data.repository.LessonRepository
+import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
 import com.rodev.mmf_timetable.core.result.Result
 import com.rodev.mmf_timetable.core.result.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,11 +23,11 @@ import javax.inject.Inject
 @HiltViewModel
 class TimetableViewModel @Inject constructor(
     userDataRepository: UserDataRepository,
-    timetableRepository: TimetableRepository,
+    lessonRepository: LessonRepository,
 ) : ViewModel() {
     val state = timetableUiState(
         userDataRepository,
-        timetableRepository
+        lessonRepository
     )
         .flowOn(Dispatchers.IO)
         .stateIn(
@@ -40,7 +40,7 @@ class TimetableViewModel @Inject constructor(
 @OptIn(ExperimentalCoroutinesApi::class)
 private fun timetableUiState(
     userDataRepository: UserDataRepository,
-    timetableRepository: TimetableRepository
+    lessonRepository: LessonRepository
 ): Flow<TimetableUiState> {
     return userDataRepository.userData.distinctUntilChanged().flatMapLatest { userData ->
         if (userData == null) {
@@ -48,16 +48,16 @@ private fun timetableUiState(
         }
 
         // TODO rework
-        timetableRepository
+        lessonRepository
             .getTimetableStream(userData.course, userData.groupId)
             .mapLatest {
                 when {
                     it == null -> {
-                        timetableRepository.refresh(userData.course, userData.groupId)
+                        lessonRepository.refresh(userData.course, userData.groupId)
                         null
                     }
                     it.dirty -> try {
-                        timetableRepository.refresh(userData.course, userData.groupId)
+                        lessonRepository.refresh(userData.course, userData.groupId)
                         null
                     } catch (e: Exception) {
                         it

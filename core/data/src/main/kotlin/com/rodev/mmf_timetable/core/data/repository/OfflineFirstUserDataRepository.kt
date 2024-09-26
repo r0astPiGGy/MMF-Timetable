@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.core.data
+package com.rodev.mmf_timetable.core.data.repository
 
 import com.rodev.mmf_timetable.core.datastore.TimetablePreferencesDataSource
 import com.rodev.mmf_timetable.core.model.data.UserData
@@ -11,15 +11,7 @@ internal class OfflineFirstUserDataRepository @Inject constructor(
 
     override val userData: Flow<UserData?> = preferencesDataStore.userData
 
-    override suspend fun setSelectedCourse(course: Int) {
-        preferencesDataStore.setSelectedCourse(course)
-    }
-
-    override suspend fun setSelectedGroup(groupId: String) {
-        preferencesDataStore.setSelectedGroup(groupId)
-    }
-
-    override suspend fun setSelectedSubGroup(subGroup: String?) {
-        preferencesDataStore.setSelectedSubGroup(subGroup)
+    override suspend fun updateUserData(userData: UserData) {
+        preferencesDataStore.updateUserData(userData)
     }
 }
