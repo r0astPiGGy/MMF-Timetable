@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.ui
+package com.rodev.mmf_timetable.core.designsystem.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.IconButton

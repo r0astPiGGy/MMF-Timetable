@@ -37,6 +37,15 @@ import kotlinx.collections.immutable.toPersistentList
 
 typealias OnCourseSelected = (course: Int, group: Group, subGroup: String?) -> Unit
 
+
+@Composable
+fun CourseEditDialog(
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit
+) {
+
+}
+
 @Composable
 fun CourseEditDialog(
     modifier: Modifier = Modifier,

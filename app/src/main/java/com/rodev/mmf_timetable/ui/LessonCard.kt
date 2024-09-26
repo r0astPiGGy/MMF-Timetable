@@ -87,14 +87,3 @@ fun LessonCard(
         }
     }
 }
-
-private fun Lesson.remarksOrEmpty(): String {
-    return remarks ?: ""
-}
-
-private fun Lesson.Type.translated(): String {
-    return when (this) {
-        Lesson.Type.LECTURE -> "л"
-        Lesson.Type.PRACTICE -> "п"
-    }
-}

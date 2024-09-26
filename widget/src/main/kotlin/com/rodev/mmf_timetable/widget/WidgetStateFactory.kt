@@ -97,19 +97,15 @@ class WidgetStateFactory @Inject constructor(
     operator fun invoke(): Flow<WidgetState?> =
         getUserSelectedTimetable()
             .mapLatest {
-                if (it == null) {
+                val calendar = Calendar.getInstance()
+                val week = calendar[Calendar.DAY_OF_WEEK]
+
+                val currentTimetable = it.lessons[Weekday.values()[week - 1]]
+
+                if (currentTimetable.isNullOrEmpty()) {
                     null
                 } else {
-                    val calendar = Calendar.getInstance()
-                    val week = calendar[Calendar.DAY_OF_WEEK]
-
-                    val currentTimetable = it.lessons[Weekday.values()[week - 1]]
-
-                    if (currentTimetable.isNullOrEmpty()) {
-                        null
-                    } else {
-                        getWidgetState(currentTimetable)
-                    }
+                    getWidgetState(currentTimetable)
                 }
             }
 

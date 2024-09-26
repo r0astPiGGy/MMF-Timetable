@@ -11,13 +11,9 @@ data class Lesson(
     val teacherId: Long?,
     val timeStartMinutes: Int,
     val timeEndMinutes: Int,
+    val availability: Availability?,
     val type: String?,
     val weekday: Weekday
-) {
-    enum class WeekType {
-        ODD,
-        EVEN
-    }
-}
+)
 
 

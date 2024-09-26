@@ -10,17 +10,10 @@ data class NetworkLesson(
     val subgroup: Long?,
     val subgroupName: String?,
     val subject: String?,
-    // TODO
-    val availability: String?,
+    val availability: NetworkAvailability?,
     val timeStart: Int,
     val timeEnd: Int,
     val type: String?,
     val weekday: String
-) {
+)
 
-    // TODO
-    data class Availability(
-        val type: String
-    )
-
-}
