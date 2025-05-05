@@ -1,5 +1,6 @@
 package com.rodev.mmf_timetable.core.datastore
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import com.rodev.mmf_timetable.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow

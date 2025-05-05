@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 @Database(
     entities = [com.rodev.mmf_timetable.core.database.model.TimetableEntity::class],
     version = 4,
-    exportSchema = true
+    exportSchema = false
 )
 @TypeConverters(
     TimetableTypeConverter::class

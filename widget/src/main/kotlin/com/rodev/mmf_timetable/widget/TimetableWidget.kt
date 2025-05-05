@@ -1,5 +1,6 @@
 package com.rodev.mmf_timetable.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.RemoteViews
 import androidx.compose.material3.MaterialTheme
@@ -87,6 +88,7 @@ class TimetableWidget : GlanceAppWidget() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Composable
     fun CurrentLessonContent(state: WidgetState.OngoingLesson) {
         val entry = state.lesson
@@ -96,7 +98,7 @@ class TimetableWidget : GlanceAppWidget() {
                 .clickable(onClick = actionRunCallback<RefreshAction>()),
             headerText = "Текущая пара:",
             titleText = "${entry.subject} (${entry.classroom})",
-            subTitleText = entry.teacher,
+            subTitleText = entry.teacher.toString(),
             footer = {
                 Box(
                     modifier = GlanceModifier.fillMaxSize(),
@@ -131,7 +133,7 @@ class TimetableWidget : GlanceAppWidget() {
                 .clickable(onClick = actionRunCallback<RefreshAction>()),
             headerText = "Следующая пара:",
             titleText = "${entry.subject} (${entry.classroom})",
-            subTitleText = entry.teacher,
+            subTitleText = entry.teacher.toString(),
             footer = {
                 Box(
                     modifier = GlanceModifier.fillMaxSize(),
@@ -192,15 +194,15 @@ class TimetableWidget : GlanceAppWidget() {
         progress: Float,
         modifier: GlanceModifier = GlanceModifier
     ) {
-        AndroidRemoteViews(
-            remoteViews = RemoteViews(
-                LocalContext.current.packageName,
-                R.layout.widget_linear_progress_indicator
-            ).apply {
-                setProgressBar(R.id.widget_linear_progress_bar, 100, (progress * 100).toInt(), false)
-            },
-            modifier = modifier
-        )
+//        AndroidRemoteViews(
+//            remoteViews = RemoteViews(
+//                LocalContext.current.packageName,
+//                R.layout.widget_linear_progress_indicator
+//            ).apply {
+//                setProgressBar(R.id.widget_linear_progress_bar, 100, (progress * 100).toInt(), false)
+//            },
+//            modifier = modifier
+//        )
     }
 
     @Composable
@@ -224,9 +226,9 @@ class TimetableWidget : GlanceAppWidget() {
                 )
                 Text(
                     text = subTitleText,
-                    style = TextStyle(
-                        color = ColorProvider(Color.Gray)
-                    )
+//                    style = TextStyle(
+//                        color = ColorProvider(Color.Gray)
+//                    )
                 )
             },
             footer = footer

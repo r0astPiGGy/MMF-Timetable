@@ -17,6 +17,11 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
 }
+buildscript {
+    gradle.startParameter.excludedTaskNames.addAll(
+        gradle.startParameter.taskNames.filter { it.contains("testClasses") }
+    )
+}
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {

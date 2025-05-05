@@ -11,6 +11,8 @@ data class Lesson(
     val teacherId: Long?,
     val timeStartMinutes: Int,
     val timeEndMinutes: Int,
+    val timeStart: String,
+    val timeEnd: String,
     val availability: Availability?,
     val type: String?,
     val weekday: Weekday

@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface LessonRepository {
     fun getLessons(): Flow<List<Lesson>>
 
+    fun getLessons(groupId: String): Flow<List<Lesson>>
+
     suspend fun refresh()
 
 }

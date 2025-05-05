@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +20,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -49,12 +52,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rodev.mmf_timetable.R
+import com.rodev.mmf_timetable.core.model.data.Lesson
 import com.rodev.mmf_timetable.feature.timetable.components.HorizontalPagerAdapter
 import com.rodev.mmf_timetable.feature.timetable.components.PagerValuesState
 import com.rodev.mmf_timetable.feature.timetable.components.ShimmerWrapper
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
@@ -121,7 +122,7 @@ fun Timetable(
     val coroutineScope = rememberCoroutineScope()
     val pagerValues = remember { PagerValuesState(state.weekdays) }
     val mappedLessons = remember(state) {
-        state.timetable.mapValues { it.value.toImmutableList() }
+        state.timetable.mapValues { it.value }
     }
 
     Column(
@@ -152,7 +153,7 @@ fun Timetable(
 @Composable
 fun LessonsPage(
     modifier: Modifier = Modifier,
-    lessons: ImmutableList<com.rodev.mmf_timetable.feature.timetable.LessonUiState>
+    lessons: List<Lesson>
 ) {
     LazyColumn(
         modifier = modifier
@@ -164,12 +165,25 @@ fun LessonsPage(
             Spacer(modifier = Modifier.height(8.dp))
         }
         items(lessons, { it.id }) {
-            LessonCard(
-                modifier = Modifier.fillMaxWidth(),
-                lesson = it.wrappedLesson,
-//                onClick = {},
-                enabled = it.available
-            )
+            Card {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Column {
+                        Text(it.timeStart)
+                        Text(it.timeEnd)
+                    }
+                    Column {
+                        Text(it.subject)
+                        Text(it.classroom.toString())
+                        Text(it.teacher.toString())
+                    }
+                }
+            }
+//            LessonCard(
+//                modifier = Modifier.fillMaxWidth(),
+//                lesson = it.wrappedLesson,
+////                onClick = {},
+//                enabled = it.available
+//            )
         }
         item {
             Spacer(modifier = Modifier.height(8.dp))

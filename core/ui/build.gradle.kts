@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.mmf.timetable.android.library)
     alias(libs.plugins.mmf.timetable.android.libraryCompose)
 }
 

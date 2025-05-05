@@ -109,7 +109,7 @@ fun ShimmerCarousel(
             modifier = modifier,
             state = rememberPagerState { shimmerPageItems },
             pageSize = pageSize,
-            beyondBoundsPageCount = 1,
+            beyondViewportPageCount = 1,
             userScrollEnabled = false,
             pageSpacing = 22.dp,
         ) { index ->

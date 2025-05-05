@@ -1,6 +1,6 @@
 package com.rodev.mmf_timetable.core.network.retrofit
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.rodev.mmf_timetable.core.network.BuildConfig
 import com.rodev.mmf_timetable.core.network.TimetableNetworkDataSource
 import com.rodev.mmf_timetable.core.network.model.NetworkClassroom
 import com.rodev.mmf_timetable.core.network.model.NetworkCourse
@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import javax.inject.Inject
@@ -27,15 +28,13 @@ private interface RetrofitTimetableNetworkApi {
     @GET("classroom")
     suspend fun getClassrooms(): List<NetworkClassroom>
 
-    @GET("lesson/{group}")
+    @GET("lesson/group/{group}")
     suspend fun getLessons(@Path("group") group: String): List<NetworkLesson>
 
     @GET("subgroup-subject/group/{group}/all")
     suspend fun getSubgroupSubjects(@Path("group") group: String): List<NetworkSubgroupSubject>
 
 }
-
-private const val BASE_URL = ""
 
 @Singleton
 internal class RetrofitTimetableNetwork @Inject constructor(
@@ -44,7 +43,7 @@ internal class RetrofitTimetableNetwork @Inject constructor(
 ) : TimetableNetworkDataSource {
 
     private val networkApi = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(BuildConfig.BASE_URL)
         .callFactory { okHttpCallFactory.get().newCall(it) }
         .addConverterFactory(
             json.asConverterFactory("application/json".toMediaType())

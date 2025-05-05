@@ -28,39 +28,41 @@ data class LessonEntity(
     }
 
     fun asExternalModel(): Lesson {
-        return Lesson(
-            type = type?.let { Lesson.Type.valueOf(it.name) },
-            weekType = week?.let {
-                Lesson.WeekType.valueOf(
-                    it.name
-                )
-            },
-            weekday = weekday,
-            classroom = classroom,
-            subject = subject,
-            timeStartMinutes = timeStartMinutes,
-            timeEndMinutes = timeEndMinutes,
-            teacher = teacher,
-            remarks = remarks
-        )
+        TODO()
+//        return Lesson(
+//            type = type?.let { Lesson.Type.valueOf(it.name) },
+//            weekType = week?.let {
+//                Lesson.WeekType.valueOf(
+//                    it.name
+//                )
+//            },
+//            weekday = weekday,
+//            classroom = classroom,
+//            subject = subject,
+//            timeStartMinutes = timeStartMinutes,
+//            timeEndMinutes = timeEndMinutes,
+//            teacher = teacher,
+//            remarks = remarks
+//        )
     }
 
     companion object {
 
         fun fromExternalModel(model: Lesson): LessonEntity {
-            with(model) {
-                return LessonEntity(
-                    week = weekType?.let { com.rodev.mmf_timetable.core.database.model.LessonEntity.WeekType.valueOf(it.name) },
-                    type = type?.let { com.rodev.mmf_timetable.core.database.model.LessonEntity.Type.valueOf(it.name) },
-                    weekday = weekday,
-                    classroom = classroom,
-                    subject = subject,
-                    timeStartMinutes = timeStartMinutes,
-                    timeEndMinutes = timeEndMinutes,
-                    teacher = teacher,
-                    remarks = remarks
-                )
-            }
+            TODO()
+//            with(model) {
+//                return LessonEntity(
+//                    week = weekType?.let { com.rodev.mmf_timetable.core.database.model.LessonEntity.WeekType.valueOf(it.name) },
+//                    type = type?.let { com.rodev.mmf_timetable.core.database.model.LessonEntity.Type.valueOf(it.name) },
+//                    weekday = weekday,
+//                    classroom = classroom,
+//                    subject = subject,
+//                    timeStartMinutes = timeStartMinutes,
+//                    timeEndMinutes = timeEndMinutes,
+//                    teacher = teacher,
+//                    remarks = remarks
+//                )
+//            }
         }
 
     }

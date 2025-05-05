@@ -1,6 +1,7 @@
 package com.rodev.mmf_timetable.widget
 
 import android.text.format.DateUtils
+import androidx.compose.material.ContentAlpha.high
 import com.rodev.mmf_timetable.core.domain.GetUserSelectedTimetableUseCase
 import com.rodev.mmf_timetable.core.model.data.Lesson
 import com.rodev.mmf_timetable.core.model.data.Weekday
@@ -97,16 +98,16 @@ class WidgetStateFactory @Inject constructor(
     operator fun invoke(): Flow<WidgetState?> =
         getUserSelectedTimetable()
             .mapLatest {
-                val calendar = Calendar.getInstance()
-                val week = calendar[Calendar.DAY_OF_WEEK]
-
-                val currentTimetable = it.lessons[Weekday.values()[week - 1]]
-
-                if (currentTimetable.isNullOrEmpty()) {
-                    null
-                } else {
-                    getWidgetState(currentTimetable)
-                }
+//                val calendar = Calendar.getInstance()
+//                val week = calendar[Calendar.DAY_OF_WEEK]
+//
+//                val currentTimetable = it.lessons[Weekday.values()[week - 1]]
+//                if (currentTimetable.isNullOrEmpty()) {
+//                    null
+//                } else {
+//                    getWidgetState(currentTimetable)
+//                }
+                null
             }
 
 

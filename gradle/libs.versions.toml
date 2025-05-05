@@ -1,33 +1,33 @@
 [versions]
-androidGradlePlugin="8.3.0"
-androidTools = "31.3.0"
-daggerHiltPlugin="2.44"
-kotlin ="1.8.10"
-material="1.6.0-alpha05"
+androidGradlePlugin= "8.7.3"
+androidTools = "31.9.2"
+daggerHiltPlugin="2.56"
+kotlin ="2.1.10"
+material="1.8.0"
 protobuf="0.9.4"
-roomVersion="2.6.1"
-ksp="1.8.10-1.0.9"
-composeBom="2023.05.01"
-activityCompose="1.8.2"
-lifecycle="2.7.0"
-androidCoreKtx="1.12.0"
+roomVersion="2.7.1"
+ksp="2.1.10-1.0.31"
+composeBom="2025.04.01"
+activityCompose="1.10.1"
+lifecycle="2.8.7"
+androidCoreKtx="1.16.0"
 ktxCollectionsImmutable="0.3.7"
-androidDatastore="1.0.0"
+androidDatastore="1.1.5"
 googleProtobuf="3.25.2"
 googleGson="2.10.1"
 junit="4.13.2"
-androidJunit="1.1.5"
-androidEspresso="3.5.1"
+androidJunit="1.2.1"
+androidEspresso="3.6.1"
 githubComposePrefs="1.0.4"
 githubComposeStateEvents="2.0.3"
-hiltNavigationCompose="1.1.0"
-androidxNavigation = "2.7.4"
-androidDaggerHilt="2.48"
-androidGlance="1.0.0"
-kotlinDatetime = "0.5.0"
-kotlinSerializationJson = "1.6.3"
-retrofit = "2.9.0"
-retrofitKotlinSerializationJson = "1.0.0"
+hiltNavigationCompose="1.2.0"
+androidxNavigation = "2.8.9"
+androidDaggerHilt="2.53"
+androidGlance="1.1.1"
+kotlinDatetime = "0.6.1"
+kotlinSerializationJson = "1.8.0"
+retrofit = "2.11.0"
+retrofitKotlinSerializationJson = "2.11.0"
 okhttp = "4.12.0"
 
 [libraries]
@@ -65,9 +65,9 @@ android-glance-appwidget = { module="androidx.glance:glance-appwidget", version.
 android-glance-material3 = { module="androidx.glance:glance-material3", version.ref="androidGlance" }
 google-gson = { module="com.google.code.gson:gson", version.ref="googleGson" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinSerializationJson" }
+retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofitKotlinSerializationJson" }
 kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinDatetime" }
-kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
 okhttp-log = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -81,6 +81,7 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref="daggerHiltPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref="ksp" }
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref= "kotlin" }
+compose-kotlin = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 google-protobuf = { id = "com.google.protobuf", version.ref="protobuf" }

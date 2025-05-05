@@ -1,18 +1,32 @@
 package com.rodev.mmf_timetable.core.network.model
 
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class NetworkLessonTeacher(
+    val id: Long,
+    val name: String,
+    @SerialName("photo_url")
+    val photoUrl: String? = null,
+)
+
+@Serializable
 data class NetworkLesson(
     val id: Long,
-    val groupName: String,
-    val classroom: Long?,
-    val classroomName: String?,
-    val teacher: Long?,
-    val teacherName: String?,
-    val subgroup: Long?,
-    val subgroupName: String?,
+    val group: NetworkGroup?,
+    val classroom: NetworkClassroom?,
+    val subgroup: NetworkSubgroup?,
+    val teachers: List<NetworkLessonTeacher>,
     val subject: String?,
-    val availability: NetworkAvailability?,
-    val timeStart: Int,
-    val timeEnd: Int,
+    @SerialName("additional_info")
+    val additionalInfo: List<String>,
+    val availability: List<NetworkAvailability>,
+    @SerialName("timestart")
+    val timeStart: String,
+    @SerialName("timeend")
+    val timeEnd: String,
     val type: String?,
     val weekday: String
 )

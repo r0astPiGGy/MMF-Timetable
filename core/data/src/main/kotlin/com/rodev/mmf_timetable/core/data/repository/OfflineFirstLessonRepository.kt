@@ -24,9 +24,15 @@ internal class OfflineFirstLessonRepository @Inject constructor(
                 if (userData == null) {
                     flowOf(emptyList())
                 } else {
-                    flow { api.getLessons(userData.groupId).map(NetworkLesson::asExternalModel) }
+                    flow { emit(api.getLessons(userData.groupId).map(NetworkLesson::asExternalModel)) }
                 }
             }
+
+    override fun getLessons(groupId: String): Flow<List<Lesson>> {
+        return flow {
+            emit(api.getLessons(groupId).map(NetworkLesson::asExternalModel))
+        }
+    }
 
     override suspend fun refresh() {
 

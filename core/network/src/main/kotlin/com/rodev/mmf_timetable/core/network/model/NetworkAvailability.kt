@@ -1,50 +1,42 @@
 package com.rodev.mmf_timetable.core.network.model
 
-import kotlinx.datetime.LocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
-private inline fun <reified T> T.encode(): String =
-    Json.encodeToString(this).let { "\'$it\'" }
+@Serializable
+data class DateStamp(
+    val day: Int,
+    val month: Int
+)
 
 @Serializable
 sealed interface NetworkAvailability {
 
     @Serializable
-    @SerialName("AFTER")
-    data class After(val date: LocalDate, val weekType: String?): NetworkAvailability {
-        override fun toString() = encode()
-    }
+    @SerialName("after")
+    data class After(val date: DateStamp): NetworkAvailability
 
     @Serializable
-    @SerialName("UNTIL")
-    data class Until(val date: LocalDate, val weekType: String?): NetworkAvailability {
-        override fun toString() = encode()
-    }
+    @SerialName("until")
+    data class Until(val date: DateStamp): NetworkAvailability
 
     @Serializable
-    @SerialName("IN_RANGE")
-    data class InRange(val from: LocalDate, val to: LocalDate, val weekType: String?): NetworkAvailability {
-        override fun toString() = encode()
-    }
+    @SerialName("in_range")
+    data class InRange(val from: DateStamp, val to: DateStamp): NetworkAvailability
 
     @Serializable
-    @SerialName("EXCEPT")
-    data class Except(val dates: List<LocalDate>, val weekType: String?): NetworkAvailability {
-        override fun toString() = encode()
-    }
+    @SerialName("except")
+    data class Except(val dates: List<DateStamp>): NetworkAvailability
 
     @Serializable
-    @SerialName("ONLY")
-    data class Only(val dates: List<LocalDate>, val weekType: String?): NetworkAvailability {
-        override fun toString() = encode()
-    }
+    @SerialName("only")
+    data class Only(val dates: List<DateStamp>): NetworkAvailability
 
     @Serializable
-    @SerialName("BY_WEEK_TYPE")
-    data class ByWeekType(val weekType: String): NetworkAvailability {
-        override fun toString() = encode()
-    }
+    @SerialName("even_week")
+    data object EvenWeek: NetworkAvailability
+
+    @Serializable
+    @SerialName("odd_week")
+    data object OddWeek: NetworkAvailability
 }

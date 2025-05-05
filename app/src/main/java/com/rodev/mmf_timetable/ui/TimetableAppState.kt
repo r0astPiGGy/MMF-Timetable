@@ -10,30 +10,36 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.rodev.mmf_timetable.core.data.repository.CourseRepository
+import com.rodev.mmf_timetable.core.data.repository.OfflineFirstCourseRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
+import com.rodev.mmf_timetable.core.model.data.Course
 import com.rodev.mmf_timetable.core.model.data.UserData
 import com.rodev.mmf_timetable.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 @Composable
 fun rememberTimetableAppState(
     userDataRepository: UserDataRepository,
+    courseRepository: CourseRepository,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController()
 ): TimetableAppState {
-    return remember(userDataRepository, navController, coroutineScope) {
-        TimetableAppState(coroutineScope, navController, userDataRepository)
+    return remember(userDataRepository, courseRepository, navController, coroutineScope) {
+        TimetableAppState(coroutineScope, navController, userDataRepository, courseRepository)
     }
 }
 
 @Stable
 class TimetableAppState(
-    coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope,
     val navController: NavHostController,
-    userDataRepository: UserDataRepository
+    private val userDataRepository: UserDataRepository,
+    courseRepository: CourseRepository
 ) {
 
     val currentDestination: NavDestination?
@@ -45,6 +51,13 @@ class TimetableAppState(
             coroutineScope,
             SharingStarted.WhileSubscribed(5_000),
             initialValue = null
+        )
+
+    val courses: StateFlow<List<Course>> =
+        courseRepository.getCourses().stateIn(
+            coroutineScope,
+            SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList()
         )
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
@@ -61,4 +74,9 @@ class TimetableAppState(
         }
     }
 
+    fun onGroupSelected(course: Int, groupId: String, subgroupId: String?) {
+        coroutineScope.launch {
+            userDataRepository.updateUserData(UserData(course = course, groupId = groupId, subGroup = subgroupId))
+        }
+    }
 }

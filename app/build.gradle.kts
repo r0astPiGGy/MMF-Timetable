@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.mmf.timetable.android.application)
-    alias(libs.plugins.mmf.timetable.android.hilt)
     alias(libs.plugins.mmf.timetable.android.applicationCompose)
+    alias(libs.plugins.mmf.timetable.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -54,6 +55,7 @@ dependencies {
     implementation(libs.android.activity.compose)
 
     implementation(libs.android.hilt.navigation.compose)
+    implementation(libs.android.navigation.compose)
     implementation(libs.android.compose.ui)
     implementation(libs.android.compose.ui.graphics)
     implementation(libs.material)
@@ -66,8 +68,9 @@ dependencies {
     // ViewModel One-time events
     implementation(libs.github.compose.state.events)
 
-    ksp(libs.android.hilt.compiler)
+//    ksp(libs.android.hilt.compiler)
 
+    implementation(libs.kotlinx.serialization.json)
     // Testing
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.test.android.junit)
