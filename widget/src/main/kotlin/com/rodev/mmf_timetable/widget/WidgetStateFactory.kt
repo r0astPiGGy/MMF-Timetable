@@ -1,6 +1,7 @@
 package com.rodev.mmf_timetable.widget
 
 import android.text.format.DateUtils
+import android.util.Log.i
 import androidx.compose.material.ContentAlpha.high
 import com.rodev.mmf_timetable.core.domain.GetUserSelectedTimetableUseCase
 import com.rodev.mmf_timetable.core.model.data.Lesson
@@ -97,9 +98,11 @@ class WidgetStateFactory @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     operator fun invoke(): Flow<WidgetState?> =
         getUserSelectedTimetable()
-            .mapLatest {
+            .mapLatest { it ->
 //                val calendar = Calendar.getInstance()
 //                val week = calendar[Calendar.DAY_OF_WEEK]
+//
+//                val lessons = it.groupBy { it.weekday }
 //
 //                val currentTimetable = it.lessons[Weekday.values()[week - 1]]
 //                if (currentTimetable.isNullOrEmpty()) {

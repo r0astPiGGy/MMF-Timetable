@@ -8,8 +8,11 @@ import com.rodev.mmf_timetable.core.data.repository.OfflineFirstCourseRepository
 import com.rodev.mmf_timetable.core.data.repository.OfflineFirstSubgroupRepository
 import com.rodev.mmf_timetable.core.data.repository.SubgroupRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
+import com.rodev.mmf_timetable.core.data.util.ConnectivityManagerNetworkMonitor
+import com.rodev.mmf_timetable.core.data.util.NetworkMonitor
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
@@ -37,4 +40,9 @@ abstract class DataModule {
         userDataRepository: OfflineFirstUserDataRepository
     ): UserDataRepository
 
+
+    @Binds
+    internal abstract fun bindsNetworkMonitor(
+        networkMonitor: ConnectivityManagerNetworkMonitor
+    ): NetworkMonitor
 }

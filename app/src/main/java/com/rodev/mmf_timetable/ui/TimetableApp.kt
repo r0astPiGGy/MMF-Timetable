@@ -1,6 +1,6 @@
 package com.rodev.mmf_timetable.ui
 
-import android.R.attr.onClick
+import android.R.attr.navigationIcon
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -14,11 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
@@ -28,27 +25,21 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavDestination
 import com.rodev.mmf_timetable.K
 import com.rodev.mmf_timetable.R
 import com.rodev.mmf_timetable.core.designsystem.component.DrawerNavItem
@@ -59,7 +50,19 @@ import com.rodev.mmf_timetable.navigation.TimetableNavHost
 import com.rodev.mmf_timetable.widget.TimetableWidgetReceiver
 import com.rodev.mmf_timetable.widget.requestPinGlanceWidget
 import kotlinx.coroutines.launch
+import android.annotation.SuppressLint
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavDestination
 import kotlin.reflect.KClass
+import androidx.navigation.serialization.generateHashCode
+import com.rodev.mmf_timetable.core.model.data.Group
+import com.rodev.mmf_timetable.core.ui.DynamicScaffold
+import kotlinx.serialization.InternalSerializationApi
+import kotlinx.serialization.serializer
+
 
 @Composable
 fun TimetableApp(appState: TimetableAppState) {
@@ -71,30 +74,54 @@ fun TimetableApp(appState: TimetableAppState) {
         val userData by appState.userData.collectAsStateWithLifecycle()
         val courses by appState.courses.collectAsStateWithLifecycle()
 
+        LaunchedEffect(appState.currentDestination) {
+            coroutineScope.launch {
+                drawerState.close()
+            }
+        }
+
         Drawer(
             drawerState = drawerState,
             userData = userData,
             courses = courses,
-            onGroupSelected = appState::onGroupSelected
+            onGotoPreferences = appState::navigateToPreferences
         ) {
-            Scaffold { paddings ->
+            DynamicScaffold(
+                key = appState.currentDestination,
+                topAppBar = { it ->
+                    TimetableTopAppBar(
+                        title = it ?: stringResource(R.string.timetable),
+                        navigationIcon = {
+                            if (appState.backButtonEnabled) {
+                                IconButton(onClick = appState::navBack) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                                        contentDescription = null
+                                    )
+                                }
+                            } else {
+                                IconButton(
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            drawerState.open()
+                                        }
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Menu,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        }
+                    )
+                }
+            ) { paddings ->
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddings)
                 ) {
-                    val destination = appState.currentDestination
-                    if (destination != null) {
-                        TimetableTopAppBar(
-                            title = "TopAppBar",
-                            onMenuButtonClick = {
-                                coroutineScope.launch {
-                                    drawerState.open()
-                                }
-                            }
-                        )
-                    }
-
                     TimetableNavHost(appState = appState)
                 }
             }
@@ -107,53 +134,26 @@ private fun Drawer(
     drawerState: DrawerState,
     userData: UserData?,
     courses: List<Course>,
-    onGroupSelected: (Int, String, String?) -> Unit,
+    onGotoPreferences: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    var dialogOpen by remember { mutableStateOf(false) }
-
-    val groupName: String? by remember {
+    val group: Group? by remember(courses, userData) {
         derivedStateOf {
             if (userData == null) return@derivedStateOf null
 
-            val course = courses.firstOrNull {
-                it.course == userData.course
-            } ?: return@derivedStateOf null
-
-            course.groups.firstOrNull { it.id == userData.groupId }?.name
+            courses
+                .flatMap { it.groups }
+                .firstOrNull { it.id == userData.groupId }
         }
-    }
-
-    if (dialogOpen) {
-        AlertDialog(onDismissRequest = {dialogOpen = false}, confirmButton = {}, text = {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(courses) {
-                    Text(text = it.course.toString())
-                    Column {
-                        it.groups.forEach { g ->
-                            TextButton(
-                                onClick = {
-                                    onGroupSelected(it.course, g.id, null)
-                                    dialogOpen = false
-                                }
-                            ) {
-                                Text(text = g.name)
-                            }
-                        }
-                    }
-                }
-            }
-        })
     }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             DrawerContent(
-                userData = userData,
-                onCourseEditDialogOpen = { dialogOpen = true },
+                onCourseEditDialogOpen = onGotoPreferences,
                 onGotoSettings = {},
-                groupName = groupName
+                group = group
             )
         },
         content = content
@@ -163,8 +163,7 @@ private fun Drawer(
 @Composable
 fun DrawerContent(
     modifier: Modifier = Modifier,
-    userData: UserData?,
-    groupName: String?,
+    group: Group?,
     onGotoSettings: () -> Unit,
     onCourseEditDialogOpen: () -> Unit
 ) {
@@ -201,11 +200,11 @@ fun DrawerContent(
                     letterSpacing = 0.sp
                 )
 
-                if (userData == null) {
+                if (group == null) {
                     Text(text = "Курс и группа не выбраны")
                 } else {
-                    val subGroup = userData.subGroup?.let { " ($it)" } ?: ""
-                    Text(text = "${userData.course} курс, ${groupName}${subGroup}")
+//                    val subGroup = userData.subGroup?.let { " ($it)" } ?: ""
+                    Text(text = "${group.course} курс, ${group.name}")
                 }
             }
             Icon(imageVector = Icons.Default.Edit, contentDescription = null)
@@ -276,7 +275,3 @@ private fun openGithubProject(context: Context) {
     context.startActivity(intent)
 }
 
-//private fun NavDestination?.isRouteInHierarchy(route: KClass<*>) =
-//    this?.hierarchy?.any {
-//        it.hasRoute(route)
-//    } ?: false

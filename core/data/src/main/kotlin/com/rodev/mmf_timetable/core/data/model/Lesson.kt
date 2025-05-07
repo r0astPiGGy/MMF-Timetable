@@ -4,8 +4,15 @@ import com.rodev.mmf_timetable.core.model.data.Availability
 import com.rodev.mmf_timetable.core.model.data.Lesson
 import com.rodev.mmf_timetable.core.model.data.WeekType
 import com.rodev.mmf_timetable.core.model.data.Weekday
+import com.rodev.mmf_timetable.core.network.model.DateStamp
 import com.rodev.mmf_timetable.core.network.model.NetworkAvailability
 import com.rodev.mmf_timetable.core.network.model.NetworkLesson
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Month
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -22,31 +29,40 @@ private fun parseMinutes(time: String): Int {
     return hours * 60 + minutes
 }
 
+private fun fixTime(time: String): String {
+    return time.split(":").dropLast(1).joinToString(":") { it }
+}
+
 fun NetworkLesson.asExternalModel() = Lesson(
     weekday = Weekday.valueOf(weekday),
     id = id,
-    subGroup = subgroup?.name,
-    subGroupId = subgroup?.id,
-    classroom = classroom?.name,
-    classroomId = classroom?.id,
+    subGroup = subgroup?.asExternalModel(),
+    classroom = classroom?.asExternalModel(),
     subject = subject ?: "",
-    teacher = teachers.firstOrNull()?.name,
-    teacherId = teachers.firstOrNull()?.id,
+    teachers = teachers.map { it.asExternalModel() },
     timeStartMinutes = parseMinutes(timeStart),
     timeEndMinutes = parseMinutes(timeEnd),
-    timeStart = timeStart,
-    timeEnd = timeEnd,
+    timeStart = fixTime(timeStart),
+    timeEnd = fixTime(timeEnd),
     type = type,
-    availability = null
+    availability = availability.map { it.asExternalModel() },
+    additionalInfo = additionalInfo
 )
 
-//private fun NetworkAvailability.asExternalModel(): Availability = when(this) {
-//    is NetworkAvailability.After -> Availability.After(date, parseWeekType(weekType))
-//    is NetworkAvailability.ByWeekType -> Availability.ByWeekType(parseWeekType(weekType)!!)
-//    is NetworkAvailability.Except -> Availability.Except(dates, parseWeekType(weekType))
-//    is NetworkAvailability.InRange -> Availability.InRange(from, to, parseWeekType(weekType))
-//    is NetworkAvailability.Only -> Availability.Only(dates, parseWeekType(weekType))
-//    is NetworkAvailability.Until -> Availability.Until(date, parseWeekType(weekType))
-//}
+private fun DateStamp.toLocalDate(): LocalDate {
+    val date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val year = date.year
+    return LocalDate(year = year, month = Month.of(month), dayOfMonth = day)
+}
+
+private fun NetworkAvailability.asExternalModel(): Availability = when(this) {
+    is NetworkAvailability.After -> Availability.After(date = date.toLocalDate())
+    NetworkAvailability.EvenWeek -> Availability.EvenWeek
+    is NetworkAvailability.Except -> Availability.Except(dates = dates.map { it.toLocalDate() })
+    is NetworkAvailability.InRange -> Availability.InRange(from = from.toLocalDate(), to = to.toLocalDate())
+    NetworkAvailability.OddWeek -> Availability.OddWeek
+    is NetworkAvailability.Only -> Availability.Only(dates = dates.map { it.toLocalDate() })
+    is NetworkAvailability.Until -> Availability.Until(date = date.toLocalDate())
+}
 
 private fun parseWeekType(text: String?): WeekType? = text?.let { WeekType.valueOf(it) }

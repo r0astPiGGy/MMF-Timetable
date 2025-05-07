@@ -98,7 +98,7 @@ class TimetableWidget : GlanceAppWidget() {
                 .clickable(onClick = actionRunCallback<RefreshAction>()),
             headerText = "Текущая пара:",
             titleText = "${entry.subject} (${entry.classroom})",
-            subTitleText = entry.teacher.toString(),
+            subTitleText = entry.teachers.joinToString(", ") { it.name },
             footer = {
                 Box(
                     modifier = GlanceModifier.fillMaxSize(),
@@ -133,7 +133,7 @@ class TimetableWidget : GlanceAppWidget() {
                 .clickable(onClick = actionRunCallback<RefreshAction>()),
             headerText = "Следующая пара:",
             titleText = "${entry.subject} (${entry.classroom})",
-            subTitleText = entry.teacher.toString(),
+            subTitleText = entry.teachers.joinToString(", ") { it.name },
             footer = {
                 Box(
                     modifier = GlanceModifier.fillMaxSize(),

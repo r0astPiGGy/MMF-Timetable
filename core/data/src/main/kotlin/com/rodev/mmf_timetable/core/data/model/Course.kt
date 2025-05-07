@@ -6,5 +6,5 @@ import com.rodev.mmf_timetable.core.network.model.NetworkCourse
 
 fun NetworkCourse.asExternalModel() = Course(
     course = course,
-    groups = groups.map { Group(course, it.id, it.name) }
+    groups = groups.map { it.asExternalModel(course) }
 )

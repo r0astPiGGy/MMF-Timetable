@@ -27,7 +27,8 @@ const pool = new Pool(
         tls: { enabled: false },
         host_type: "tcp",
     },
-    10,
+    1,
+    true,
 );
 
 export const useConnection = async (fn: (connection: PoolClient) => void) => {

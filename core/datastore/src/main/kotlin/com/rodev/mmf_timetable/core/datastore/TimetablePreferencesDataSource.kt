@@ -1,6 +1,5 @@
 package com.rodev.mmf_timetable.core.datastore
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import com.rodev.mmf_timetable.core.model.data.UserData
 import kotlinx.coroutines.flow.Flow
@@ -13,34 +12,18 @@ class TimetablePreferencesDataSource @Inject constructor(
 
     val userData: Flow<UserData?> = dataStore.data
         .map {
-            // TODO handle
-            if (it.selectedGroup.isEmpty()) return@map null
-
             UserData(
-                course = it.selectedCourse,
-                groupId = it.selectedGroup,
-                subGroup = if (it.hasSelectedSubGroup()) it.selectedSubGroup else null
+                groupId = it.group,
+                subgroups = it.subgroupsList.toSet(),
             )
         }
 
     suspend fun updateUserData(userData: UserData) {
         dataStore.updateData {
             it.copy {
-                selectedCourse = userData.course
-                selectedGroup = userData.groupId
-                if (userData.subGroup == null) {
-                    clearSelectedSubGroup()
-                } else {
-                    selectedSubGroup = userData.subGroup!!
-                }
-            }
-        }
-    }
-
-    suspend fun setSelectedCourse(course: Int) {
-        dataStore.updateData {
-            it.copy {
-                selectedCourse = course
+                group = userData.groupId
+                this.subgroups.clear()
+                this.subgroups.addAll(userData.subgroups)
             }
         }
     }
@@ -48,19 +31,16 @@ class TimetablePreferencesDataSource @Inject constructor(
     suspend fun setSelectedGroup(groupId: String) {
         dataStore.updateData {
             it.copy {
-                selectedGroup = groupId
+                group = groupId
             }
         }
     }
 
-    suspend fun setSelectedSubGroup(subGroup: String?) {
+    suspend fun setSelectedSubGroups(subgroups: Set<Long>) {
         dataStore.updateData {
             it.copy {
-                if (subGroup == null) {
-                    clearSelectedSubGroup()
-                } else {
-                    selectedSubGroup = subGroup
-                }
+                this.subgroups.clear()
+                this.subgroups.addAll(subgroups)
             }
         }
     }

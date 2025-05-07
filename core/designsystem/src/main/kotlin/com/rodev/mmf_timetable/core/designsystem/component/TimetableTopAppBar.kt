@@ -1,8 +1,8 @@
 package com.rodev.mmf_timetable.core.designsystem.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 private fun TopBarPreview() {
     com.rodev.mmf_timetable.core.designsystem.theme.MMF_TimetableTheme {
-        TimetableTopAppBar(title = "Расписание", subTitle = "Неделя 2") {}
+        TimetableTopAppBar(title = "Расписание", subTitle = "Неделя 2", onMenuButtonClick = {})
     }
 }
 
@@ -28,7 +28,14 @@ private fun TopBarPreview() {
 fun TimetableTopAppBar(
     title: String,
     subTitle: String? = null,
-    onMenuButtonClick: () -> Unit
+    onMenuButtonClick: () -> Unit = {},
+    navigationIcon: @Composable () -> Unit = {
+        IconButton(
+            onClick = onMenuButtonClick,
+        ) {
+            Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+        }
+    }
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -53,12 +60,6 @@ fun TimetableTopAppBar(
                 }
             }
         },
-        navigationIcon = {
-            IconButton(
-                onClick = onMenuButtonClick,
-            ) {
-                Icon(imageVector = Icons.Default.Menu, contentDescription = null)
-            }
-        }
+        navigationIcon = navigationIcon
     )
 }

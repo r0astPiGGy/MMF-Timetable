@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rodev.mmf_timetable.core.data.repository.LessonRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
+import com.rodev.mmf_timetable.core.domain.GetAvailableLessonsUseCase.Companion.isAvailable
+import com.rodev.mmf_timetable.core.model.data.AvailableLesson
 import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.result.Result
 import com.rodev.mmf_timetable.core.result.asResult
@@ -59,7 +61,12 @@ private fun timetableUiState(
                     is Result.Success -> {
                         val timetable = resource.data
                             .groupBy { it.weekday }
-                            .mapValues { it.value.sortedBy { it.timeStartMinutes } }
+                            .mapValues { it.value.map { l ->
+                                AvailableLesson(
+                                    isAvailable = l.isAvailable(subGroups = userData.subgroups),
+                                    lesson = l
+                                )
+                            }.sortedBy { it.lesson.timeStartMinutes } }
 
                         TimetableUiState.Timetable(
                             timetable = timetable,

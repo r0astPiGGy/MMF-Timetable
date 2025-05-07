@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(projects.feature.timetable)
+    implementation(projects.feature.preferences)
 
     implementation(projects.widget)
 

@@ -4,7 +4,6 @@ option java_package = "com.rodev.mmf_timetable.core.datastore";
 option java_multiple_files = true;
 
 message UserPreferences {
-  int32 selectedCourse = 1;
-  string selectedGroup = 2;
-  optional string selectedSubGroup = 3;
+  string group = 1;
+  repeated int64 subgroups = 2;
 }

@@ -34,5 +34,7 @@ include(":feature:classrooms")
 include(":feature:teachers")
 include(":feature:timetable")
 include(":feature:preferences")
+include(":feature:home")
+include(":feature:settings")
 
 include(":widget")
