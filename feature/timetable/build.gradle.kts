@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.android.icons)
     implementation(projects.core.ui)
     implementation(projects.core.data)
     implementation(projects.core.domain)

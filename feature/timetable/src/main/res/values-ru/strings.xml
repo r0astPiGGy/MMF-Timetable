@@ -7,4 +7,11 @@
     <string name="weekday_friday">Пятница</string>
     <string name="weekday_saturday">Суббота</string>
     <string name="weekday_sunday">Воскресенье</string>
+    <string name="weekday_monday_short">Пн</string>
+    <string name="weekday_tuesday_short">Вт</string>
+    <string name="weekday_wednesday_short">Ср</string>
+    <string name="weekday_thursday_short">Чт</string>
+    <string name="weekday_friday_short">Пт</string>
+    <string name="weekday_saturday_short">Сб</string>
+    <string name="weekday_sunday_short">Вс</string>
 </resources>

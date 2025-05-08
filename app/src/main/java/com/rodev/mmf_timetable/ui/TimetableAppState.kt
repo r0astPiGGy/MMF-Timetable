@@ -17,7 +17,10 @@ import com.rodev.mmf_timetable.core.data.repository.OfflineFirstCourseRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
 import com.rodev.mmf_timetable.core.model.data.Course
 import com.rodev.mmf_timetable.core.model.data.UserData
+import com.rodev.mmf_timetable.feature.home.navigation.navigateToHome
 import com.rodev.mmf_timetable.feature.preferences.navigation.navigateToPreferences
+import com.rodev.mmf_timetable.feature.settings.navigation.navigateToSettings
+import com.rodev.mmf_timetable.feature.timetable.navigation.navigateToTimetable
 import com.rodev.mmf_timetable.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -82,7 +85,9 @@ class TimetableAppState(
         }
 
         when (topLevelDestination) {
-            TopLevelDestination.TIMETABLE -> TODO()
+            TopLevelDestination.TIMETABLE -> navController.navigateToTimetable(options)
+            TopLevelDestination.HOME -> navController.navigateToHome(options)
+            TopLevelDestination.SETTINGS -> navController.navigateToSettings(options)
         }
     }
 

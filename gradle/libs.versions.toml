@@ -61,6 +61,7 @@ android-hilt-navigation-compose = { module="androidx.hilt:hilt-navigation-compos
 android-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 android-hilt-dagger = { module="com.google.dagger:hilt-android", version.ref="androidDaggerHilt" }
 android-hilt-compiler = { module="com.google.dagger:hilt-android-compiler", version.ref="androidDaggerHilt" }
+android-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 android-glance-appwidget = { module="androidx.glance:glance-appwidget", version.ref="androidGlance" }
 android-glance-material3 = { module="androidx.glance:glance-material3", version.ref="androidGlance" }
 google-gson = { module="com.google.code.gson:gson", version.ref="googleGson" }

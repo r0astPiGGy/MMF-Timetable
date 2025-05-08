@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation(projects.feature.timetable)
+    implementation(projects.feature.settings)
+    implementation(projects.feature.home)
     implementation(projects.feature.preferences)
 
     implementation(projects.widget)
@@ -50,6 +52,7 @@ dependencies {
 
     implementation(libs.kotlinx.collections.immutable)
 
+    implementation(libs.android.icons)
     implementation(libs.android.core)
     implementation(libs.android.lifecycle.runtime.ktx)
     implementation(libs.android.lifecycle.runtime.compose)

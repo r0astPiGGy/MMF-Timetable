@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
+import com.rodev.mmf_timetable.feature.home.navigation.homeScreen
 import com.rodev.mmf_timetable.feature.preferences.navigation.preferencesScreen
+import com.rodev.mmf_timetable.feature.settings.navigation.settingsScreen
 import com.rodev.mmf_timetable.feature.timetable.navigation.TimetableRoute
 import com.rodev.mmf_timetable.feature.timetable.navigation.navigateToTimetable
 import com.rodev.mmf_timetable.feature.timetable.navigation.timetableScreen
@@ -23,6 +25,8 @@ fun TimetableNavHost(
         modifier = modifier
     ) {
         timetableScreen()
+        homeScreen()
+        settingsScreen()
         preferencesScreen(
             navController = navController,
             onNavigateToHome = {

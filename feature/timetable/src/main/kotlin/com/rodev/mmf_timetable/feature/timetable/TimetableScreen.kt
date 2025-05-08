@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.ui.DynamicScaffoldPortal
+import kotlinx.datetime.LocalDate
 
 @Composable
 @Preview
@@ -35,14 +36,16 @@ internal fun TimetableRoute(
 
     TimetableScreen(
         modifier = modifier,
-        state = state
+        state = state,
+        onDateSelect = viewModel::selectDate
     )
 }
 
 @Composable
 internal fun TimetableScreen(
     modifier: Modifier = Modifier,
-    state: TimetableUiState
+    state: TimetableUiState,
+    onDateSelect: (LocalDate) -> Unit
 ) {
     DynamicScaffoldPortal()
 
@@ -58,7 +61,8 @@ internal fun TimetableScreen(
                     Timetable(
                         modifier = Modifier
                             .fillMaxSize(),
-                        state = state
+                        state = state,
+                        onDateSelect = onDateSelect
                     )
                 } else {
                     EmptyState()

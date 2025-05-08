@@ -13,4 +13,5 @@ dependencies {
     api(libs.android.compose.ui.graphics)
     api(libs.material)
     api(libs.android.compose.material3)
+    implementation(libs.android.icons)
 }

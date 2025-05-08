@@ -82,6 +82,7 @@ fun DynamicScaffold(
     modifier: Modifier = Modifier,
     topAppBar: @Composable (String?) -> Unit,
     key: Any? = null,
+    bottomBar: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val state = remember { DynamicScaffoldState(ScaffoldState(topAppBar)) }
@@ -92,7 +93,7 @@ fun DynamicScaffold(
 //    }
 
     CompositionLocalProvider(LocalDynamicScaffoldState provides state) {
-        Scaffold(modifier = modifier, topBar = { current.topAppBar?.invoke(current.title) }, content = content)
+        Scaffold(modifier = modifier, topBar = { current.topAppBar?.invoke(current.title) }, bottomBar = bottomBar, content = content)
     }
 }
 

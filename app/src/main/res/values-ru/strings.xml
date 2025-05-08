@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="timetable">Расписание</string>
+    <string name="home">Главная</string>
     <string name="courses">Курсы</string>
     <string name="group_list">Группы</string>
     <string name="weekday_monday">Понедельник</string>
@@ -17,4 +18,5 @@
     <string name="github_drawer_item">GitHub</string>
     <string name="settings_drawer_item">Настройки</string>
     <string name="current_week">Неделя %d</string>
+    <string name="settings">Настройки</string>
 </resources>
