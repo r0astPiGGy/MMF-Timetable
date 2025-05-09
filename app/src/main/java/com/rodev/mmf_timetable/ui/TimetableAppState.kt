@@ -1,10 +1,12 @@
 package com.rodev.mmf_timetable.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -22,6 +24,8 @@ import com.rodev.mmf_timetable.feature.preferences.navigation.navigateToPreferen
 import com.rodev.mmf_timetable.feature.settings.navigation.navigateToSettings
 import com.rodev.mmf_timetable.feature.timetable.navigation.navigateToTimetable
 import com.rodev.mmf_timetable.navigation.TopLevelDestination
+import com.rodev.mmf_timetable.widget.TimetableWidgetReceiver
+import com.rodev.mmf_timetable.widget.requestPinGlanceWidget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,8 +42,16 @@ fun rememberTimetableAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController()
 ): TimetableAppState {
-    return remember(userDataRepository, courseRepository, navController, coroutineScope) {
-        TimetableAppState(coroutineScope, navController, userDataRepository, courseRepository)
+    val context = LocalContext.current
+
+    return remember(userDataRepository, context, courseRepository, navController, coroutineScope) {
+        TimetableAppState(
+            coroutineScope = coroutineScope,
+            navController = navController,
+            userDataRepository = userDataRepository,
+            courseRepository = courseRepository,
+            context = context
+        )
     }
 }
 
@@ -48,6 +60,7 @@ class TimetableAppState(
     private val coroutineScope: CoroutineScope,
     val navController: NavHostController,
     private val userDataRepository: UserDataRepository,
+    private val context: Context,
     courseRepository: CourseRepository
 ) {
 
@@ -56,7 +69,11 @@ class TimetableAppState(
             .currentBackStackEntryAsState().value?.destination
 
     val topLevelDestination: TopLevelDestination?
-        @Composable get() = TopLevelDestination.entries.firstOrNull { currentDestination?.hasRoute(it.route) == true }
+        @Composable get() = TopLevelDestination.entries.firstOrNull {
+            currentDestination?.hasRoute(
+                it.route
+            ) == true
+        }
 
     val backButtonEnabled: Boolean
         @Composable get() = navController.previousBackStackEntry != null
@@ -91,8 +108,22 @@ class TimetableAppState(
         }
     }
 
+    fun requestAddWidget() {
+        coroutineScope.launch {
+            requestAddWidget(context = context)
+        }
+    }
+
+    private suspend fun requestAddWidget(context: Context) {
+        try {
+            TimetableWidgetReceiver.requestPinGlanceWidget(context)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     fun navigateToPreferences() {
-        navController.navigateToPreferences(navOptions {  })
+        navController.navigateToPreferences(navOptions { })
     }
 
     fun navBack() {

@@ -12,6 +12,7 @@ class TimetablePreferencesDataSource @Inject constructor(
 
     val userData: Flow<UserData?> = dataStore.data
         .map {
+            if (it.group.isEmpty()) return@map null
             UserData(
                 groupId = it.group,
                 subgroups = it.subgroupsList.toSet(),

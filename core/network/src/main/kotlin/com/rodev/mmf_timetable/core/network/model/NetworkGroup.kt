@@ -5,5 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NetworkGroup(
     val id: String,
-    val name: String
+    val name: String,
+    val link: String,
+    val description: String? = null
 )

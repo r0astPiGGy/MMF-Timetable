@@ -14,8 +14,18 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
     navigate(HomeRoute, navOptions = navOptions)
 }
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+    onGotoTeachers: () -> Unit,
+    onGotoRooms: () -> Unit,
+    onChangeGroup: () -> Unit,
+    onAddWidget: () -> Unit,
+) {
     composable<HomeRoute> {
-        HomeRoute()
+        HomeRoute(
+            onGotoRooms = onGotoRooms,
+            onChangeGroup = onChangeGroup,
+            onGotoTeachers = onGotoTeachers,
+            onAddWidget = onAddWidget
+        )
     }
 }

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="course">%1$d курс</string>
+    <string name="select_group">Выберите группу</string>
+    <string name="select_subgroup">Выберите подгруппу</string>
+    <string name="save">Сохранить</string>
 </resources>

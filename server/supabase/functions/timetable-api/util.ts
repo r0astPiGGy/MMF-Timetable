@@ -2,6 +2,8 @@ export type LessonDto = {
   id: number;
   group_id: string;
   group_name: string;
+  group_link: string;
+  group_description: string;
   classroom_id: number | null;
   classroom_name: string | null;
   teacher_name: string | null;
@@ -38,6 +40,8 @@ export type ClassroomDto = {
 export type GroupDto = {
   id: string;
   name: string;
+  link: string;
+  description: string | null;
 };
 
 export type MappedLessonDto = {
@@ -78,12 +82,19 @@ function classroomOrNull(
   };
 }
 
-function groupOrNull(id: string | null, name: string | null): GroupDto | null {
-  if (id === null || name === null) return null;
+function groupOrNull(
+  id: string | null,
+  name: string | null,
+  link: string | null,
+  description: string | null,
+): GroupDto | null {
+  if (id === null || name === null || link === null) return null;
 
   return {
     id,
     name,
+    link,
+    description,
   };
 }
 
@@ -132,7 +143,12 @@ export function mapLessons(lessons: LessonDto[]): MappedLessonDto[] {
 
     return {
       id: lesson.id,
-      group: groupOrNull(lesson.group_id, lesson.group_name),
+      group: groupOrNull(
+        lesson.group_id,
+        lesson.group_name,
+        lesson.group_link,
+        lesson.group_description,
+      ),
       classroom: classroomOrNull(lesson.classroom_id, lesson.classroom_name),
       subgroup: subgroupOrNull(lesson.subgroup_id, lesson.subgroup_name),
       subject: lesson.subject,

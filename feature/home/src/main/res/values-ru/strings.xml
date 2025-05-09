@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание ММФ</string>
+    <string name="teachers">Преподаватели</string>
+    <string name="rooms">Кабинеты</string>
+    <string name="add_widget">Добавить виджет на главный экран</string>
+    <string name="group">Группа</string>
+    <string name="current_lesson">Текущая пара</string>
+    <string name="next_lesson">Следующая пара</string>
+    <string name="edit">Изменить</string>
+    <string name="course_group">%1$d курс, %2$s</string>
+</resources>

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import com.rodev.mmf_timetable.feature.preferences.R
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rodev.mmf_timetable.core.model.data.SubgroupSubject
@@ -28,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -54,7 +56,7 @@ private fun SubgroupScreen(
     state: SubgroupUiState,
     modifier: Modifier = Modifier
 ) {
-    DynamicScaffoldPortal(title = "Select subgroup")
+    DynamicScaffoldPortal(title = stringResource(R.string.select_subgroup))
 
     when (state) {
         is SubgroupUiState.Error -> ErrorState(
@@ -143,7 +145,8 @@ private fun SubjectsState(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(subjectStates, { it.subject.id }) {
                 SubjectGroupsRow(
@@ -167,7 +170,7 @@ private fun SubjectsState(
                     groupSaveState.submitData(ids)
                 }
             ) {
-                Text("Сохранить")
+                Text(stringResource(R.string.save))
             }
         }
     }
@@ -197,6 +200,7 @@ private fun SubjectGroupsRow(
 ) {
     Column(
         modifier = modifier
+            .padding(horizontal = 16.dp)
     ) {
         title()
         FlowRow(
@@ -210,7 +214,6 @@ private fun SubjectGroupsRow(
                     selected = state.selectedGroupId == subgroup.id,
                     onClick = { state.onSelectedGroupIdChange(subgroup.id) },
                     modifier = Modifier
-                        .padding(horizontal = 4.dp)
                         .align(alignment = Alignment.CenterVertically),
                     label = {
                         Text(subgroup.name)

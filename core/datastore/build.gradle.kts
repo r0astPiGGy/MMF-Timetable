@@ -4,6 +4,9 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
     namespace = "com.rodev.mmf_timetable.core.datastore"
 }
 

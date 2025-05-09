@@ -1,15 +1,22 @@
 package com.rodev.mmf_timetable.feature.preferences.group
 
 import android.R.attr.onClick
+import android.util.Log.i
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +36,8 @@ import com.rodev.mmf_timetable.core.ui.TabRow
 import com.rodev.mmf_timetable.feature.preferences.R
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -55,7 +64,7 @@ private fun GroupScreen(
     onCourseSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    DynamicScaffoldPortal(title = "Select group")
+    DynamicScaffoldPortal(title = stringResource(R.string.select_group))
 
     when (state) {
         is GroupUiState.Error -> ErrorState(modifier = modifier, error = state.exception.stackTraceToString())
@@ -109,8 +118,10 @@ private fun Courses(
 
     Column(
         modifier = modifier
+            .fillMaxSize()
     ) {
-        TabRow (
+        TabRow(
+            modifier = Modifier.fillMaxWidth(),
             currentPage = pagerState.currentPage,
             onPageClick = { i ->
                 onCourseSelected(state.courses[i].course)
@@ -118,13 +129,17 @@ private fun Courses(
             list = state.courses,
             textProvider = { it.stringResource() }
         )
+        HorizontalDivider()
 
         HorizontalPagerAdapter(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
             valuesState = pagerValues,
         ) { course ->
-            GroupList(course = course) { groupId ->
+            GroupList(
+                modifier = Modifier.fillMaxSize(),
+                course = course
+            ) { groupId ->
                 onGotoSubgroupScreen(groupId)
             }
         }
@@ -140,13 +155,23 @@ private fun GroupList(
     LazyColumn(
         modifier = modifier
     ) {
-        items(course.groups, { it.id }) { group ->
-            TextButton(
-                onClick = {
-                    onClick(group.id)
-                }
+        itemsIndexed(course.groups, { i, it -> it.id }) { i, group ->
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = { onClick(group.id) })
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
                 Text(group.name)
+                if (group.description != null) {
+                    Text(
+                        text = group.description.toString(),
+                        style = MaterialTheme.typography.bodySmall.merge(color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    )
+                }
+            }
+            if (i != course.groups.lastIndex) {
+                HorizontalDivider()
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
@@ -71,6 +72,7 @@ fun <T> TabRow(
                 textProvider = textProvider
             )
         },
+        divider = { },
         selectedTabIndex = currentPage,
         edgePadding = 0.dp
     )

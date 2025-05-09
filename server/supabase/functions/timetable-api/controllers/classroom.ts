@@ -22,6 +22,8 @@ classroom.get("/:id/lessons", async (req: Request<QueryParams>, res) => {
             SELECT l.id,
             g.id as group_id,
             g.name  as group_name,
+            g.link as group_link,
+            g.description as group_description,
             l.classroom as classroom_id,
             c.name  as classroom_name,
             t.name  as teacher_name,

@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.rodev.mmf_timetable.domain.model.** { *; }
+-keep @kotlinx.serialization.Serializable class * {*;}
 
 # Gson uses generic type information stored in a class file when working with
 # fields. Proguard removes such information by default, keep it.

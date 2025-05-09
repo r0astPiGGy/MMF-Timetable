@@ -22,11 +22,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.rodev.mmf_timetable.K
+import com.rodev.mmf_timetable.core.designsystem.component.TimetableTopAppBar
 import com.rodev.mmf_timetable.core.ui.DynamicScaffold
 import com.rodev.mmf_timetable.navigation.TimetableNavHost
 import com.rodev.mmf_timetable.navigation.TopLevelDestination
-import com.rodev.mmf_timetable.widget.TimetableWidgetReceiver
-import com.rodev.mmf_timetable.widget.requestPinGlanceWidget
 import kotlinx.coroutines.launch
 
 
@@ -78,7 +77,17 @@ fun TimetableApp(appState: TimetableAppState) {
                     }
                 }
             },
-            topAppBar = { }
+            topAppBar = { title ->
+                AnimatedVisibility(
+                    modifier = Modifier.fillMaxWidth(),
+                    visible = title != null && TopLevelDestination.entries.all { appState.topLevelDestination != it }
+                ) {
+                    TimetableTopAppBar(
+                        title = title.toString(),
+                        onMenuButtonClick = appState::navBack
+                    )
+                }
+            }
         ) { paddings ->
             Column(
                 modifier = Modifier
@@ -91,13 +100,6 @@ fun TimetableApp(appState: TimetableAppState) {
     }
 }
 
-private suspend fun requestAddWidget(context: Context) {
-    try {
-        TimetableWidgetReceiver.requestPinGlanceWidget(context)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
 
 private fun openGithubProject(context: Context) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(K.Constants.GITHUB_LINK))

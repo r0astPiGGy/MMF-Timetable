@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MMF Timetable</string>
+    <string name="teachers">Teachers</string>
+    <string name="rooms">Rooms</string>
+    <string name="add_widget">Add widget to the home screen</string>
+    <string name="group">Group</string>
+    <string name="current_lesson">Current lesson</string>
+    <string name="next_lesson">Next lesson</string>
+    <string name="edit">Edit</string>
+    <string name="course_group">%1$d course, %2$s</string>
+</resources>

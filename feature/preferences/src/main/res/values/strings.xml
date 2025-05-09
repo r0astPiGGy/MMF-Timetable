@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="course">Course %1$d</string>
+    <string name="select_group">Select group</string>
+    <string name="select_subgroup">Select subgroup</string>
+    <string name="save">Save</string>
 </resources>

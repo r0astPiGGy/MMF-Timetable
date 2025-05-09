@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rodev.mmf_timetable.core.model.data.Availability
 import com.rodev.mmf_timetable.core.model.data.Lesson
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +38,7 @@ fun LessonCard(
         enabled = enabled,
         shape = RoundedCornerShape(8.dp)
     ) {
-        Row (
+        Row(
             modifier = Modifier
                 .padding(vertical = 16.dp, horizontal = 12.dp)
                 .height(IntrinsicSize.Max),
@@ -75,10 +76,21 @@ fun LessonCard(
                     letterSpacing = 0.sp
                 )
                 Text(
-                    text = lesson.teachers.joinToString(",") { it.name },
+                    text = lesson.teachers.joinToString(", ") { it.name },
                     style = MaterialTheme.typography.bodyMedium
                 )
-                val info = listOf<String?>(lesson.classroom?.name, lesson.type).mapNotNull { it }.joinToString(" ") { it }
+                val info = listOf<String?>(
+                    lesson.classroom?.name,
+                    lesson.type,
+                    "1н".takeIf {
+                        lesson.availability.contains(
+                            Availability.OddWeek
+                        )
+                    },
+                    "2н".takeIf { lesson.availability.contains(Availability.EvenWeek) },
+                    lesson.subGroup?.name
+                ).mapNotNull { it }
+                    .joinToString(" ") { it }
                 Text(
                     text = info,
                     style = MaterialTheme.typography.bodyMedium
