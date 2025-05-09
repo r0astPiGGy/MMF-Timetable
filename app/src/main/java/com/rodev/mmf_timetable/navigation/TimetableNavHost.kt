@@ -26,7 +26,14 @@ fun TimetableNavHost(
         startDestination = HomeRoute,
         modifier = modifier
     ) {
-        timetableScreen()
+        timetableScreen(
+            onGotoRoom = {
+
+            },
+            onGotoTeacher = {
+
+            }
+        )
         homeScreen(
             onAddWidget = appState::requestAddWidget,
             onChangeGroup = { navController.navigateToPreferences(navOptions { launchSingleTop = true }) },

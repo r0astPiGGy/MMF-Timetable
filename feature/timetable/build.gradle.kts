@@ -9,6 +9,8 @@ android {
 
 dependencies {
     implementation(libs.android.icons)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(projects.core.ui)
     implementation(projects.core.data)
     implementation(projects.core.domain)

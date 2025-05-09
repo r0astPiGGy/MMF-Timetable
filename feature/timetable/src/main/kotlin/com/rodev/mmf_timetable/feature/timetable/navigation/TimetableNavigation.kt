@@ -14,8 +14,14 @@ object TimetableRoute
 fun NavController.navigateToTimetable(navOptions: NavOptions)
     = navigate(TimetableRoute, navOptions = navOptions)
 
-fun NavGraphBuilder.timetableScreen() {
+fun NavGraphBuilder.timetableScreen(
+    onGotoRoom: (Long) -> Unit,
+    onGotoTeacher: (Long) -> Unit,
+) {
     composable<TimetableRoute> {
-        TimetableRoute()
+        TimetableRoute(
+            onGotoTeacher = onGotoTeacher,
+            onGotoRoom = onGotoRoom
+        )
     }
 }

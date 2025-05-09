@@ -1,4 +1,4 @@
-package com.rodev.mmf_timetable.feature.timetable.components
+package com.rodev.mmf_timetable.core.ui
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode

@@ -8,6 +8,8 @@ export type LessonDto = {
   classroom_name: string | null;
   teacher_name: string | null;
   teacher_id: number | null;
+  teacher_fullname: string | null;
+  teacher_position: string | null;
   photo_url: string | null;
   subgroup_id: number | null;
   subgroup_name: string | null;
@@ -25,6 +27,8 @@ export type TeacherDto = {
   name: string | null;
   id: number | null;
   photo_url: string | null;
+  position: string | null;
+  full_name: string | null;
 };
 
 export type SubgroupDto = {
@@ -118,11 +122,13 @@ export function mapLessons(lessons: LessonDto[]): MappedLessonDto[] {
   }, {} as Record<string, LessonDto[]>);
 
   return Object.values(mapped).map((l) => {
-    const teacherz = distinctBy(
+    const teacherz: TeacherDto[] = distinctBy(
       l.filter((v) => v.teacher_id !== null).map((v) => ({
         name: v.teacher_name,
         id: v.teacher_id,
         photo_url: v.photo_url,
+        position: v.teacher_position,
+        full_name: v.teacher_fullname,
       })),
       (v) => v.id as number,
     );

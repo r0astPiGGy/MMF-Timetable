@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.ui.DynamicScaffoldPortal
 import kotlinx.datetime.LocalDate
@@ -30,14 +31,18 @@ private fun TimetableScreenPreview() {
 @Composable
 internal fun TimetableRoute(
     modifier: Modifier = Modifier,
-    viewModel: TimetableViewModel = hiltViewModel()
+    viewModel: TimetableViewModel = hiltViewModel(),
+    onGotoRoom: (Long) -> Unit,
+    onGotoTeacher: (Long) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     TimetableScreen(
         modifier = modifier,
         state = state,
-        onDateSelect = viewModel::selectDate
+        onDateSelect = viewModel::selectDate,
+        onGotoTeacher = onGotoTeacher,
+        onGotoRoom = onGotoRoom
     )
 }
 
@@ -45,7 +50,9 @@ internal fun TimetableRoute(
 internal fun TimetableScreen(
     modifier: Modifier = Modifier,
     state: TimetableUiState,
-    onDateSelect: (LocalDate) -> Unit
+    onDateSelect: (LocalDate) -> Unit,
+    onGotoRoom: (Long) -> Unit,
+    onGotoTeacher: (Long) -> Unit
 ) {
     DynamicScaffoldPortal()
 
@@ -55,6 +62,7 @@ internal fun TimetableScreen(
             is TimetableUiState.Error -> ErrorState(
                 text = state.exception.stackTraceToString()
             )
+
             TimetableUiState.Loading -> LoadingState()
             is TimetableUiState.Timetable -> {
                 if (state.timetable.isNotEmpty()) {
@@ -62,7 +70,9 @@ internal fun TimetableScreen(
                         modifier = Modifier
                             .fillMaxSize(),
                         state = state,
-                        onDateSelect = onDateSelect
+                        onDateSelect = onDateSelect,
+                        onGotoRoom = onGotoRoom,
+                        onGotoTeacher = onGotoTeacher
                     )
                 } else {
                     EmptyState()

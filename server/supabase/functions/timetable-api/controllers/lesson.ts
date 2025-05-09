@@ -19,6 +19,8 @@ lesson.get("/group/:group", async (req: Request<QueryParams>, res) => {
             c.name  as classroom_name,
             t.name  as teacher_name,
             t.id  as teacher_id,
+            t.fullname as teacher_fullname,
+            t.position as teacher_position,
             t.imageurl as photo_url,
             l.subgroup as subgroup_id,
             sg.name as subgroup_name,

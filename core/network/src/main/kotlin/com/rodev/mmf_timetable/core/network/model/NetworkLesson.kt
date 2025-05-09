@@ -1,6 +1,5 @@
 package com.rodev.mmf_timetable.core.network.model
 
-import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,6 +9,9 @@ data class NetworkLessonTeacher(
     val name: String,
     @SerialName("photo_url")
     val photoUrl: String? = null,
+    @SerialName("full_name")
+    val fullName: String? = null,
+    val position: String? = null,
 )
 
 @Serializable

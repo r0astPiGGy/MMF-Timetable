@@ -18,6 +18,8 @@ fun NetworkLessonTeacher.asExternalModel(): LessonTeacher {
     return LessonTeacher(
         id = id,
         name = name,
-        imageUrl = photoUrl
+        imageUrl = photoUrl,
+        fullName = fullName,
+        position = position
     )
 }
