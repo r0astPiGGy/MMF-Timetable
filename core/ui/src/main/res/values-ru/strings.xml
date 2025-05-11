@@ -2,4 +2,5 @@
 <resources>
     <string name="date_picker_ok">OK</string>
     <string name="date_picker_cancel">Отмена</string>
+    <string name="ui_course_group">%1$d курс, %2$s</string>
 </resources>

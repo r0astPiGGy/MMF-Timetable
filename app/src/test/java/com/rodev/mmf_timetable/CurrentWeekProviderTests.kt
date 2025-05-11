@@ -1,43 +1,34 @@
 package com.rodev.mmf_timetable
 
-import com.rodev.mmf_timetable.utils.CurrentWeekProvider
+import com.rodev.mmf_timetable.core.model.data.Weekday
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.junit.Assert.*
 import org.junit.Test
 
 class CurrentWeekProviderTests {
 
-    @Test
-    fun current_week_is_7() {
-        val start = CurrentWeekProvider.dateOf(5, 2)
-        val end = CurrentWeekProvider.dateOf(8, 6)
-        val today = CurrentWeekProvider.dateOf(21, 3)
-
-        assertEquals(
-            CurrentWeekProvider.weekOf(start, end, today),
-            7L
+    fun Weekday.isWeekdayMatches(date: LocalDate): Boolean {
+        val index = date.dayOfWeek.value - 1
+        val dayOfWeek = listOf(
+            Weekday.MONDAY,
+            Weekday.TUESDAY,
+            Weekday.WEDNESDAY,
+            Weekday.THURSDAY,
+            Weekday.FRIDAY,
+            Weekday.SATURDAY,
+            Weekday.SUNDAY
         )
+        return dayOfWeek[index] == this
     }
 
     @Test
-    fun week_is_null_before() {
-        val start = CurrentWeekProvider.dateOf(5, 2)
-        val end = CurrentWeekProvider.dateOf(8, 6)
-        val today = CurrentWeekProvider.dateOf(21, 1)
-
-        assertNull(
-            CurrentWeekProvider.weekOf(start, end, today)
-        )
-    }
-
-    @Test
-    fun week_is_null_after() {
-        val start = CurrentWeekProvider.dateOf(5, 1)
-        val end = CurrentWeekProvider.dateOf(8, 5)
-        val today = CurrentWeekProvider.dateOf(9, 5)
-
-        assertNull(
-            CurrentWeekProvider.weekOf(start, end, today)
-        )
+    fun `should determine valid weekday`() {
+        val time = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        assertTrue(Weekday.SUNDAY.isWeekdayMatches(time.date))
+        assertFalse(Weekday.WEDNESDAY.isWeekdayMatches(time.date))
     }
 
 }

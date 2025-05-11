@@ -1,5 +1,6 @@
 package com.rodev.mmf_timetable.core.data.repository
 
+import androidx.lifecycle.Transformations.map
 import com.rodev.mmf_timetable.core.data.model.asExternalModel
 import com.rodev.mmf_timetable.core.model.data.Lesson
 import com.rodev.mmf_timetable.core.network.TimetableNetworkDataSource
@@ -31,6 +32,12 @@ internal class OfflineFirstLessonRepository @Inject constructor(
     override fun getLessons(groupId: String): Flow<List<Lesson>> {
         return flow {
             emit(api.getLessons(groupId).map(NetworkLesson::asExternalModel))
+        }
+    }
+
+    override fun getLessonsByTeacherId(teacherId: Long): Flow<List<Lesson>> {
+        return flow {
+            emit(api.getTeacherLessons(teacherId).map(NetworkLesson::asExternalModel))
         }
     }
 

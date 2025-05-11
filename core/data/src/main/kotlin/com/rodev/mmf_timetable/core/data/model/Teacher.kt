@@ -10,7 +10,10 @@ fun NetworkTeacher.asExternalModel(): Teacher {
         id = id,
         name = name,
         fullName = fullName,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        position = position,
+        email = email,
+        phone = phone
     )
 }
 

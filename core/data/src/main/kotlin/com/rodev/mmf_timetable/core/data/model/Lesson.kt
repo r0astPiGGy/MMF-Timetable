@@ -10,6 +10,7 @@ import com.rodev.mmf_timetable.core.network.model.NetworkLesson
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -23,27 +24,16 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 
-
-private fun parseMinutes(time: String): Int {
-    val (hours, minutes) = time.split(":").map { it.toInt() }
-    return hours * 60 + minutes
-}
-
-private fun fixTime(time: String): String {
-    return time.split(":").dropLast(1).joinToString(":") { it }
-}
-
 fun NetworkLesson.asExternalModel() = Lesson(
     weekday = Weekday.valueOf(weekday),
     id = id,
+    group = group?.asExternalModel(),
     subGroup = subgroup?.asExternalModel(),
     classroom = classroom?.asExternalModel(),
     subject = subject ?: "",
     teachers = teachers.map { it.asExternalModel() },
-    timeStartMinutes = parseMinutes(timeStart),
-    timeEndMinutes = parseMinutes(timeEnd),
-    timeStart = fixTime(timeStart),
-    timeEnd = fixTime(timeEnd),
+    timeStart = LocalTime.parse(timeStart),
+    timeEnd = LocalTime.parse(timeEnd),
     type = type,
     availability = availability.map { it.asExternalModel() },
     additionalInfo = additionalInfo

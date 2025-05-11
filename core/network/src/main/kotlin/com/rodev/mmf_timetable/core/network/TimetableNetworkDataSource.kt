@@ -16,6 +16,8 @@ interface TimetableNetworkDataSource {
 
     suspend fun getLessons(group: String): List<NetworkLesson>
 
+    suspend fun getTeacherLessons(teacherId: Long): List<NetworkLesson>
+
     suspend fun getSubgroupSubjects(group: String): List<NetworkSubgroupSubject>
 
 }

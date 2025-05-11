@@ -236,7 +236,10 @@ fun Timetable(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                     teachers.forEach { t ->
-                        Teacher(teacher = t, onGotoTeacher = onGotoTeacher)
+                        Teacher(teacher = t, onGotoTeacher = {
+                            sheetState.close()
+                            onGotoTeacher(it)
+                        })
                     }
                 }
             }

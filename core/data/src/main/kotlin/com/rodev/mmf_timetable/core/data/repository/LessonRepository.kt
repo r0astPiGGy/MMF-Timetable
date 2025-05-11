@@ -8,6 +8,8 @@ interface LessonRepository {
 
     fun getLessons(groupId: String): Flow<List<Lesson>>
 
+    fun getLessonsByTeacherId(teacherId: Long): Flow<List<Lesson>>
+
     suspend fun refresh()
 
 }

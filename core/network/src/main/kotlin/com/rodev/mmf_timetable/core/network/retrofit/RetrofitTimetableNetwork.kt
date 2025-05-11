@@ -31,6 +31,9 @@ private interface RetrofitTimetableNetworkApi {
     @GET("lesson/group/{group}")
     suspend fun getLessons(@Path("group") group: String): List<NetworkLesson>
 
+    @GET("teacher/{teacherId}/lessons")
+    suspend fun getTeacherLessons(@Path("teacherId") teacherId: String): List<NetworkLesson>
+
     @GET("subgroup-subject/group/{group}/all")
     suspend fun getSubgroupSubjects(@Path("group") group: String): List<NetworkSubgroupSubject>
 
@@ -62,6 +65,9 @@ internal class RetrofitTimetableNetwork @Inject constructor(
 
     override suspend fun getLessons(group: String): List<NetworkLesson> =
         networkApi.getLessons(group)
+
+    override suspend fun getTeacherLessons(teacherId: Long): List<NetworkLesson> =
+        networkApi.getTeacherLessons(teacherId.toString())
 
     override suspend fun getSubgroupSubjects(group: String): List<NetworkSubgroupSubject> =
         networkApi.getSubgroupSubjects(group)

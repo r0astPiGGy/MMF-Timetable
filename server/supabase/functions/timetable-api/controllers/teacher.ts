@@ -82,7 +82,15 @@ teacher.get("/:id/classroom", async (req: Request<QueryParams>, res) => {
 teacher.get("/", async (_req, res) => {
     await useConnection(async (connection) => {
         const result = await connection.queryObject(`--sql
-            SELECT id, name FROM teachers ORDER BY name;
+            SELECT 
+            name,
+            id,
+            fullname,
+            position,
+            imageurl,
+            email,
+            phone
+            FROM teachers ORDER BY name;
             `);
         res.json(result.rows);
     });

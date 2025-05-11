@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="teachers_title">Преподаватели</string>
+    <string name="teachers_search_placeholder">Поиск…</string>
+    <string name="teachers_search_label">Поиск</string>
+    <string name="teachers_nothing_found_by_query">Ничего не найдено по вашему запросу</string>
+    <string name="teachers_empty">Пусто</string>
+</resources>

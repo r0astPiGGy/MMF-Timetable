@@ -38,6 +38,10 @@ android {
 
 dependencies {
     implementation(projects.feature.timetable)
+    implementation(projects.feature.teachers)
+    implementation(projects.feature.teacher)
+    implementation(projects.feature.classrooms)
+    implementation(projects.feature.classroom)
     implementation(projects.feature.settings)
     implementation(projects.feature.home)
     implementation(projects.feature.preferences)

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="teachers_title">Teachers</string>
+    <string name="teachers_search_placeholder">Search…</string>
+    <string name="teachers_search_label">Search</string>
+    <string name="teachers_nothing_found_by_query">Nothing found by your query</string>
+    <string name="teachers_empty">Empty</string>
+</resources>

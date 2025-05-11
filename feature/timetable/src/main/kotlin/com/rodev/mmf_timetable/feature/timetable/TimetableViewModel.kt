@@ -1,13 +1,11 @@
 package com.rodev.mmf_timetable.feature.timetable
 
-import android.util.Log.i
-import android.util.Log.w
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rodev.mmf_timetable.core.data.repository.LessonRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
-import com.rodev.mmf_timetable.core.domain.GetAvailableLessonsUseCase.Companion.isAvailable
+import com.rodev.mmf_timetable.core.domain.isAvailable
 import com.rodev.mmf_timetable.core.model.data.AvailableLesson
 import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.result.Result
@@ -121,7 +119,7 @@ private fun timetableUiState(
                                             ),
                                             lesson = l
                                         )
-                                    }.sortedBy { it.lesson.timeStartMinutes }
+                                    }.sortedBy { it.lesson.timeStart }
                                 }
 
                             TimetableUiState.Timetable(
