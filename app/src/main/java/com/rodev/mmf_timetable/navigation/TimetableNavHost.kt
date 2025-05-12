@@ -49,7 +49,14 @@ fun TimetableNavHost(
                 navController.navigateToClassrooms(navOptions { launchSingleTop = true })
             }
         )
-        teacherScreen()
+        teacherScreen(
+            onGotoTeacher =  {
+                navController.navigateToTeacher(it, navOptions { launchSingleTop = true })
+            },
+            onGotoRoom =  {
+                navController.navigateToClassroom(it, navOptions { launchSingleTop = true })
+            }
+        )
         classroomScreen()
         teachersScreen(
             onGotoTeacher =  {

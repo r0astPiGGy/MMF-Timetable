@@ -10,7 +10,8 @@ import com.rodev.mmf_timetable.core.model.data.AvailableLesson
 import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.result.Result
 import com.rodev.mmf_timetable.core.result.asResult
-import com.rodev.mmf_timetable.feature.timetable.model.DateWeekday
+import com.rodev.mmf_timetable.core.ui.DateWeekday
+import com.rodev.mmf_timetable.core.ui.weekOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -64,24 +65,6 @@ class TimetableViewModel @Inject constructor(
     }
 }
 
-private fun weekOf(date: LocalDate): List<DateWeekday> {
-    // 0 - 6
-    val offset = date.dayOfWeek.value - 1
-    return listOf(
-        Weekday.MONDAY,
-        Weekday.TUESDAY,
-        Weekday.WEDNESDAY,
-        Weekday.THURSDAY,
-        Weekday.FRIDAY,
-        Weekday.SATURDAY,
-        Weekday.SUNDAY
-    ).mapIndexed { i, week ->
-        return@mapIndexed DateWeekday(
-            date = date.plus(i - offset, DateTimeUnit.DAY),
-            weekday = week
-        )
-    }
-}
 
 @OptIn(ExperimentalCoroutinesApi::class)
 private fun timetableUiState(

@@ -14,8 +14,14 @@ fun NavController.navigateToTeacher(teacherId: Long, navOptions: NavOptions) {
     navigate(TeacherRoute(teacherId), navOptions = navOptions)
 }
 
-fun NavGraphBuilder.teacherScreen() {
+fun NavGraphBuilder.teacherScreen(
+    onGotoRoom: (Long) -> Unit,
+    onGotoTeacher: (Long) -> Unit,
+) {
     composable<TeacherRoute> {
-        TeacherRoute()
+        TeacherRoute(
+            onGotoTeacher = onGotoTeacher,
+            onGotoRoom = onGotoRoom
+        )
     }
 }

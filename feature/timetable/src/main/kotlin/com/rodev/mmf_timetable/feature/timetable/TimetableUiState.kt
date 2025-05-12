@@ -2,10 +2,7 @@ package com.rodev.mmf_timetable.feature.timetable
 
 import androidx.compose.runtime.Immutable
 import com.rodev.mmf_timetable.core.model.data.AvailableLesson
-import com.rodev.mmf_timetable.core.model.data.Lesson
-import com.rodev.mmf_timetable.core.model.data.Weekday
-import com.rodev.mmf_timetable.feature.timetable.model.DateWeekday
-import kotlinx.datetime.LocalDate
+import com.rodev.mmf_timetable.core.ui.DateWeekday
 
 sealed interface TimetableUiState {
 
