@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.rodev.mmf_timetable.core.data.repository.CourseRepository
 import com.rodev.mmf_timetable.core.data.repository.LessonRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
+import com.rodev.mmf_timetable.core.domain.getCurrentLessonIn
+import com.rodev.mmf_timetable.core.domain.getTeacherCurrentLessonIn
 import com.rodev.mmf_timetable.core.model.data.AvailableLesson
 import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.result.Result
@@ -69,7 +71,7 @@ private fun homeUiState(
                         Result.Loading -> HomeUiState.Loading
                         is Result.Success -> {
                             HomeUiState.Home(
-                                currentLesson = null,
+                                currentLesson = getCurrentLessonIn(resource.data.first, userData.subgroups),
                                 group = resource.data.second
                             )
                         }

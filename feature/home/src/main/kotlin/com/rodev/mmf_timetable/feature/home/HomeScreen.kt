@@ -1,5 +1,6 @@
 package com.rodev.mmf_timetable.feature.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,10 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.AddBox
 import androidx.compose.material.icons.outlined.SensorDoor
-import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -28,10 +31,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rodev.mmf_timetable.core.domain.CurrentLesson
+import com.rodev.mmf_timetable.core.model.data.AvailableLesson
+import com.rodev.mmf_timetable.core.model.data.Lesson
+import com.rodev.mmf_timetable.core.ui.ItemDetailsBottomSheet
+import com.rodev.mmf_timetable.core.ui.NextLessonCard
+import com.rodev.mmf_timetable.core.ui.OngoingLessonCard
+import com.rodev.mmf_timetable.core.ui.TeacherRow
+import com.rodev.mmf_timetable.core.ui.rememberItemDetailsBottomSheetState
 
 @Composable
 internal fun HomeRoute(
     modifier: Modifier = Modifier,
+    onGotoTeacher: (Long) -> Unit,
+    onGotoRoom: (Long) -> Unit,
     onGotoTeachers: () -> Unit,
     onGotoRooms: () -> Unit,
     onChangeGroup: () -> Unit,
@@ -46,14 +59,19 @@ internal fun HomeRoute(
         onAddWidget = onAddWidget,
         onGotoRooms = onGotoRooms,
         onChangeGroup = onChangeGroup,
-        onGotoTeachers = onGotoTeachers
+        onGotoTeachers = onGotoTeachers,
+        onGotoTeacher = onGotoTeacher,
+        onGotoRoom = onGotoRoom
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     onGotoTeachers: () -> Unit,
+    onGotoTeacher: (Long) -> Unit,
+    onGotoRoom: (Long) -> Unit,
     onGotoRooms: () -> Unit,
     onChangeGroup: () -> Unit,
     onAddWidget: () -> Unit,
@@ -62,7 +80,120 @@ internal fun HomeScreen(
     HomeScreenScaffold(
         modifier = modifier,
         lesson = {
+            if (state is HomeUiState.Home) {
+                val currentLesson = state.currentLesson
+                val sheetState = rememberItemDetailsBottomSheetState<Lesson>()
 
+                ItemDetailsBottomSheet(state = sheetState) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 8.dp)
+                        ) {
+                            Text(
+                                text = "Предмет",
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                            Text(
+                                text = it.subject
+                            )
+                        }
+                        val teachers = it.teachers
+                        if (teachers.isNotEmpty()) {
+                            HorizontalDivider()
+                            Column(
+                                modifier = Modifier.padding(vertical = 8.dp)
+                            ) {
+                                Text(
+                                    text = if (teachers.size == 1) "Преподаватель" else "Преподаватели",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                                teachers.forEach { t ->
+                                    TeacherRow(
+                                        teacher = t,
+                                        onGotoTeacher = {
+                                            sheetState.close()
+                                            onGotoTeacher(it)
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                        val room = it.classroom
+                        if (room != null) {
+                            HorizontalDivider()
+                            Row(
+                                modifier = Modifier.fillMaxWidth()
+                                    .clickable(onClick = { onGotoRoom(room.id) })
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Text(
+                                        text = "Аудитория",
+                                        style = MaterialTheme.typography.labelMedium,
+                                    )
+                                    Text(room.name)
+                                }
+                                Icon(Icons.AutoMirrored.Default.KeyboardArrowRight, contentDescription = null)
+                            }
+                        }
+                    }
+                }
+
+                when (currentLesson) {
+                    is CurrentLesson.Current -> {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = "Текущая пара",
+                                style = MaterialTheme.typography.labelLarge
+                                    .merge(color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            )
+                            OngoingLessonCard(
+                                lesson = currentLesson.lesson,
+                                remaining = currentLesson.remaining,
+                                progress = currentLesson.progress,
+                                courseGroup = {},
+                                onClick = { sheetState.open(currentLesson.lesson) }
+                            )
+                        }
+                    }
+
+                    is CurrentLesson.Next -> {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = "Следующая пара",
+                                style = MaterialTheme.typography.labelLarge
+                                    .merge(color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            )
+                            NextLessonCard(
+                                lesson = currentLesson.lesson,
+                                remaining = currentLesson.remaining,
+                                courseGroup = {},
+                                onClick = { sheetState.open(currentLesson.lesson) }
+                            )
+                        }
+                    }
+
+                    CurrentLesson.NoLessonToday -> {
+
+                    }
+                }
+            }
         },
         group = {
             Column(
@@ -71,7 +202,8 @@ internal fun HomeScreen(
 //                    verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(start = 16.dp, end = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -212,7 +344,6 @@ private fun HomeScreenScaffold(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(
             modifier = Modifier
@@ -224,8 +355,11 @@ private fun HomeScreenScaffold(
                 style = MaterialTheme.typography.titleLarge
             )
         }
+        Spacer(Modifier.size(12.dp))
         lesson()
+        Spacer(Modifier.size(4.dp))
         group()
+        Spacer(Modifier.size(12.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -235,6 +369,7 @@ private fun HomeScreenScaffold(
             teachers()
             rooms()
         }
+        Spacer(Modifier.size(12.dp))
         Row(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {

@@ -2,9 +2,6 @@ package com.rodev.mmf_timetable.feature.teacher
 
 import android.annotation.SuppressLint
 import android.content.ClipData
-import android.content.Intent
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -28,7 +25,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.ArrowOutward
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
@@ -60,7 +56,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.rodev.mmf_timetable.core.model.data.AvailableLesson
-import com.rodev.mmf_timetable.core.model.data.Teacher
 import com.rodev.mmf_timetable.core.ui.DatePickerModal
 import com.rodev.mmf_timetable.core.ui.DynamicScaffoldPortal
 import com.rodev.mmf_timetable.core.ui.HorizontalPagerAdapter
@@ -68,12 +63,12 @@ import com.rodev.mmf_timetable.core.ui.ItemDetailsBottomSheet
 import com.rodev.mmf_timetable.core.ui.LessonCard
 import com.rodev.mmf_timetable.core.ui.PagerValuesState
 import com.rodev.mmf_timetable.core.ui.SelectedMonthRow
-import com.rodev.mmf_timetable.core.ui.TeacherNextLessonCard
-import com.rodev.mmf_timetable.core.ui.TeacherOngoingLessonCard
+import com.rodev.mmf_timetable.core.ui.NextLessonCard
+import com.rodev.mmf_timetable.core.ui.OngoingLessonCard
 import com.rodev.mmf_timetable.core.ui.TeacherRow
 import com.rodev.mmf_timetable.core.ui.WeekDaySelectRow
 import com.rodev.mmf_timetable.core.ui.rememberItemDetailsBottomSheetState
-import com.rodev.mmf_timetable.feature.teacher.model.CurrentLesson
+import com.rodev.mmf_timetable.core.domain.CurrentLesson
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
@@ -105,25 +100,23 @@ internal fun TeacherScreen(
 ) {
     DynamicScaffoldPortal(title = stringResource(R.string.teacher_title))
 
-    Column(modifier = modifier) {
-        when (state) {
-            is TeacherUiState.Error -> ErrorState(
-                text = state.exception.stackTraceToString()
+    when (state) {
+        is TeacherUiState.Error -> ErrorState(
+            text = state.exception.stackTraceToString()
+        )
+
+        TeacherUiState.Loading -> LoadingState()
+        is TeacherUiState.TeacherDetails -> {
+            TeacherDetails(
+                state = state,
+                modifier = modifier,
+                onDateSelect = onDateSelect,
+                onGotoRoom = onGotoRoom,
+                onGotoTeacher = onGotoTeacher
             )
-
-            TeacherUiState.Loading -> LoadingState()
-            is TeacherUiState.TeacherDetails -> {
-                TeacherDetails(
-                    state = state,
-                    modifier = modifier,
-                    onDateSelect = onDateSelect,
-                    onGotoRoom = onGotoRoom,
-                    onGotoTeacher = onGotoTeacher
-                )
-            }
-
-            TeacherUiState.NotFound -> NotFoundState()
         }
+
+        TeacherUiState.NotFound -> NotFoundState()
     }
 }
 
@@ -145,7 +138,8 @@ private fun TeacherDetails(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(state = scrollState)
+                .verticalScroll(state = scrollState),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             val teacher = state.teacher
             Row(
@@ -245,42 +239,50 @@ private fun TeacherDetails(
                 }
             }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                val currentLesson = state.currentLesson
-                when (currentLesson) {
-                    is CurrentLesson.Current -> {
+            val currentLesson = state.currentLesson
+            when (currentLesson) {
+                is CurrentLesson.Current -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Text(
                             text = "Текущая пара",
                             style = MaterialTheme.typography.labelLarge
                         )
-                        TeacherOngoingLessonCard(
+                        OngoingLessonCard(
                             lesson = currentLesson.lesson,
                             remaining = currentLesson.remaining,
                             progress = currentLesson.progress
                         )
                     }
+                }
 
-                    is CurrentLesson.Next -> {
+                is CurrentLesson.Next -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Text(
                             text = "Следующая пара",
                             style = MaterialTheme.typography.labelLarge
                         )
-                        TeacherNextLessonCard(
+                        NextLessonCard(
                             lesson = currentLesson.lesson,
                             remaining = currentLesson.remaining,
                         )
                     }
+                }
 
-                    CurrentLesson.NoLessonToday -> {
+                CurrentLesson.NoLessonToday -> {
 
-                    }
                 }
             }
+
 
             Column(modifier = Modifier.height(screenHeight)) {
                 TeacherLessons(

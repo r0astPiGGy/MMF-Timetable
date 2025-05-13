@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.rodev.mmf_timetable.core.model.data.AvailableLesson
 import com.rodev.mmf_timetable.core.model.data.Teacher
 import com.rodev.mmf_timetable.core.ui.DateWeekday
-import com.rodev.mmf_timetable.feature.teacher.model.CurrentLesson
+import com.rodev.mmf_timetable.core.domain.CurrentLesson
 
 sealed interface TeacherUiState {
 

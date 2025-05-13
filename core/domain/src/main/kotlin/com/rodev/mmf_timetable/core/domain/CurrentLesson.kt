@@ -1,12 +1,6 @@
-package com.rodev.mmf_timetable.feature.teacher.model
+package com.rodev.mmf_timetable.core.domain
 
-import androidx.compose.runtime.Stable
-import com.rodev.mmf_timetable.core.domain.isAvailable
-import com.rodev.mmf_timetable.core.domain.isInTime
-import com.rodev.mmf_timetable.core.domain.isSoon
-import com.rodev.mmf_timetable.core.domain.isWeekdayMatches
 import com.rodev.mmf_timetable.core.model.data.Lesson
-import com.rodev.mmf_timetable.core.model.data.Subgroup
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.LocalDate
@@ -18,14 +12,12 @@ import kotlinx.datetime.toLocalDateTime
 
 sealed interface CurrentLesson {
 
-    @Stable
     data class Current(
         val lesson: Lesson,
         val remaining: DateTimePeriod,
         val progress: Float
     ) : CurrentLesson
 
-    @Stable
     data class Next(
         val lesson: Lesson,
         val remaining: DateTimePeriod

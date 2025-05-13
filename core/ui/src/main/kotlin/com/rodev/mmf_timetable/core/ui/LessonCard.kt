@@ -85,10 +85,12 @@ fun LessonCard(
                     fontWeight = FontWeight.SemiBold,
                     letterSpacing = 0.sp
                 )
-                Text(
-                    text = lesson.teachers.joinToString(", ") { it.name },
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                if (lesson.teachers.isNotEmpty()) {
+                    Text(
+                        text = lesson.teachers.joinToString(", ") { it.name },
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
                 val group = lesson.group
                 if (showGroup && group != null) {
                     Text(
@@ -108,10 +110,12 @@ fun LessonCard(
                     lesson.subGroup?.name
                 ).mapNotNull { it }
                     .joinToString(" ") { it }
-                Text(
-                    text = info,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                if (info.isNotEmpty()) {
+                    Text(
+                        text = info,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
                 if (lesson.additionalInfo.isNotEmpty()) {
                     Text(
                         text = lesson.additionalInfo.joinToString(" ") { it },

@@ -19,9 +19,13 @@ import com.rodev.mmf_timetable.core.data.repository.OfflineFirstCourseRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
 import com.rodev.mmf_timetable.core.model.data.Course
 import com.rodev.mmf_timetable.core.model.data.UserData
+import com.rodev.mmf_timetable.feature.classroom.navigation.navigateToClassroom
+import com.rodev.mmf_timetable.feature.classrooms.navigation.navigateToClassrooms
 import com.rodev.mmf_timetable.feature.home.navigation.navigateToHome
 import com.rodev.mmf_timetable.feature.preferences.navigation.navigateToPreferences
 import com.rodev.mmf_timetable.feature.settings.navigation.navigateToSettings
+import com.rodev.mmf_timetable.feature.teacher.navigation.navigateToTeacher
+import com.rodev.mmf_timetable.feature.teachers.navigation.navigateToTeachers
 import com.rodev.mmf_timetable.feature.timetable.navigation.navigateToTimetable
 import com.rodev.mmf_timetable.navigation.TopLevelDestination
 import com.rodev.mmf_timetable.widget.TimetableWidgetReceiver
@@ -112,6 +116,22 @@ class TimetableAppState(
         coroutineScope.launch {
             requestAddWidget(context = context)
         }
+    }
+
+    fun navigateToTeacher(id: Long) {
+        navController.navigateToTeacher(id, navOptions { launchSingleTop = true })
+    }
+
+    fun navigateToClassroom(id: Long) {
+        navController.navigateToClassroom(id, navOptions { launchSingleTop = true })
+    }
+
+    fun navigateToClassrooms() {
+        navController.navigateToClassrooms(navOptions { launchSingleTop = true })
+    }
+
+    fun navigateToTeachers() {
+        navController.navigateToTeachers(navOptions { launchSingleTop = true })
     }
 
     private suspend fun requestAddWidget(context: Context) {

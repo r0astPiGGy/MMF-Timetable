@@ -13,8 +13,7 @@ import com.rodev.mmf_timetable.core.model.data.Teacher
 import com.rodev.mmf_timetable.core.result.Result
 import com.rodev.mmf_timetable.core.result.asResult
 import com.rodev.mmf_timetable.core.ui.weekOf
-import com.rodev.mmf_timetable.feature.teacher.model.getCurrentLessonIn
-import com.rodev.mmf_timetable.feature.teacher.model.getTeacherCurrentLessonIn
+import com.rodev.mmf_timetable.core.domain.getTeacherCurrentLessonIn
 import com.rodev.mmf_timetable.feature.teacher.navigation.TeacherRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -88,8 +87,6 @@ private fun teacherUiState(
                     if (teacher == null) {
                         TeacherUiState.NotFound
                     } else {
-                        val currentLesson = getTeacherCurrentLessonIn(lessons)
-
                         val week = weekOf(date)
                         val selectedDate = week.first { it.date == date }
 
@@ -107,7 +104,7 @@ private fun teacherUiState(
 
                         TeacherUiState.TeacherDetails(
                             teacher = teacher,
-                            currentLesson = currentLesson,
+                            currentLesson = getTeacherCurrentLessonIn(lessons),
                             selectedDate = selectedDate,
                             week = week,
                             timetable = timetable

@@ -5,12 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rodev.mmf_timetable.core.data.repository.LessonRepository
 import com.rodev.mmf_timetable.core.data.repository.UserDataRepository
+import com.rodev.mmf_timetable.core.domain.getCurrentLessonIn
 import com.rodev.mmf_timetable.core.domain.isAvailable
 import com.rodev.mmf_timetable.core.model.data.AvailableLesson
-import com.rodev.mmf_timetable.core.model.data.Weekday
 import com.rodev.mmf_timetable.core.result.Result
 import com.rodev.mmf_timetable.core.result.asResult
-import com.rodev.mmf_timetable.core.ui.DateWeekday
 import com.rodev.mmf_timetable.core.ui.weekOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,10 +24,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
@@ -108,7 +105,8 @@ private fun timetableUiState(
                             TimetableUiState.Timetable(
                                 timetable = timetable,
                                 week = week,
-                                selectedDate = selectedDate
+                                selectedDate = selectedDate,
+                                currentLesson = getCurrentLessonIn(lessons, subGroups = userData.subgroups)
                             )
                         }
                     }

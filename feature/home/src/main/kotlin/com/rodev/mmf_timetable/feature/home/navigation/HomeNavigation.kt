@@ -15,6 +15,8 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.homeScreen(
+    onGotoTeacher: (Long) -> Unit,
+    onGotoRoom: (Long) -> Unit,
     onGotoTeachers: () -> Unit,
     onGotoRooms: () -> Unit,
     onChangeGroup: () -> Unit,
@@ -24,6 +26,8 @@ fun NavGraphBuilder.homeScreen(
         HomeRoute(
             onGotoRooms = onGotoRooms,
             onChangeGroup = onChangeGroup,
+            onGotoRoom = onGotoRoom,
+            onGotoTeacher = onGotoTeacher,
             onGotoTeachers = onGotoTeachers,
             onAddWidget = onAddWidget
         )

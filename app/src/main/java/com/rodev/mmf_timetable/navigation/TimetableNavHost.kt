@@ -32,41 +32,27 @@ fun TimetableNavHost(
         modifier = modifier
     ) {
         timetableScreen(
-            onGotoRoom = {
-                navController.navigateToClassroom(it, navOptions { launchSingleTop = true })
-            },
-            onGotoTeacher = {
-                navController.navigateToTeacher(it, navOptions { launchSingleTop = true })
-            }
+            onGotoRoom = appState::navigateToClassroom,
+            onGotoTeacher = appState::navigateToTeacher
         )
         homeScreen(
             onAddWidget = appState::requestAddWidget,
             onChangeGroup = { navController.navigateToPreferences(navOptions { launchSingleTop = true }) },
-            onGotoTeachers = {
-                navController.navigateToTeachers(navOptions { launchSingleTop = true })
-            },
-            onGotoRooms = {
-                navController.navigateToClassrooms(navOptions { launchSingleTop = true })
-            }
+            onGotoTeachers = appState::navigateToTeachers,
+            onGotoRooms = appState::navigateToClassrooms,
+            onGotoRoom = appState::navigateToClassroom,
+            onGotoTeacher = appState::navigateToTeacher
         )
         teacherScreen(
-            onGotoTeacher =  {
-                navController.navigateToTeacher(it, navOptions { launchSingleTop = true })
-            },
-            onGotoRoom =  {
-                navController.navigateToClassroom(it, navOptions { launchSingleTop = true })
-            }
+            onGotoRoom = appState::navigateToClassroom,
+            onGotoTeacher = appState::navigateToTeacher
         )
         classroomScreen()
         teachersScreen(
-            onGotoTeacher =  {
-                navController.navigateToTeacher(it, navOptions { launchSingleTop = true })
-            }
+            onGotoTeacher = appState::navigateToTeacher
         )
         classroomsScreen(
-            onGotoClassroom =  {
-                navController.navigateToClassroom(it, navOptions { launchSingleTop = true })
-            }
+            onGotoClassroom = appState::navigateToClassroom,
         )
         settingsScreen()
         preferencesScreen(
